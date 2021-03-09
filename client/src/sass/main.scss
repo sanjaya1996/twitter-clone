@@ -1,0 +1,13 @@
+$bgcolor: red;
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.app {
+  background-color: $bgcolor;
+}

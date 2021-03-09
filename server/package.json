@@ -1,0 +1,23 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Rest Api for twitter clone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-node": "nodemon dist/server.js",
+    "watch-tsc": "tsc -w",
+    "start": "concurrently \"npm run watch-tsc\" \"npm run watch-node\""
+  },
+  "author": "Sanjay Dahal",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/node": "^14.14.32",
+    "concurrently": "^6.0.0",
+    "nodemon": "^2.0.7"
+  }
+}
