@@ -10,7 +10,7 @@ node_modules/
 /coverage
 
 # Typescript Compiled code
-/server/dist
+dist
 
 # production
 /client/build
