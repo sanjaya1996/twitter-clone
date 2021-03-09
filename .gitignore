@@ -9,6 +9,9 @@ node_modules/
 # testing
 /coverage
 
+# Typescript Compiled code
+/server/dist
+
 # production
 /client/build
 
