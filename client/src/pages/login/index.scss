@@ -1,10 +1,5 @@
 @import '../../sass/config';
 
-body {
-  background-color: $primary-color;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
 #root {
   display: flex;
   justify-content: center;
@@ -42,7 +37,6 @@ body {
       border-radius: 2px;
       margin-bottom: 10px;
       padding: 5px 0;
-      letter-spacing: 1.6px;
       cursor: pointer;
     }
   }

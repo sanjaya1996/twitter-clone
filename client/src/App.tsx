@@ -7,6 +7,8 @@ import HomePage from './pages/home';
 import LoginPage from './pages/login/LoginPage';
 import RegisterPage from './pages/login/RegisterPage';
 
+import './App.scss';
+
 const App: React.FC = () => {
   return (
     <Switch>

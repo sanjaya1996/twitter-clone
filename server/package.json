@@ -12,7 +12,14 @@
   "author": "Sanjay Dahal",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "@types/mongodb": "^3.6.12",
+    "@types/mongoose": "^5.10.4",
+    "colors": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "mongodb": "^3.6.5",
+    "mongoose": "^5.12.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",

@@ -1,17 +1,29 @@
 import express from 'express';
+import './env';
+import 'colors';
 
-import { requireLogin } from './middleware/authMiddleware';
+import connectDB from './config/db';
+import userRoutes from './routes/userRoutes';
+import { errorHandler, notFound } from './middleware/errorMiddleware';
+
+connectDB();
 
 const app = express();
 
-app.get('/', requireLogin, (req, res) => {
+app.use(express.json());
+
+app.get('/', (req, res) => {
   res.send('Twitter-Clone API is up and running!');
 });
 
-app.get('/login', (req, res, next) => {
-  res.send('This is login page!');
-});
+app.use('/api/users', userRoutes);
 
-const port = process.env.PORT || 5000;
+app.use(notFound);
 
-app.listen(5000, () => console.log(`App Listening on Port ${port}`));
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(5000, () =>
+  console.log(`App Listening on Port ${PORT}`.yellow.bold)
+);
