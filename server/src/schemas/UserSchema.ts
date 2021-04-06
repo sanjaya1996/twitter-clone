@@ -3,13 +3,14 @@ import bcrypt from 'bcrypt';
 
 const Schema = mongoose.Schema;
 
-interface IUser extends mongoose.Document {
+export interface IUser extends mongoose.Document {
   firstName: string;
   lastName: string;
   userName: string;
   email: string;
   password: string;
   profilePic?: string;
+  matchPassword(enteredPassword: string): Promise<boolean>;
 }
 
 const userSchema = new Schema(
@@ -24,7 +25,9 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-userSchema.methods.matchPassword = async function (enteredPassword) {
+userSchema.methods.matchPassword = async function (
+  enteredPassword: string
+): Promise<boolean> {
   const user = this as IUser;
   return await bcrypt.compare(enteredPassword, user.password);
 };
@@ -39,6 +42,6 @@ userSchema.pre<IUser>('save', async function (next) {
   user.password = await bcrypt.hash(user.password, salt);
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model<IUser>('User', userSchema);
 
 export default User;
