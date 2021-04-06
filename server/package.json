@@ -12,8 +12,10 @@
   "author": "Sanjay Dahal",
   "license": "ISC",
   "dependencies": {
+    "@types/bcrypt": "^3.0.0",
     "@types/mongodb": "^3.6.12",
     "@types/mongoose": "^5.10.4",
+    "bcrypt": "^5.0.1",
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

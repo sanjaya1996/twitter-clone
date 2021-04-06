@@ -31,7 +31,6 @@ export const registerUser: RequestHandler = asyncHandler(async (req, res) => {
         email,
         password,
       });
-      console.log(createdUser);
       res.status(201).json(createdUser);
     }
   } else {
