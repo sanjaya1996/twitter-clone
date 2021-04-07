@@ -1,6 +1,7 @@
 import express from 'express';
 import './env';
 import 'colors';
+import cors from 'cors';
 import session, { SessionData } from 'express-session';
 
 import connectDB from './config/db';
@@ -11,6 +12,8 @@ import { IUser } from './schemas/UserSchema';
 connectDB();
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
