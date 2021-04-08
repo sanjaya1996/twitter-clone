@@ -21,9 +21,11 @@ const RegisterPage: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const userState = useSelector((state: RootStore) => state.user);
+  const userRegisterState = useSelector(
+    (state: RootStore) => state.userRegister
+  );
 
-  console.log(userState);
+  console.log(userRegisterState);
 
   const registerHandler = (e: React.FormEvent) => {
     e.preventDefault();

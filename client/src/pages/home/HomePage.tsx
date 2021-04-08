@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootStore } from '../../store/store';
 
 const HomePage: React.FC = () => {
-  const userState = useSelector((state: RootStore) => state.user);
+  const userState = useSelector((state: RootStore) => state.userInfo);
   console.log(userState);
   return (
     <div>
