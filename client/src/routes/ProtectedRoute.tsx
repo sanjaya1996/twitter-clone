@@ -1,18 +1,23 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
+import { RootStore } from '../store/store';
+
 type Props = {
-  isAuth: boolean;
   component: React.FC;
   path: string;
   exact: boolean;
 };
 
 const ProtectedRoute: React.FC<Props> = ({
-  isAuth,
   component: Component,
   ...props
 }) => {
+  const userLoginState = useSelector((store: RootStore) => store.userLogin);
+  const { user } = userLoginState;
+  const isAuth = !!user;
+
   return (
     <Route
       {...props}

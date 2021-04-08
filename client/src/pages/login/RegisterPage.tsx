@@ -1,6 +1,6 @@
 // Libraries
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 // Components & files
 import * as userActions from '../../store/actions/user/userActions';
@@ -11,7 +11,7 @@ import './index.scss';
 
 type OnChangeInputEventType = React.ChangeEvent<HTMLInputElement>;
 
-const RegisterPage: React.FC = () => {
+const RegisterPage = ({ history }: RouteComponentProps) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [userName, setUserName] = useState('');
@@ -25,7 +25,13 @@ const RegisterPage: React.FC = () => {
     (state: RootStore) => state.userRegister
   );
 
-  console.log(userRegisterState);
+  const { loading, error, user } = userRegisterState;
+
+  useEffect(() => {
+    if (user) {
+      history.push('/');
+    }
+  }, [dispatch, user, history]);
 
   const registerHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,6 +54,7 @@ const RegisterPage: React.FC = () => {
     <div className='loginContainer'>
       <h1>Register</h1>
       <form onSubmit={registerHandler}>
+        {error && <p>{error}</p>}
         <input
           type='text'
           name='firstName'

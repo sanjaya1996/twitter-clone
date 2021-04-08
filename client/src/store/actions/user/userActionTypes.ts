@@ -10,13 +10,17 @@ export const USER_INFO_LOADING = 'USER_INFO_LOADING';
 export const USER_INFO_FAIL = 'USER_INFO_FAIL';
 export const USER_INFO_SUCCESS = 'USER_INFO_SUCCESS';
 
-export type UserType = {
+export interface UserType {
   firstName: string;
   lastName: string;
   userName: string;
   profilePic: string;
   email: string;
-};
+}
+
+export interface LoggedInUserI extends UserType {
+  token: string;
+}
 
 // USER REGISTER
 export interface UserRegisterLoading {
@@ -30,7 +34,7 @@ export interface UserRegisterFail {
 
 export interface UserRegisterSuccess {
   type: typeof USER_REGISTER_SUCCESS;
-  payload: UserType;
+  payload: LoggedInUserI;
 }
 
 // USER LOGIN
@@ -45,7 +49,7 @@ export interface UserLoginFail {
 
 export interface UserLoginSuccess {
   type: typeof USER_LOGIN_SUCCESS;
-  payload: UserType;
+  payload: LoggedInUserI;
 }
 
 // USER INFO

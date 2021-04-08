@@ -12,6 +12,7 @@ import {
   USER_LOGIN_LOADING,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
+  LoggedInUserI,
 } from '../actions/user/userActionTypes';
 
 interface DefaultStateI {
@@ -20,14 +21,24 @@ interface DefaultStateI {
   error?: string;
 }
 
+interface DefaultLoginStateI {
+  loading?: boolean;
+  user?: LoggedInUserI;
+  error?: string;
+}
+
 const defaultState: DefaultStateI = {
   loading: false,
 };
 
+const defaultLoginState: DefaultLoginStateI = {
+  loading: false,
+};
+
 export const userRegisterReducer = (
-  state: DefaultStateI = defaultState,
+  state: DefaultLoginStateI = defaultLoginState,
   action: UserRegisterDispatchTypes
-): DefaultStateI => {
+): DefaultLoginStateI => {
   switch (action.type) {
     case USER_REGISTER_LOADING:
       return { loading: true };
@@ -41,9 +52,9 @@ export const userRegisterReducer = (
 };
 
 export const userLoginReducer = (
-  state: DefaultStateI = defaultState,
+  state: DefaultLoginStateI = defaultLoginState,
   action: UserLoginDispatchTypes
-): DefaultStateI => {
+): DefaultLoginStateI => {
   switch (action.type) {
     case USER_LOGIN_LOADING:
       return { loading: true };

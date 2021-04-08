@@ -13,6 +13,7 @@ import {
   USER_INFO_SUCCESS,
   USER_INFO_FAIL,
   UserInfoDispatchTypes,
+  UserLoginSuccess,
 } from './userActionTypes';
 
 export const registerUser = (userInfo: {
@@ -22,7 +23,9 @@ export const registerUser = (userInfo: {
   email: string;
   password: string;
 }) => {
-  return async (dispatch: Dispatch<UserRegisterDispatchTypes>) => {
+  return async (
+    dispatch: Dispatch<UserRegisterDispatchTypes | UserLoginSuccess>
+  ) => {
     try {
       dispatch({ type: USER_REGISTER_LOADING });
 
@@ -31,13 +34,16 @@ export const registerUser = (userInfo: {
         responseType: 'json',
       };
 
-      const res = await axios.post(
+      const { data } = await axios.post(
         'http://localhost:5000/api/users',
         userInfo,
         config
       );
 
-      dispatch({ type: USER_REGISTER_SUCCESS, payload: res.data });
+      dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
+      dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+
+      localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (err) {
       dispatch({
         type: USER_REGISTER_FAIL,
@@ -54,9 +60,7 @@ export const loginUser = (loginDetails: {
   email: string;
   password: string;
 }) => {
-  return async (
-    dispatch: Dispatch<UserLoginDispatchTypes | UserInfoDispatchTypes>
-  ) => {
+  return async (dispatch: Dispatch<UserLoginDispatchTypes>) => {
     try {
       dispatch({ type: USER_LOGIN_LOADING });
 
@@ -65,14 +69,15 @@ export const loginUser = (loginDetails: {
         responseType: 'json',
       };
 
-      const res = await axios.post(
+      const { data } = await axios.post(
         'http://localhost:5000/api/users/login',
         loginDetails,
         config
       );
 
-      dispatch({ type: USER_LOGIN_SUCCESS, payload: res.data });
-      dispatch({ type: USER_INFO_SUCCESS, payload: res.data });
+      dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+
+      localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (err) {
       dispatch({
         type: USER_LOGIN_FAIL,
