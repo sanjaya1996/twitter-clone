@@ -1,0 +1,28 @@
+@import '../../sass/config';
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  height: 100%;
+
+  .nav-link {
+    padding: 10px;
+    font-size: 30px;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: $buttonHoverBg;
+      color: $primary-blue;
+      border-radius: 50%;
+    }
+  }
+
+  .blue {
+    color: $primary-blue;
+  }
+}

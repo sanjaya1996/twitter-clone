@@ -14,6 +14,8 @@ import {
   USER_INFO_FAIL,
   UserInfoDispatchTypes,
   UserLoginSuccess,
+  UserLogoutDispatchTypes,
+  USER_LOGOUT,
 } from './userActionTypes';
 
 export const registerUser = (userInfo: {
@@ -112,5 +114,13 @@ export const getUserInfo = () => {
             : err.message,
       });
     }
+  };
+};
+
+export const logoutUser = () => {
+  return (dispatch: Dispatch<UserLogoutDispatchTypes>) => {
+    localStorage.removeItem('userInfo');
+
+    dispatch({ type: USER_LOGOUT });
   };
 };

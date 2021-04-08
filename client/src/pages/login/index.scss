@@ -1,6 +1,6 @@
 @import '../../sass/config';
 
-#root {
+.loginPageLayout {
   display: flex;
   justify-content: center;
   margin-top: 20px;
@@ -9,6 +9,7 @@
 .loginContainer {
   padding: 20px;
   width: 80%;
+  height: fit-content;
   max-width: 500px;
   border: 1px solid #dedede;
   background-color: #fff;

@@ -10,6 +10,8 @@ export const USER_INFO_LOADING = 'USER_INFO_LOADING';
 export const USER_INFO_FAIL = 'USER_INFO_FAIL';
 export const USER_INFO_SUCCESS = 'USER_INFO_SUCCESS';
 
+export const USER_LOGOUT = 'USER_LOGOUT';
+
 export interface UserType {
   firstName: string;
   lastName: string;
@@ -67,18 +69,28 @@ export interface UserInfoSuccess {
   payload: UserType;
 }
 
+// USER_LOGOUT
+export interface UserLogout {
+  type: typeof USER_LOGOUT;
+}
+
 // DISPATCH TYPES
 export type UserRegisterDispatchTypes =
   | UserRegisterLoading
   | UserRegisterFail
-  | UserRegisterSuccess;
+  | UserRegisterSuccess
+  | UserLogout;
 
 export type UserLoginDispatchTypes =
   | UserLoginLoading
   | UserLoginFail
-  | UserLoginSuccess;
+  | UserLoginSuccess
+  | UserLogout;
 
 export type UserInfoDispatchTypes =
   | UserInfoLoading
   | UserInfoFail
-  | UserInfoSuccess;
+  | UserInfoSuccess
+  | UserLogout;
+
+export type UserLogoutDispatchTypes = UserLogout;

@@ -13,6 +13,7 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
   LoggedInUserI,
+  USER_LOGOUT,
 } from '../actions/user/userActionTypes';
 
 interface DefaultStateI {
@@ -46,6 +47,8 @@ export const userRegisterReducer = (
       return { loading: false, user: action.payload };
     case USER_REGISTER_FAIL:
       return { loading: false, error: action.payload };
+    case USER_LOGOUT:
+      return {};
     default:
       return state;
   }
@@ -62,6 +65,8 @@ export const userLoginReducer = (
       return { loading: false, user: action.payload };
     case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
+    case USER_LOGOUT:
+      return {};
     default:
       return state;
   }
@@ -78,6 +83,8 @@ export const userInfoReducer = (
       return { loading: false, user: action.payload };
     case USER_INFO_FAIL:
       return { loading: false, error: action.payload };
+    case USER_LOGOUT:
+      return {};
     default:
       return state;
   }

@@ -25,7 +25,7 @@ const RegisterPage = ({ history }: RouteComponentProps) => {
     (state: RootStore) => state.userRegister
   );
 
-  const { loading, error, user } = userRegisterState;
+  const { error, user } = userRegisterState;
 
   useEffect(() => {
     if (user) {
@@ -51,64 +51,74 @@ const RegisterPage = ({ history }: RouteComponentProps) => {
   };
 
   return (
-    <div className='loginContainer'>
-      <h1>Register</h1>
-      <form onSubmit={registerHandler}>
-        {error && <p>{error}</p>}
-        <input
-          type='text'
-          name='firstName'
-          placeholder='First name'
-          value={firstName}
-          required
-          onChange={(e: OnChangeInputEventType) => setFirstName(e.target.value)}
-        />
-        <input
-          type='text'
-          name='lastName'
-          placeholder='Last name'
-          value={lastName}
-          required
-          onChange={(e: OnChangeInputEventType) => setLastName(e.target.value)}
-        />
-        <input
-          type='text'
-          name='userName'
-          placeholder='Username'
-          value={userName}
-          required
-          onChange={(e: OnChangeInputEventType) => setUserName(e.target.value)}
-        />
-        <input
-          type='email'
-          name='email'
-          placeholder='Email'
-          value={email}
-          required
-          onChange={(e: OnChangeInputEventType) => setEmail(e.target.value)}
-        />
-        <input
-          type='password'
-          name='password'
-          placeholder='Password'
-          required
-          onChange={(e: OnChangeInputEventType) => setPassword(e.target.value)}
-        />
-        <input
-          type='password'
-          name='passwordConf'
-          placeholder='Confirm password'
-          required
-          onChange={(e: OnChangeInputEventType) =>
-            setConfirmedPassword(e.target.value)
-          }
-        />
+    <div className='loginPageLayout'>
+      <div className='loginContainer'>
+        <h1>Register</h1>
+        <form onSubmit={registerHandler}>
+          {error && <p>{error}</p>}
+          <input
+            type='text'
+            name='firstName'
+            placeholder='First name'
+            value={firstName}
+            required
+            onChange={(e: OnChangeInputEventType) =>
+              setFirstName(e.target.value)
+            }
+          />
+          <input
+            type='text'
+            name='lastName'
+            placeholder='Last name'
+            value={lastName}
+            required
+            onChange={(e: OnChangeInputEventType) =>
+              setLastName(e.target.value)
+            }
+          />
+          <input
+            type='text'
+            name='userName'
+            placeholder='Username'
+            value={userName}
+            required
+            onChange={(e: OnChangeInputEventType) =>
+              setUserName(e.target.value)
+            }
+          />
+          <input
+            type='email'
+            name='email'
+            placeholder='Email'
+            value={email}
+            required
+            onChange={(e: OnChangeInputEventType) => setEmail(e.target.value)}
+          />
+          <input
+            type='password'
+            name='password'
+            placeholder='Password'
+            required
+            onChange={(e: OnChangeInputEventType) =>
+              setPassword(e.target.value)
+            }
+          />
+          <input
+            type='password'
+            name='passwordConf'
+            placeholder='Confirm password'
+            required
+            onChange={(e: OnChangeInputEventType) =>
+              setConfirmedPassword(e.target.value)
+            }
+          />
 
-        <input type='submit' value='Register' />
-      </form>
-      <p>
-        Alrady have an account ? <Link to='/login'>Login here.</Link>
-      </p>
+          <input type='submit' value='Register' />
+        </form>
+        <p>
+          Alrady have an account ? <Link to='/login'>Login here.</Link>
+        </p>
+      </div>
     </div>
   );
 };
