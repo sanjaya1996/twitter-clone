@@ -1,4 +1,4 @@
-@import '../../sass/config';
+@import '../../sass/helpers/variables';
 
 .nav {
   display: flex;
@@ -14,6 +14,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #212529;
 
     &:hover {
       background-color: $buttonHoverBg;

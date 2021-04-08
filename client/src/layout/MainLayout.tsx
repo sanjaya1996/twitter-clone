@@ -1,6 +1,6 @@
 import React from 'react';
 import NavBar from '../components/navBar/NavBar';
-import './main.scss';
+import './mainLayout.scss';
 
 const MainLayout: React.FC = ({ children }) => {
   return (

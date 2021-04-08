@@ -1,4 +1,4 @@
-@import '../../sass/config';
+@import '../../sass/helpers/variables';
 
 .loginPageLayout {
   display: flex;
@@ -39,6 +39,16 @@
       margin-bottom: 10px;
       padding: 5px 0;
       cursor: pointer;
+    }
+  }
+
+  a {
+    color: $primary-color;
+    text-decoration: underline;
+
+    &:hover {
+      color: $primary-color;
+      text-decoration: underline;
     }
   }
 }

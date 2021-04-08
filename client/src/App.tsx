@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import Routes from './routes/Routes';
 
-import './sass/App.scss';
+import './sass/_main.scss';
 
 axios.defaults.withCredentials = true;
 

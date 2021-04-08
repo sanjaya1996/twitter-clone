@@ -1,0 +1,10 @@
+@import '../../sass/helpers/variables';
+
+.titleContainer {
+  height: 53px;
+  padding: 0 $spacing;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid $lightGrey;
+  flex-shrink: 0;
+}

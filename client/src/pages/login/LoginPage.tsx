@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import * as userActions from '../../store/actions/user/userActions';
 
-import './index.scss';
+import './login.scss';
 import { RootStore } from '../../store/store';
 
 type OnChangeInputEventType = React.ChangeEvent<HTMLInputElement>;

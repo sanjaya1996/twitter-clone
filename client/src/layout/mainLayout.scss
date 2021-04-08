@@ -1,0 +1,11 @@
+@import '../sass/helpers/variables';
+
+.mainSectionContainer {
+  padding: 0;
+  border-left: 1px solid $lightGrey;
+  border-right: 1px solid $lightGrey;
+}
+
+.row {
+  width: auto;
+}

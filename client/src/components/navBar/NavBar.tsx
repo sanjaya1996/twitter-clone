@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import * as userActions from '../../store/actions/user/userActions';
 
-import './index.scss';
+import './navBar.scss';
 
 const NavBar = () => {
   const dispatch = useDispatch();

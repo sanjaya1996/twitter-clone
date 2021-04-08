@@ -7,7 +7,7 @@ import * as userActions from '../../store/actions/user/userActions';
 // Types
 import { RootStore } from '../../store/store';
 // Styles
-import './index.scss';
+import './login.scss';
 
 type OnChangeInputEventType = React.ChangeEvent<HTMLInputElement>;
 
