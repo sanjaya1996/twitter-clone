@@ -1,5 +1,6 @@
 declare namespace Express {
   type UserInfo = {
+    _id: string;
     firstName: string;
     lastName: string;
     userName: string;

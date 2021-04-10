@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
 import { Error } from 'mongoose';
 
-import User, { IUser } from '../models/schemas/UserSchema';
+import User from '../models/schemas/UserSchema';
 import { LoggedInUserType } from '../models/interfaces/User';
 
 export interface DecodeResult {

@@ -9,6 +9,15 @@ type PropType = {
 const PostForm: React.FC<PropType> = ({ imageUrl }) => {
   const [post, setPost] = useState('');
 
+  const submitPostHandler = () => {
+    if (post.trim().length < 1) {
+      alert('Please enter some text');
+      return;
+    }
+
+    console.log(post);
+  };
+
   return (
     <div className='postFormContainer'>
       <div className='userImageContainer'>
@@ -23,7 +32,11 @@ const PostForm: React.FC<PropType> = ({ imageUrl }) => {
           }
         />
         <div className='buttonsContainer'>
-          <button id='submitPostButton' disabled={post.trim().length < 1}>
+          <button
+            id='submitPostButton'
+            disabled={post.trim().length < 1}
+            onClick={submitPostHandler}
+          >
             Post
           </button>
         </div>

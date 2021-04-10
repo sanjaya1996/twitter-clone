@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
 
-import User, { IUser } from '../../models/schemas/UserSchema';
+import User from '../../models/schemas/UserSchema';
 import generateToken from '../../utils/generateToken';
 import { UserRegisterData, UserLoginData } from './userInterface';
 

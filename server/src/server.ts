@@ -5,6 +5,7 @@ import cors, { CorsOptions } from 'cors';
 
 import connectDB from './config/db';
 import userRoutes from './routes/userRoutes';
+import postRoutes from './routes/postRoutes';
 import { errorHandler, notFound } from './middleware/errorMiddleware';
 
 connectDB();
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('/api/posts', postRoutes);
 
 app.use(notFound);
 

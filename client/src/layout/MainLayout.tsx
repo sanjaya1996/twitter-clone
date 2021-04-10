@@ -10,9 +10,7 @@ const MainLayout: React.FC = ({ children }) => {
           <NavBar />
         </nav>
         <div className='mainSectionContainer col-10 col-md-8'>{children}</div>
-        <div className='d-none d-md-block col-md-2'>
-          <span>Third Column</span>
-        </div>
+        <div className='d-none d-md-block col-md-2'></div>
       </div>
     </div>
   );
