@@ -13,6 +13,7 @@ export const USER_INFO_SUCCESS = 'USER_INFO_SUCCESS';
 export const USER_LOGOUT = 'USER_LOGOUT';
 
 export interface UserType {
+  _id: string;
   firstName: string;
   lastName: string;
   userName: string;

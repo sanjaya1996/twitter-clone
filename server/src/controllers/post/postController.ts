@@ -5,6 +5,14 @@ import { Error } from 'mongoose';
 import Post, { IPost } from '../../models/schemas/PostSchema';
 import User from '../../models/schemas/UserSchema';
 
+export const getPosts: RequestHandler = asyncHandler(async (req, res, next) => {
+  const userId = req.user._id;
+
+  const posts = await Post.find({ postedBy: userId }).populate('postedBy');
+
+  res.json(posts);
+});
+
 export const createPost: RequestHandler = asyncHandler(
   async (req, res, next) => {
     const content = (req.body as { content: string }).content;

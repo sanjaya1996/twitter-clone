@@ -1,8 +1,8 @@
 import express from 'express';
-import { createPost } from '../controllers/post/postController';
+import { createPost, getPosts } from '../controllers/post/postController';
 
 import { requireLogin } from '../middleware/authMiddleware';
 const router = express.Router();
 
-router.post('/', requireLogin, createPost);
+router.route('/').get(requireLogin, getPosts).post(requireLogin, createPost);
 export default router;

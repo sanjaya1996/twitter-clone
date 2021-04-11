@@ -1,22 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import * as postActions from '../../store/actions/post/postActions';
 
 import './postForm.scss';
 
-type PropType = {
+type PropsType = {
   imageUrl?: string;
+  creating: boolean | undefined;
+  createSuccess: boolean | undefined;
+  error: string | undefined;
 };
 
-const PostForm: React.FC<PropType> = ({ imageUrl }) => {
+const PostForm: React.FC<PropsType> = ({
+  imageUrl,
+  creating,
+  error,
+  createSuccess,
+}) => {
   const [post, setPost] = useState('');
+
+  const dispatch = useDispatch();
 
   const submitPostHandler = () => {
     if (post.trim().length < 1) {
       alert('Please enter some text');
       return;
     }
-
-    console.log(post);
+    dispatch(postActions.createPost(post));
   };
+
+  useEffect(() => {
+    if (createSuccess) {
+      setPost('');
+    }
+  }, [createSuccess]);
 
   return (
     <div className='postFormContainer'>
@@ -31,13 +49,14 @@ const PostForm: React.FC<PropType> = ({ imageUrl }) => {
             setPost(e.target.value)
           }
         />
+        {error && <p>{error}</p>}
         <div className='buttonsContainer'>
           <button
             id='submitPostButton'
             disabled={post.trim().length < 1}
             onClick={submitPostHandler}
           >
-            Post
+            {creating ? '....' : 'Post'}
           </button>
         </div>
       </div>

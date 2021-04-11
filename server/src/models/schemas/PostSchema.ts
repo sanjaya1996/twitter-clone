@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 export interface IPost extends mongoose.Document {
   content: string;
-  postedBy: Schema.Types.ObjectId;
+  postedBy: Schema.Types.ObjectId | string;
   pinned: boolean;
 }
 
