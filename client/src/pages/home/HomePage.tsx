@@ -6,6 +6,7 @@ import TitleBar from '../../components/titleBar/TitleBar';
 
 import { RootStore } from '../../store/store';
 import * as postActions from '../../store/actions/post/postActions';
+import Post from '../../components/post/Post';
 
 const HomePage: React.FC<RouteComponentProps> = ({
   history,
@@ -49,7 +50,7 @@ const HomePage: React.FC<RouteComponentProps> = ({
       ) : (
         <>
           {posts.map((post) => (
-            <li key={post._id}>{post.content}</li>
+            <Post key={post._id} postData={post} />
           ))}
         </>
       )}

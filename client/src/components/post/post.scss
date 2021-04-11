@@ -1,0 +1,64 @@
+@import '../../sass/helpers/variables';
+
+.post {
+  display: flex;
+  flex-direction: column;
+  padding: $spacing;
+  cursor: pointer;
+  border-bottom: 1px solid $lightGrey;
+  flex-shrink: 0;
+
+  .mainContentContainer {
+    flex: 1;
+    display: flex;
+
+    .postContentContainer {
+      padding-left: $spacing;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+
+      .header {
+        a,
+        span {
+          padding-right: 5px;
+        }
+
+        & a:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .displayName {
+        font-weight: bold;
+      }
+
+      .username,
+      .date {
+        color: $greyText;
+      }
+
+      .postFooter {
+        display: flex;
+        align-items: center;
+
+        .postButtonContainer {
+          flex: 1;
+          display: flex;
+
+          button {
+            i {
+              padding: 3px 6px;
+            }
+
+            :hover {
+              background-color: #d4edff;
+              color: $primary-blue;
+              border-radius: 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

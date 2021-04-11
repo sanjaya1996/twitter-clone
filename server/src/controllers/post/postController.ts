@@ -8,7 +8,9 @@ import User from '../../models/schemas/UserSchema';
 export const getPosts: RequestHandler = asyncHandler(async (req, res, next) => {
   const userId = req.user._id;
 
-  const posts = await Post.find({ postedBy: userId }).populate('postedBy');
+  const posts = await Post.find({ postedBy: userId })
+    .populate('postedBy')
+    .sort({ _id: -1 });
 
   res.json(posts);
 });

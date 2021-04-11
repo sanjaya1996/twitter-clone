@@ -21,6 +21,7 @@ export interface PostInterface {
   content: string;
   postedBy: UserType;
   pinned: boolean;
+  createdAt: Boolean;
 }
 
 // CREATE POST
