@@ -10,7 +10,7 @@ export const getPosts: RequestHandler = asyncHandler(async (req, res, next) => {
 
   const posts = await Post.find({ postedBy: userId })
     .populate('postedBy')
-    .sort({ _id: -1 });
+    .sort({ createdAt: -1 });
 
   res.json(posts);
 });

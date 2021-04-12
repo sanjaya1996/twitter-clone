@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PostInterface } from '../../store/actions/post/postActionTypes';
+import { timeDifference } from '../../utils/timeDifference';
 import ProfileImage from '../image/ProfileImage';
 
 import './post.scss';
@@ -10,7 +11,7 @@ type PostProps = { postData: PostInterface };
 const Post: React.FC<PostProps> = ({ postData }) => {
   const { postedBy, content, createdAt } = postData;
   const displayName = postedBy.firstName + ' ' + postedBy.lastName;
-  const timeStamp = createdAt;
+  const timeStamp = timeDifference(new Date(), new Date(createdAt));
 
   return (
     <div className='post'>
@@ -21,7 +22,7 @@ const Post: React.FC<PostProps> = ({ postData }) => {
             <Link to='/profile' className='displayName'>
               {displayName}
             </Link>
-            <span className='username'> {postedBy.userName}</span>
+            <span className='username'> @{postedBy.userName}</span>
             <span className='date'> {timeStamp}</span>
           </div>
           <div className='postBody'>
