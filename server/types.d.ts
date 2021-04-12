@@ -6,6 +6,7 @@ declare namespace Express {
     userName: string;
     email: string;
     profilePic: string;
+    likes?: string[];
   };
 
   export interface Request {

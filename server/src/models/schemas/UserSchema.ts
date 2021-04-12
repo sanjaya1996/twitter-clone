@@ -1,7 +1,5 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
-
-const Schema = mongoose.Schema;
 
 export interface IUser extends mongoose.Document {
   firstName: string;
@@ -10,6 +8,7 @@ export interface IUser extends mongoose.Document {
   email: string;
   password: string;
   profilePic?: string;
+  likes: (string | Schema.Types.ObjectId)[];
   matchPassword(enteredPassword: string): Promise<boolean>;
 }
 
@@ -21,6 +20,7 @@ const userSchema = new Schema(
     email: { type: String, required: true, trim: true, unique: true },
     password: { type: String, required: true, select: false },
     profilePic: { type: String, default: '/images/profilePic.jpeg' },
+    likes: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
   },
   { timestamps: true }
 );
