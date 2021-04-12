@@ -5,6 +5,7 @@ import { Error } from 'mongoose';
 
 import User from '../models/schemas/UserSchema';
 import { LoggedInUserType } from '../models/interfaces/User';
+import { throwErrResponse } from '../utils/throwErrResponse';
 
 export interface DecodeResult {
   id: string;
@@ -22,8 +23,7 @@ export const requireLogin: RequestHandler = asyncHandler(
     }
 
     if (!token) {
-      res.status(401);
-      throw new Error('Authentication Failed');
+      return throwErrResponse(res, 401, 'Authentication Failed');
     }
 
     try {
@@ -35,8 +35,7 @@ export const requireLogin: RequestHandler = asyncHandler(
       const user = await User.findById(decoded.id).select('-password');
 
       if (!user) {
-        res.status(404);
-        throw new Error('No user found with this id');
+        return throwErrResponse(res, 404, 'No user found with this id');
       }
 
       req.user = user as LoggedInUserType;
@@ -48,7 +47,7 @@ export const requireLogin: RequestHandler = asyncHandler(
         errMessage = err.message;
       }
 
-      throw new Error(errMessage);
+      throwErrResponse(res, res.statusCode, errMessage);
     }
   }
 );

@@ -8,9 +8,15 @@ export const POST_LIST_LOADING = 'POST_LIST_LOADING';
 export const POST_LIST_SUCCESS = 'POST_LIST_SUCCESS';
 export const POST_LIST_FAIL = 'POST_LIST_FAIL';
 
+export const POST_LIST_UPDATE_ONLIKE = 'POST_LIST_UPDATE_ONLIKE';
+
 export const POST_UPDATE_LOADING = 'POST_UPDATE_LOADING';
 export const POST_UPDATE_SUCCESS = 'POST_UPDATE_SUCCESS';
 export const POST_UPDATE_FAIL = 'POST_UPDATE_FAIL';
+
+export const POST_LIKE_LOADING = 'POST_LIKE_LOADING';
+export const POST_LIKE_SUCCESS = 'POST_LIKE_SUCCESS';
+export const POST_LIKE_FAIL = 'POST_LIKE_FAIL';
 
 export const POST_DELETE_LOADING = 'POST_DELETE_LOADING';
 export const POST_DELETE_SUCCESS = 'POST_DELETE_SUCCESS';
@@ -22,6 +28,7 @@ export interface PostInterface {
   postedBy: UserType;
   pinned: boolean;
   createdAt: string;
+  likes?: string[];
 }
 
 // CREATE POST
@@ -49,8 +56,28 @@ export interface PostListSuccess {
   payload: PostInterface[];
 }
 
+export interface PostListUpdateOnLike {
+  type: typeof POST_LIST_UPDATE_ONLIKE;
+  payload: PostInterface;
+}
+
 export interface PostListFail {
   type: typeof POST_LIST_FAIL;
+  payload: string;
+}
+
+// LIKE POST
+export interface PostLikeLoading {
+  type: typeof POST_LIKE_LOADING;
+}
+
+export interface PostLikeSuccess {
+  type: typeof POST_LIKE_SUCCESS;
+  payload: PostInterface;
+}
+
+export interface PostLikeFail {
+  type: typeof POST_LIKE_FAIL;
   payload: string;
 }
 
@@ -92,7 +119,13 @@ export type PostCreateDispatchTypes =
 export type PostListDispatchTypes =
   | PostListLoading
   | PostListSuccess
-  | PostListFail;
+  | PostListFail
+  | PostListUpdateOnLike;
+export type PostLikeDispatchTypes =
+  | PostLikeLoading
+  | PostLikeSuccess
+  | PostLikeFail
+  | PostListUpdateOnLike;
 export type PostUpdateDispatchTypes =
   | PostUpdateLoading
   | PostUpdateSuccess

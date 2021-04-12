@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
-import { Error } from 'mongoose';
 import { LoggedInUserType } from '../../models/interfaces/User';
 
 import Post, { IPost } from '../../models/schemas/PostSchema';
@@ -46,6 +45,8 @@ export const likePost: RequestHandler = asyncHandler(async (req, res, next) => {
     return throwErrResponse(res, 404, 'No Post Found');
   }
 
+  // Check if the post is already liked and create mongoose option accordingly
+
   const isLiked = req.user.likes?.includes(postId);
 
   const option = isLiked ? '$pull' : '$addToSet';
@@ -62,7 +63,7 @@ export const likePost: RequestHandler = asyncHandler(async (req, res, next) => {
     postId,
     { [option]: { likes: userId } },
     { new: true }
-  );
+  ).populate('postedBy');
 
   if (!post) {
     return throwErrResponse(res, 404, 'No Post Found');

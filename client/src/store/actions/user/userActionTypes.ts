@@ -12,6 +12,14 @@ export const USER_INFO_SUCCESS = 'USER_INFO_SUCCESS';
 
 export const USER_LOGOUT = 'USER_LOGOUT';
 
+export type RegisterUserDataType = {
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  password: string;
+};
+
 export interface UserType {
   _id: string;
   firstName: string;

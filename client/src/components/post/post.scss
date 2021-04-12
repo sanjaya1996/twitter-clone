@@ -46,6 +46,10 @@
           flex: 1;
           display: flex;
 
+          .active {
+            color: $redColor;
+          }
+
           button {
             i {
               padding: 3px 6px;

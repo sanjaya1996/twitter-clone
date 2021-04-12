@@ -8,6 +8,10 @@ import { RootStore } from '../../store/store';
 import * as postActions from '../../store/actions/post/postActions';
 import Post from '../../components/post/Post';
 
+const checkUserHasAlreadyLiked = (userId: string, likesArray: string[]) => {
+  return likesArray.includes(userId);
+};
+
 const HomePage: React.FC<RouteComponentProps> = ({
   history,
 }: RouteComponentProps) => {
@@ -50,7 +54,14 @@ const HomePage: React.FC<RouteComponentProps> = ({
       ) : (
         <>
           {posts.map((post) => (
-            <Post key={post._id} postData={post} />
+            <Post
+              key={post._id}
+              postData={post}
+              currentUserHasLiked={checkUserHasAlreadyLiked(
+                user?._id!,
+                post.likes!
+              )}
+            />
           ))}
         </>
       )}

@@ -1,5 +1,4 @@
 import { Dispatch } from 'redux';
-import axios, { AxiosRequestConfig } from 'axios';
 import {
   UserRegisterDispatchTypes,
   USER_REGISTER_LOADING,
@@ -16,31 +15,20 @@ import {
   UserLoginSuccess,
   UserLogoutDispatchTypes,
   USER_LOGOUT,
+  RegisterUserDataType,
 } from './userActionTypes';
 
-export const registerUser = (userInfo: {
-  firstName: string;
-  lastName: string;
-  userName: string;
-  email: string;
-  password: string;
-}) => {
+import * as api from '../../../api/index';
+import { RootStore } from '../../store';
+
+export const registerUser = (userInfo: RegisterUserDataType) => {
   return async (
     dispatch: Dispatch<UserRegisterDispatchTypes | UserLoginSuccess>
   ) => {
     try {
       dispatch({ type: USER_REGISTER_LOADING });
 
-      const config: AxiosRequestConfig = {
-        headers: { 'Content-Type': 'application/json' },
-        responseType: 'json',
-      };
-
-      const { data } = await axios.post(
-        'http://localhost:5000/api/users',
-        userInfo,
-        config
-      );
+      const { data } = await api.registerUser('users', userInfo);
 
       dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
       dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
@@ -66,16 +54,7 @@ export const loginUser = (loginDetails: {
     try {
       dispatch({ type: USER_LOGIN_LOADING });
 
-      const config: AxiosRequestConfig = {
-        headers: { 'Content-Type': 'application/json' },
-        responseType: 'json',
-      };
-
-      const { data } = await axios.post(
-        'http://localhost:5000/api/users/login',
-        loginDetails,
-        config
-      );
+      const { data } = await api.loginUser('users/login', loginDetails);
 
       dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
@@ -93,18 +72,18 @@ export const loginUser = (loginDetails: {
 };
 
 export const getUserInfo = () => {
-  return async (dispatch: Dispatch<UserInfoDispatchTypes>) => {
+  return async (
+    dispatch: Dispatch<UserInfoDispatchTypes>,
+    getState: () => RootStore
+  ) => {
     try {
       dispatch({ type: USER_INFO_LOADING });
 
-      const config: AxiosRequestConfig = { withCredentials: true };
+      const token = getState().userLogin.user?.token;
 
-      const res = await axios.get(
-        'http://localhost:5000/api/users/myprofile',
-        config
-      );
+      const { data } = await api.getUserInfo('users/myprofile', token);
 
-      dispatch({ type: USER_INFO_SUCCESS, payload: res.data });
+      dispatch({ type: USER_INFO_SUCCESS, payload: data });
     } catch (err) {
       dispatch({
         type: USER_INFO_FAIL,
