@@ -6,6 +6,7 @@ import generateToken from '../../utils/generateToken';
 import { UserRegisterData, UserLoginData } from './userInterface';
 
 import { LoggedInUserType } from '../../models/interfaces/User';
+import { throwErrResponse } from '../../utils/throwErrResponse';
 
 export const registerUser: RequestHandler = asyncHandler(async (req, res) => {
   const requestBody = req.body as UserRegisterData;
@@ -24,8 +25,7 @@ export const registerUser: RequestHandler = asyncHandler(async (req, res) => {
     });
 
     if (userExists) {
-      res.status(409);
-      throw new Error('Username or email already taken.');
+      return throwErrResponse(res, 404, 'Username or email already taken');
     } else {
       const createdUser = await User.create({
         firstName,
@@ -49,8 +49,11 @@ export const registerUser: RequestHandler = asyncHandler(async (req, res) => {
       res.status(201).json(userInfo);
     }
   } else {
-    res.status(400);
-    throw new Error('Make sure each field has a valid value.');
+    return throwErrResponse(
+      res,
+      400,
+      'Make sure each field has a valid value.'
+    );
   }
 });
 
@@ -60,22 +63,19 @@ export const loginUser: RequestHandler = asyncHandler(
     const { email, password } = requestBody;
 
     if (!email || !password) {
-      res.status(422);
-      throw new Error('Please provide an email and password');
+      return throwErrResponse(res, 422, 'Please provide an email and password');
     }
 
     const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
-      res.status(401);
-      throw new Error('Invalid email or password');
+      return throwErrResponse(res, 401, 'Invalid email or password');
     }
 
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch) {
-      res.status(401);
-      throw new Error('Invalid email or password');
+      return throwErrResponse(res, 401, 'Invalid email or password');
     }
 
     req.user = user as LoggedInUserType;
