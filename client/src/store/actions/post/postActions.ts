@@ -1,6 +1,4 @@
 import { Dispatch } from 'react';
-import { RootStore } from '../../store';
-
 import {
   PostCreateDispatchTypes,
   PostLikeDispatchTypes,
@@ -20,16 +18,11 @@ import {
 import * as api from '../../../api/index';
 
 export const listPosts = () => {
-  return async (
-    dispatch: Dispatch<PostListDispatchTypes>,
-    getState: () => RootStore
-  ) => {
+  return async (dispatch: Dispatch<PostListDispatchTypes>) => {
     try {
       dispatch({ type: POST_LIST_LOADING });
 
-      const token = getState().userLogin.user?.token;
-
-      const { data } = await api.fetchPosts('posts', token);
+      const { data } = await api.fetchPosts();
 
       dispatch({ type: POST_LIST_SUCCESS, payload: data });
     } catch (err) {
@@ -45,16 +38,11 @@ export const listPosts = () => {
 };
 
 export const createPost = (content: string) => {
-  return async (
-    dispatch: Dispatch<PostCreateDispatchTypes>,
-    getState: () => RootStore
-  ) => {
+  return async (dispatch: Dispatch<PostCreateDispatchTypes>) => {
     try {
       dispatch({ type: POST_CREATE_LOADING });
 
-      const token = getState().userLogin.user?.token;
-
-      const { data } = await api.createPost('posts', content, token);
+      const { data } = await api.createPost(content);
 
       dispatch({ type: POST_CREATE_SUCCESS, payload: data });
     } catch (err) {
@@ -70,16 +58,11 @@ export const createPost = (content: string) => {
 };
 
 export const likePost = (id: string) => {
-  return async (
-    dispatch: Dispatch<PostLikeDispatchTypes>,
-    getState: () => RootStore
-  ) => {
+  return async (dispatch: Dispatch<PostLikeDispatchTypes>) => {
     try {
-      const token = getState().userLogin.user?.token;
-
       dispatch({ type: POST_LIKE_LOADING });
 
-      const { data } = await api.likePost(`posts/${id}/like`, token);
+      const { data } = await api.likePost(id);
 
       dispatch({ type: POST_LIST_UPDATE_ONLIKE, payload: data });
 

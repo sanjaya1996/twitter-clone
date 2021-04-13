@@ -1,32 +1,29 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { RegisterUserDataType } from '../store/actions/user/userActionTypes';
 
-type TokenType = string | undefined;
+const API = axios.create({ baseURL: 'http://localhost:5000' });
 
-const apiURL = 'http://localhost:5000/api';
-
-const getConfigWithToken = (token: TokenType): AxiosRequestConfig => {
-  return { headers: { Authorization: `Bearer ${token}` } };
-};
+API.interceptors.request.use((req) => {
+  const userInfoJSON = localStorage.getItem('userInfo');
+  if (userInfoJSON) {
+    req.headers.Authorization = `Bearer ${JSON.parse(userInfoJSON).token}`;
+  }
+  return req;
+});
 
 // USERS
-export const registerUser = (path: string, userInfo: RegisterUserDataType) =>
-  axios.post(`${apiURL}/${path}`, userInfo);
+export const registerUser = (userInfo: RegisterUserDataType) =>
+  API.post('/api/users', userInfo);
 
-export const loginUser = (
-  path: string,
-  loginDetails: { email: string; password: string }
-) => axios.post(`${apiURL}/${path}`, loginDetails);
+export const loginUser = (loginDetails: { email: string; password: string }) =>
+  API.post('/api/users/login', loginDetails);
 
-export const getUserInfo = (path: string, token: TokenType) =>
-  axios.get(`${apiURL}/${path}`, getConfigWithToken(token));
+export const getUserInfo = () => API.get('/api/users/myprofile');
 
 // POSTS
-export const fetchPosts = (path: string, token: TokenType) =>
-  axios.get(`${apiURL}/${path}`, getConfigWithToken(token));
+export const fetchPosts = () => API.get('/api/posts');
 
-export const createPost = (path: string, content: string, token: TokenType) =>
-  axios.post(`${apiURL}/${path}`, { content }, getConfigWithToken(token));
+export const createPost = (content: string) =>
+  API.post('/api/posts', { content });
 
-export const likePost = (path: string, token: TokenType) =>
-  axios.put(`${apiURL}/${path}`, {}, getConfigWithToken(token));
+export const likePost = (id: string) => API.put(`/api/posts/${id}/like`);

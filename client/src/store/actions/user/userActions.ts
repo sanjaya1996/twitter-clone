@@ -19,7 +19,6 @@ import {
 } from './userActionTypes';
 
 import * as api from '../../../api/index';
-import { RootStore } from '../../store';
 
 export const registerUser = (userInfo: RegisterUserDataType) => {
   return async (
@@ -28,7 +27,7 @@ export const registerUser = (userInfo: RegisterUserDataType) => {
     try {
       dispatch({ type: USER_REGISTER_LOADING });
 
-      const { data } = await api.registerUser('users', userInfo);
+      const { data } = await api.registerUser(userInfo);
 
       dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
       dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
@@ -54,7 +53,7 @@ export const loginUser = (loginDetails: {
     try {
       dispatch({ type: USER_LOGIN_LOADING });
 
-      const { data } = await api.loginUser('users/login', loginDetails);
+      const { data } = await api.loginUser(loginDetails);
 
       dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
@@ -72,16 +71,11 @@ export const loginUser = (loginDetails: {
 };
 
 export const getUserInfo = () => {
-  return async (
-    dispatch: Dispatch<UserInfoDispatchTypes>,
-    getState: () => RootStore
-  ) => {
+  return async (dispatch: Dispatch<UserInfoDispatchTypes>) => {
     try {
       dispatch({ type: USER_INFO_LOADING });
 
-      const token = getState().userLogin.user?.token;
-
-      const { data } = await api.getUserInfo('users/myprofile', token);
+      const { data } = await api.getUserInfo();
 
       dispatch({ type: USER_INFO_SUCCESS, payload: data });
     } catch (err) {
