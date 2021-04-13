@@ -5,6 +5,8 @@ export interface IPost extends mongoose.Document {
   postedBy: Schema.Types.ObjectId | string;
   pinned: boolean;
   likes: (string | Schema.Types.ObjectId)[];
+  retweetUsers: (string | Schema.Types.ObjectId)[];
+  retweetData: Schema.Types.ObjectId | string;
 }
 
 const PostSchema = new Schema(
@@ -13,6 +15,8 @@ const PostSchema = new Schema(
     postedBy: { type: Schema.Types.ObjectId, ref: 'User' },
     pinned: { type: Boolean, default: false },
     likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    retweetUsers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    retweetData: { type: Schema.Types.ObjectId, ref: 'Post' },
   },
   { timestamps: true }
 );

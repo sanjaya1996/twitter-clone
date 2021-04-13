@@ -41,33 +41,79 @@ export const likePost: RequestHandler = asyncHandler(async (req, res, next) => {
   const postId = req.params.id;
   const userId = req.user._id;
 
-  if (!mongoose.Types.ObjectId.isValid(postId)) {
-    return throwErrResponse(res, 404, 'No Post Found');
+  const postIdIsValid =
+    mongoose.Types.ObjectId.isValid(postId) && (await Post.findById(postId));
+
+  if (postIdIsValid) {
+    // CONDITION 1:
+
+    // Check if the post is already liked and create mongoose option accordingly
+    const isLiked = req.user.likes?.includes(postId);
+
+    const option = isLiked ? '$pull' : '$addToSet';
+
+    // Insert user like
+    req.user = (await User.findByIdAndUpdate(
+      userId,
+      { [option]: { likes: postId } },
+      { new: true }
+    )) as LoggedInUserType;
+
+    // Insert post like
+    const post = await Post.findByIdAndUpdate(
+      postId,
+      { [option]: { likes: userId } },
+      { new: true }
+    ).populate('postedBy');
+
+    res.status(200).json(post);
+  } else {
+    // CONDITION 2:
+    return throwErrResponse(res, 404, 'Post Not Found');
   }
-
-  // Check if the post is already liked and create mongoose option accordingly
-
-  const isLiked = req.user.likes?.includes(postId);
-
-  const option = isLiked ? '$pull' : '$addToSet';
-
-  // Insert user like
-  req.user = (await User.findByIdAndUpdate(
-    userId,
-    { [option]: { likes: postId } },
-    { new: true }
-  )) as LoggedInUserType;
-
-  // Insert post like
-  const post = await Post.findByIdAndUpdate(
-    postId,
-    { [option]: { likes: userId } },
-    { new: true }
-  ).populate('postedBy');
-
-  if (!post) {
-    return throwErrResponse(res, 404, 'No Post Found');
-  }
-
-  res.status(200).json(post);
 });
+
+export const retweetPost: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    const postId = req.params.id;
+    const userId = req.user._id;
+
+    const postIdIsValid =
+      mongoose.Types.ObjectId.isValid(postId) && (await Post.findById(postId));
+
+    if (postIdIsValid) {
+      // CONDITION 1:
+      const deletedPost = await Post.findOneAndDelete({
+        postedBy: userId,
+        retweetData: postId,
+      });
+
+      const option = deletedPost != null ? '$pull' : '$addToSet';
+
+      let repost = deletedPost;
+
+      if (repost == null) {
+        repost = await Post.create({ postedBy: userId, retweetData: postId });
+      }
+
+      // Insert user retweet
+      req.user = (await User.findByIdAndUpdate(
+        userId,
+        { [option]: { retweets: repost._id } },
+        { new: true }
+      )) as LoggedInUserType;
+
+      // Insert post retweet
+      const post = await Post.findByIdAndUpdate(
+        postId,
+        { [option]: { retweetUsers: userId } },
+        { new: true }
+      );
+
+      return res.status(201).json(post);
+    } else {
+      // CONDITION 2:
+      return throwErrResponse(res, 404, 'Post Not Found');
+    }
+  }
+);

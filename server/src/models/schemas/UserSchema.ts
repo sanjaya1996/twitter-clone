@@ -9,6 +9,7 @@ export interface IUser extends mongoose.Document {
   password: string;
   profilePic?: string;
   likes: (string | Schema.Types.ObjectId)[];
+  retweets: (string | Schema.Types.ObjectId)[];
   matchPassword(enteredPassword: string): Promise<boolean>;
 }
 
@@ -21,6 +22,7 @@ const userSchema = new Schema(
     password: { type: String, required: true, select: false },
     profilePic: { type: String, default: '/images/profilePic.jpeg' },
     likes: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
+    retweets: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
   },
   { timestamps: true }
 );
