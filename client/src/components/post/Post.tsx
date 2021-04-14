@@ -73,7 +73,7 @@ const Post: React.FC<PostProps> = ({ post, userId }) => {
           </div>
           <div className='postFooter'>
             <div className='postButtonContainer'>
-              <PostReplyModal />
+              <PostReplyModal postId={postId} />
             </div>
             <div className='postButtonContainer'>
               <button className={`${retweetButtonActiveClass}`}>

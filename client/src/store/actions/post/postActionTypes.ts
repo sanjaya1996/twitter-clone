@@ -10,6 +10,10 @@ export const POST_LIST_FAIL = 'POST_LIST_FAIL';
 
 export const POST_LIST_UPDATE_ONLIKE = 'POST_LIST_UPDATE_ONLIKE';
 
+export const POST_DETAILS_LOADING = 'POST_DETAILS_LOADING';
+export const POST_DETAILS_SUCCESS = 'POST_DETAILS_SUCCESS';
+export const POST_DETAILS_FAIL = 'POST_DETAILS_FAIL';
+
 export const POST_UPDATE_LOADING = 'POST_UPDATE_LOADING';
 export const POST_UPDATE_SUCCESS = 'POST_UPDATE_SUCCESS';
 export const POST_UPDATE_FAIL = 'POST_UPDATE_FAIL';
@@ -70,6 +74,21 @@ export interface PostListFail {
   payload: string;
 }
 
+// POST DETAILS
+export interface PostDetailsLoading {
+  type: typeof POST_DETAILS_LOADING;
+}
+
+export interface PostDetailsSuccess {
+  type: typeof POST_DETAILS_SUCCESS;
+  payload: PostInterface;
+}
+
+export interface PostDetailsFail {
+  type: typeof POST_DETAILS_FAIL;
+  payload: string;
+}
+
 // LIKE POST
 export interface PostLikeLoading {
   type: typeof POST_LIKE_LOADING;
@@ -126,22 +145,32 @@ export type PostCreateDispatchTypes =
   | PostCreateLoading
   | PostCreateSuccess
   | PostCreateFail;
+
 export type PostListDispatchTypes =
   | PostListLoading
   | PostListSuccess
   | PostListFail
   | PostListUpdateOnLike
   | PostRetweet;
+
+export type PostDetailsDispatchTypes =
+  | PostDetailsLoading
+  | PostDetailsSuccess
+  | PostDetailsFail;
+
 export type PostLikeDispatchTypes =
   | PostLikeLoading
   | PostLikeSuccess
   | PostLikeFail
   | PostListUpdateOnLike;
+
 export type PostRetweetDispatchType = PostRetweet;
+
 export type PostUpdateDispatchTypes =
   | PostUpdateLoading
   | PostUpdateSuccess
   | PostUpdateFail;
+
 export type PostDeleteDispatchTypes =
   | PostDeleteLoading
   | PostDeleteSuccess

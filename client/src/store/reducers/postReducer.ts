@@ -1,11 +1,15 @@
 import {
   PostCreateDispatchTypes,
+  PostDetailsDispatchTypes,
   PostInterface,
   PostLikeDispatchTypes,
   PostListDispatchTypes,
   POST_CREATE_FAIL,
   POST_CREATE_LOADING,
   POST_CREATE_SUCCESS,
+  POST_DETAILS_FAIL,
+  POST_DETAILS_LOADING,
+  POST_DETAILS_SUCCESS,
   POST_LIKE_FAIL,
   POST_LIKE_LOADING,
   POST_LIKE_SUCCESS,
@@ -26,6 +30,10 @@ interface PostListDefaultStateI extends DefaultStateI {
   posts: PostInterface[];
 }
 
+interface PostDetailsDefaultStateI extends DefaultStateI {
+  post?: PostInterface;
+}
+
 interface PostCreateDefaultStateI extends DefaultStateI {
   post?: PostInterface;
   success?: boolean;
@@ -38,27 +46,6 @@ interface PostLikeDefaultStateI extends DefaultStateI {
 
 const postListDefaultState: PostListDefaultStateI = {
   posts: [],
-};
-
-// ------UTILS FUNCTIONS
-
-const updatePostField = (
-  postsArray: PostInterface[],
-  newPost: PostInterface,
-  retweetId: string | null,
-  field: 'likes' | 'retweetUsers'
-) => {
-  const postToBeUpdated_id = retweetId || newPost._id;
-  const foundIndex = postsArray.findIndex((p) => p._id === postToBeUpdated_id);
-  const updatedPosts = [...postsArray];
-
-  if (retweetId) {
-    updatedPosts[foundIndex].retweetData[field] = newPost[field];
-  } else {
-    updatedPosts[foundIndex][field] = newPost[field];
-  }
-
-  return { posts: updatedPosts };
 };
 
 // ------REDUCERS
@@ -87,6 +74,22 @@ export const postListReducer = (
         action.payload.retweetId,
         'retweetUsers'
       );
+    default:
+      return state;
+  }
+};
+
+export const postDetailsReducer = (
+  state: PostDetailsDefaultStateI = {},
+  action: PostDetailsDispatchTypes
+): PostDetailsDefaultStateI => {
+  switch (action.type) {
+    case POST_DETAILS_LOADING:
+      return { loading: true };
+    case POST_DETAILS_SUCCESS:
+      return { loading: false, post: action.payload };
+    case POST_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }
@@ -123,3 +126,24 @@ export const postLikeReducer = (
       return state;
   }
 };
+
+// ------UTILS FUNCTIONS
+
+function updatePostField(
+  postsArray: PostInterface[],
+  newPost: PostInterface,
+  retweetId: string | null,
+  field: 'likes' | 'retweetUsers'
+) {
+  const postToBeUpdated_id = retweetId || newPost._id;
+  const foundIndex = postsArray.findIndex((p) => p._id === postToBeUpdated_id);
+  const updatedPosts = [...postsArray];
+
+  if (retweetId) {
+    updatedPosts[foundIndex].retweetData[field] = newPost[field];
+  } else {
+    updatedPosts[foundIndex][field] = newPost[field];
+  }
+
+  return { posts: updatedPosts };
+}

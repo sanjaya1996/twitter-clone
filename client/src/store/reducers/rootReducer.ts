@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   postCreateReducer,
+  postDetailsReducer,
   postLikeReducer,
   postListReducer,
 } from './postReducer';
@@ -15,6 +16,7 @@ const RootReducer = combineReducers({
   userLogin: userLoginReducer,
   userInfo: userInfoReducer,
   postList: postListReducer,
+  postDetails: postDetailsReducer,
   postCreate: postCreateReducer,
   postLike: postLikeReducer,
 });

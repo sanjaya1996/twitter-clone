@@ -1,12 +1,16 @@
 import { Dispatch } from 'react';
 import {
   PostCreateDispatchTypes,
+  PostDetailsDispatchTypes,
   PostLikeDispatchTypes,
   PostListDispatchTypes,
   PostRetweetDispatchType,
   POST_CREATE_FAIL,
   POST_CREATE_LOADING,
   POST_CREATE_SUCCESS,
+  POST_DETAILS_FAIL,
+  POST_DETAILS_LOADING,
+  POST_DETAILS_SUCCESS,
   POST_LIKE_FAIL,
   POST_LIKE_LOADING,
   POST_LIKE_SUCCESS,
@@ -30,6 +34,26 @@ export const listPosts = () => {
     } catch (err) {
       dispatch({
         type: POST_LIST_FAIL,
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
+export const getPostDetails = (id: string) => {
+  return async (dispatch: Dispatch<PostDetailsDispatchTypes>) => {
+    try {
+      dispatch({ type: POST_DETAILS_LOADING });
+
+      const { data } = await api.fetchPostDetails(id);
+
+      dispatch({ type: POST_DETAILS_SUCCESS, payload: data });
+    } catch (err) {
+      dispatch({
+        type: POST_DETAILS_FAIL,
         payload:
           err.response && err.response.data.message
             ? err.response.data.message

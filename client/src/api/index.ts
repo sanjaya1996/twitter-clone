@@ -23,6 +23,8 @@ export const getUserInfo = () => API.get('/api/users/myprofile');
 // POSTS
 export const fetchPosts = () => API.get('/api/posts');
 
+export const fetchPostDetails = (id: string) => API.get(`/api/posts/${id}`);
+
 export const createPost = (content: string) =>
   API.post('/api/posts', { content });
 
