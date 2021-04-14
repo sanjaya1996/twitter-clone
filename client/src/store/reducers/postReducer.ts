@@ -13,8 +13,10 @@ import {
   POST_LIST_LOADING,
   POST_LIST_SUCCESS,
   POST_LIST_UPDATE_ONLIKE,
+  POST_RETWEET,
 } from '../actions/post/postActionTypes';
 
+// ---TYPES AND INTERFACES
 interface DefaultStateI {
   loading?: boolean;
   error?: string;
@@ -38,6 +40,28 @@ const postListDefaultState: PostListDefaultStateI = {
   posts: [],
 };
 
+// ------UTILS FUNCTIONS
+
+const updatePostField = (
+  postsArray: PostInterface[],
+  newPost: PostInterface,
+  retweetId: string | null,
+  field: 'likes' | 'retweetUsers'
+) => {
+  const postToBeUpdated_id = retweetId || newPost._id;
+  const foundIndex = postsArray.findIndex((p) => p._id === postToBeUpdated_id);
+  const updatedPosts = [...postsArray];
+
+  if (retweetId) {
+    updatedPosts[foundIndex].retweetData[field] = newPost[field];
+  } else {
+    updatedPosts[foundIndex][field] = newPost[field];
+  }
+
+  return { posts: updatedPosts };
+};
+
+// ------REDUCERS
 export const postListReducer = (
   state: PostListDefaultStateI = postListDefaultState,
   action: PostListDispatchTypes
@@ -50,10 +74,19 @@ export const postListReducer = (
     case POST_LIST_FAIL:
       return { ...state, loading: false, error: action.payload };
     case POST_LIST_UPDATE_ONLIKE:
-      const updatedPosts = state.posts.map((p) =>
-        p._id === action.payload._id ? action.payload : p
+      return updatePostField(
+        state.posts,
+        action.payload.data,
+        action.payload.retweetId,
+        'likes'
       );
-      return { posts: updatedPosts };
+    case POST_RETWEET:
+      return updatePostField(
+        state.posts,
+        action.payload.data,
+        action.payload.retweetId,
+        'retweetUsers'
+      );
     default:
       return state;
   }

@@ -8,6 +8,13 @@
   border-bottom: 1px solid $lightGrey;
   flex-shrink: 0;
 
+  .postActionContainer {
+    padding-left: 35px;
+    font-size: 13px;
+    color: $greyText;
+    margin-bottom: 5px;
+  }
+
   .mainContentContainer {
     flex: 1;
     display: flex;
@@ -46,8 +53,22 @@
           flex: 1;
           display: flex;
 
-          .active {
+          .active-red {
             color: $redColor;
+          }
+
+          .active-green {
+            color: $greenColor;
+          }
+
+          .red:hover {
+            color: $redColor;
+            background-color: $redBackground;
+          }
+
+          .green:hover {
+            color: $greenColor;
+            background-color: $greenBackground;
           }
 
           button {
@@ -56,8 +77,6 @@
             }
 
             :hover {
-              background-color: #d4edff;
-              color: $primary-blue;
               border-radius: 50%;
             }
           }

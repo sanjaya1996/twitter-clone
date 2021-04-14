@@ -3,6 +3,7 @@ import {
   PostCreateDispatchTypes,
   PostLikeDispatchTypes,
   PostListDispatchTypes,
+  PostRetweetDispatchType,
   POST_CREATE_FAIL,
   POST_CREATE_LOADING,
   POST_CREATE_SUCCESS,
@@ -13,6 +14,7 @@ import {
   POST_LIST_LOADING,
   POST_LIST_SUCCESS,
   POST_LIST_UPDATE_ONLIKE,
+  POST_RETWEET,
 } from './postActionTypes';
 
 import * as api from '../../../api/index';
@@ -57,14 +59,17 @@ export const createPost = (content: string) => {
   };
 };
 
-export const likePost = (id: string) => {
+export const likePost = (id: string, retweetId: string | null) => {
   return async (dispatch: Dispatch<PostLikeDispatchTypes>) => {
     try {
       dispatch({ type: POST_LIKE_LOADING });
 
       const { data } = await api.likePost(id);
 
-      dispatch({ type: POST_LIST_UPDATE_ONLIKE, payload: data });
+      dispatch({
+        type: POST_LIST_UPDATE_ONLIKE,
+        payload: { data, retweetId },
+      });
 
       dispatch({ type: POST_LIKE_SUCCESS, payload: data });
     } catch (err) {
@@ -75,6 +80,22 @@ export const likePost = (id: string) => {
             ? err.response.data.message
             : err.message,
       });
+    }
+  };
+};
+
+export const retweetPost = (id: string, retweetId: string | null) => {
+  return async (dispatch: Dispatch<PostRetweetDispatchType>) => {
+    try {
+      const { data } = await api.retweetPost(id);
+
+      dispatch({ type: POST_RETWEET, payload: { data, retweetId } });
+    } catch (err) {
+      console.log(
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message
+      );
     }
   };
 };

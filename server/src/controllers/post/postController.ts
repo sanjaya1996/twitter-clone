@@ -12,9 +12,14 @@ export const getPosts: RequestHandler = asyncHandler(async (req, res, next) => {
 
   const posts = await Post.find({ postedBy: userId })
     .populate('postedBy')
+    .populate('retweetData')
     .sort({ createdAt: -1 });
 
-  res.json(posts);
+  const populatedPosts = await User.populate(posts, {
+    path: 'retweetData.postedBy',
+  });
+
+  res.json(populatedPosts);
 });
 
 export const createPost: RequestHandler = asyncHandler(
@@ -108,7 +113,7 @@ export const retweetPost: RequestHandler = asyncHandler(
         postId,
         { [option]: { retweetUsers: userId } },
         { new: true }
-      );
+      ).populate('postedBy');
 
       return res.status(201).json(post);
     } else {

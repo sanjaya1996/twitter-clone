@@ -18,6 +18,8 @@ export const POST_LIKE_LOADING = 'POST_LIKE_LOADING';
 export const POST_LIKE_SUCCESS = 'POST_LIKE_SUCCESS';
 export const POST_LIKE_FAIL = 'POST_LIKE_FAIL';
 
+export const POST_RETWEET = 'POST_RETWEET';
+
 export const POST_DELETE_LOADING = 'POST_DELETE_LOADING';
 export const POST_DELETE_SUCCESS = 'POST_DELETE_SUCCESS';
 export const POST_DELETE_FAIL = 'POST_DELETE_FAIL';
@@ -28,7 +30,9 @@ export interface PostInterface {
   postedBy: UserType;
   pinned: boolean;
   createdAt: string;
-  likes?: string[];
+  likes: string[];
+  retweetUsers: string[];
+  retweetData: PostInterface;
 }
 
 // CREATE POST
@@ -58,7 +62,7 @@ export interface PostListSuccess {
 
 export interface PostListUpdateOnLike {
   type: typeof POST_LIST_UPDATE_ONLIKE;
-  payload: PostInterface;
+  payload: { data: PostInterface; retweetId: string | null };
 }
 
 export interface PostListFail {
@@ -79,6 +83,12 @@ export interface PostLikeSuccess {
 export interface PostLikeFail {
   type: typeof POST_LIKE_FAIL;
   payload: string;
+}
+
+// RETWEET POST
+export interface PostRetweet {
+  type: typeof POST_RETWEET;
+  payload: { data: PostInterface; retweetId: string | null };
 }
 
 // UPDATE POST
@@ -120,12 +130,14 @@ export type PostListDispatchTypes =
   | PostListLoading
   | PostListSuccess
   | PostListFail
-  | PostListUpdateOnLike;
+  | PostListUpdateOnLike
+  | PostRetweet;
 export type PostLikeDispatchTypes =
   | PostLikeLoading
   | PostLikeSuccess
   | PostLikeFail
   | PostListUpdateOnLike;
+export type PostRetweetDispatchType = PostRetweet;
 export type PostUpdateDispatchTypes =
   | PostUpdateLoading
   | PostUpdateSuccess

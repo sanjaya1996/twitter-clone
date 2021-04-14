@@ -8,23 +8,55 @@ import * as postActions from '../../store/actions/post/postActions';
 
 import './post.scss';
 
-type PostProps = { postData: PostInterface; currentUserHasLiked: boolean };
+type PostProps = {
+  post: PostInterface;
+  userId: string;
+};
 
-const Post: React.FC<PostProps> = ({ postData, currentUserHasLiked }) => {
-  const { postedBy, content, createdAt } = postData;
+const Post: React.FC<PostProps> = ({ post, userId }) => {
+  const isRetweet = post.retweetData;
+  const retweetedBy = isRetweet ? post.postedBy.userName : null;
+  const retweetId = isRetweet ? post._id : null; //Track this ID to update right Component in UI otherwise the component with original tweet will be updated.
+  const originalPost = post.retweetData || post;
+  const {
+    postedBy,
+    content,
+    createdAt,
+    _id: postId,
+    likes,
+    retweetUsers,
+  } = originalPost;
   const displayName = postedBy.firstName + ' ' + postedBy.lastName;
   const timeStamp = timeDifference(new Date(), new Date(createdAt));
 
+  const likeButtonActiveClass = likes?.includes(userId) ? 'active-red' : '';
+  const retweetButtonActiveClass = retweetUsers.includes(userId)
+    ? 'active-green'
+    : '';
+
   const dispatch = useDispatch();
 
-  const numOfLikes = postData.likes?.length || '';
+  const numOfLikes = likes?.length || '';
+  const numOfRetweets = retweetUsers.length || '';
 
   const postLikeHandler = () => {
-    dispatch(postActions.likePost(postData._id));
+    dispatch(postActions.likePost(postId, retweetId));
+  };
+
+  const postRetweetHandler = () => {
+    dispatch(postActions.retweetPost(postId, retweetId));
   };
 
   return (
     <div className='post'>
+      {retweetedBy && (
+        <div className='postActionContainer'>
+          <span>
+            <i className='fas fa-retweet '></i> Retweeted by @
+            <Link to='#'>{retweetedBy}</Link>
+          </span>
+        </div>
+      )}
       <div className='mainContentContainer'>
         <ProfileImage uri={postedBy.profilePic} />
         <div className='postContentContainer'>
@@ -45,16 +77,17 @@ const Post: React.FC<PostProps> = ({ postData, currentUserHasLiked }) => {
               </button>
             </div>
             <div className='postButtonContainer'>
-              <button>
-                <i className='fas fa-retweet'></i>
+              <button className={`${retweetButtonActiveClass}`}>
+                <i
+                  onClick={postRetweetHandler}
+                  className='fas fa-retweet green'
+                ></i>
+                <span>{numOfRetweets}</span>
               </button>
             </div>
             <div className='postButtonContainer'>
-              <button
-                onClick={postLikeHandler}
-                className={`likeButton ${currentUserHasLiked ? 'active' : ''}`}
-              >
-                <i className='far fa-heart'></i>
+              <button className={`likeButton ${likeButtonActiveClass}`}>
+                <i onClick={postLikeHandler} className='far fa-heart red'></i>
                 <span>{numOfLikes}</span>
               </button>
             </div>

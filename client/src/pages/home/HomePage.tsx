@@ -8,10 +8,6 @@ import { RootStore } from '../../store/store';
 import * as postActions from '../../store/actions/post/postActions';
 import Post from '../../components/post/Post';
 
-const checkUserHasAlreadyLiked = (userId: string, likesArray: string[]) => {
-  return likesArray.includes(userId);
-};
-
 const HomePage: React.FC<RouteComponentProps> = ({
   history,
 }: RouteComponentProps) => {
@@ -38,11 +34,15 @@ const HomePage: React.FC<RouteComponentProps> = ({
     }
   }, [user, history, dispatch, success]);
 
+  if (!user) {
+    return <h1>Authentication Failed, Please Try Again</h1>;
+  }
+
   return (
     <div>
       <TitleBar title='Home' />
       <PostForm
-        imageUrl={user!.profilePic}
+        imageUrl={user.profilePic}
         creating={loadingCreate}
         error={errorCreate}
         createSuccess={success}
@@ -51,17 +51,12 @@ const HomePage: React.FC<RouteComponentProps> = ({
         <p>Loading...</p>
       ) : error ? (
         <p>{error}</p>
+      ) : posts.length === 0 ? (
+        <p>No Post to Load</p>
       ) : (
         <>
           {posts.map((post) => (
-            <Post
-              key={post._id}
-              postData={post}
-              currentUserHasLiked={checkUserHasAlreadyLiked(
-                user?._id!,
-                post.likes!
-              )}
-            />
+            <Post key={post._id} post={post} userId={user._id} />
           ))}
         </>
       )}

@@ -27,3 +27,5 @@ export const createPost = (content: string) =>
   API.post('/api/posts', { content });
 
 export const likePost = (id: string) => API.put(`/api/posts/${id}/like`);
+
+export const retweetPost = (id: string) => API.post(`/api/posts/${id}/retweet`);
