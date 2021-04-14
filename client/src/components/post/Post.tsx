@@ -7,6 +7,7 @@ import ProfileImage from '../image/ProfileImage';
 import * as postActions from '../../store/actions/post/postActions';
 
 import './post.scss';
+import PostReplyModal from '../modals/PostReplyModal';
 
 type PostProps = {
   post: PostInterface;
@@ -72,9 +73,7 @@ const Post: React.FC<PostProps> = ({ post, userId }) => {
           </div>
           <div className='postFooter'>
             <div className='postButtonContainer'>
-              <button>
-                <i className='far fa-comment'></i>
-              </button>
+              <PostReplyModal />
             </div>
             <div className='postButtonContainer'>
               <button className={`${retweetButtonActiveClass}`}>

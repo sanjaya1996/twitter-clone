@@ -1,0 +1,9 @@
+@import '../../sass/helpers/variables';
+
+.modal {
+  .postFormContainer {
+    border: none;
+    padding: 0;
+    padding-top: $spacing;
+  }
+}

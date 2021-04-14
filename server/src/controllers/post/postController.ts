@@ -10,17 +10,22 @@ import { throwErrResponse } from '../../utils/throwErrResponse';
 export const getPosts: RequestHandler = asyncHandler(async (req, res, next) => {
   const userId = req.user._id;
 
-  const posts = await Post.find({ postedBy: userId })
-    .populate('postedBy')
-    .populate('retweetData')
-    .sort({ createdAt: -1 });
+  const results = await getPostsFromDB({ postedBy: userId });
 
-  const populatedPosts = await User.populate(posts, {
-    path: 'retweetData.postedBy',
-  });
-
-  res.json(populatedPosts);
+  res.json(results);
 });
+
+export const getPostById: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    const postId = req.params.id;
+
+    const results = await getPostsFromDB({ _id: postId });
+
+    const post = results[0];
+
+    res.json(post);
+  }
+);
 
 export const createPost: RequestHandler = asyncHandler(
   async (req, res, next) => {
@@ -122,3 +127,18 @@ export const retweetPost: RequestHandler = asyncHandler(
     }
   }
 );
+
+// -------- UTILS FUNCTIONS
+
+async function getPostsFromDB(filter: {}) {
+  const posts = await Post.find(filter)
+    .populate('postedBy')
+    .populate('retweetData')
+    .sort({ createdAt: -1 });
+
+  const populatedPosts = await User.populate(posts, {
+    path: 'retweetData.postedBy',
+  });
+
+  return populatedPosts;
+}
