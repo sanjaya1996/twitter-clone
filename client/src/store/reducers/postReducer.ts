@@ -129,11 +129,11 @@ export const postLikeReducer = (
 
 // ------UTILS FUNCTIONS
 
-function updatePostField(
+function updatePostField<T extends keyof PostInterface>(
   postsArray: PostInterface[],
   newPost: PostInterface,
   retweetId: string | null,
-  field: 'likes' | 'retweetUsers'
+  field: T
 ) {
   const postToBeUpdated_id = retweetId || newPost._id;
   const foundIndex = postsArray.findIndex((p) => p._id === postToBeUpdated_id);

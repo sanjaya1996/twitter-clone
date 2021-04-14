@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore } from '../../store/store';
@@ -25,22 +25,42 @@ const PostReplyModal: React.FC<PostReplyProps> = ({ postId }) => {
   const postDetailsState = useSelector((state: RootStore) => state.postDetails);
   const { post, loading, error } = postDetailsState;
 
+  const postCreateState = useSelector((state: RootStore) => state.postCreate);
+  const {
+    success,
+    loading: loadingCreate,
+    error: errorCreate,
+  } = postCreateState;
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const replyButtonClickHandler = () => {
+  useEffect(() => {
+    if (success) {
+      handleClose();
+    }
+  }, [success]);
+
+  const replyIconClickHandler = () => {
     handleShow();
     dispatch(postActions.getPostDetails(postId));
   };
 
+  const submitReplyHandler = () => {
+    dispatch(
+      postActions.createPost({ content: replyText, replyTo: post?._id })
+    );
+  };
+
   return (
     <>
-      <button onClick={replyButtonClickHandler}>
+      <button onClick={replyIconClickHandler}>
         <i className='far fa-comment'></i>
       </button>
       <Modal show={show} onHide={handleClose} className='modal'>
         <Modal.Header closeButton>
           <Modal.Title>Reply</Modal.Title>
+          {errorCreate && <p>{errorCreate}</p>}
         </Modal.Header>
         <Modal.Body>
           {loading ? (
@@ -72,10 +92,10 @@ const PostReplyModal: React.FC<PostReplyProps> = ({ postId }) => {
           </Button>
           <Button
             variant='primary'
-            onClick={handleClose}
+            onClick={submitReplyHandler}
             disabled={replyText.trim().length < 1}
           >
-            Reply
+            {loadingCreate ? '....' : 'Reply'}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -17,6 +17,8 @@ type PostProps = {
 const Post: React.FC<PostProps> = ({ post, userId }) => {
   const isRetweet = post.retweetData;
   const retweetedBy = isRetweet ? post.postedBy.userName : null;
+  const isReply = post.replyTo;
+  const replyingTo = isReply ? post.replyTo.postedBy.userName : null;
   const retweetId = isRetweet ? post._id : null; //Track this ID to update right Component in UI otherwise the component with original tweet will be updated.
   const originalPost = post.retweetData || post;
   const {
@@ -27,6 +29,7 @@ const Post: React.FC<PostProps> = ({ post, userId }) => {
     likes,
     retweetUsers,
   } = originalPost;
+
   const displayName = postedBy.firstName + ' ' + postedBy.lastName;
   const timeStamp = timeDifference(new Date(), new Date(createdAt));
 
@@ -68,6 +71,11 @@ const Post: React.FC<PostProps> = ({ post, userId }) => {
             <span className='username'> @{postedBy.userName}</span>
             <span className='date'> {timeStamp}</span>
           </div>
+          {isReply && (
+            <div className='replyFlag'>
+              Replying to <Link to='#'>@{replyingTo}</Link>{' '}
+            </div>
+          )}
           <div className='postBody'>
             <span>{content}</span>
           </div>

@@ -63,12 +63,12 @@ export const getPostDetails = (id: string) => {
   };
 };
 
-export const createPost = (content: string) => {
+export const createPost = (postData: { content: string; replyTo?: string }) => {
   return async (dispatch: Dispatch<PostCreateDispatchTypes>) => {
     try {
       dispatch({ type: POST_CREATE_LOADING });
 
-      const { data } = await api.createPost(content);
+      const { data } = await api.createPost(postData);
 
       dispatch({ type: POST_CREATE_SUCCESS, payload: data });
     } catch (err) {

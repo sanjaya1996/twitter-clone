@@ -37,6 +37,7 @@ export interface PostInterface {
   likes: string[];
   retweetUsers: string[];
   retweetData: PostInterface;
+  replyTo: PostInterface;
 }
 
 // CREATE POST

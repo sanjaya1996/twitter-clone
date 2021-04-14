@@ -25,8 +25,8 @@ export const fetchPosts = () => API.get('/api/posts');
 
 export const fetchPostDetails = (id: string) => API.get(`/api/posts/${id}`);
 
-export const createPost = (content: string) =>
-  API.post('/api/posts', { content });
+export const createPost = (data: { content: string; replyTo?: string }) =>
+  API.post('/api/posts', data);
 
 export const likePost = (id: string) => API.put(`/api/posts/${id}/like`);
 

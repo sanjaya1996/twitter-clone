@@ -28,7 +28,7 @@ const PostForm: React.FC<PropsType> = ({
       alert('Please enter some text');
       return;
     }
-    dispatch(postActions.createPost(post));
+    dispatch(postActions.createPost({ content: post }));
   };
 
   useEffect(() => {

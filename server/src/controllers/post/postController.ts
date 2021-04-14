@@ -29,14 +29,22 @@ export const getPostById: RequestHandler = asyncHandler(
 
 export const createPost: RequestHandler = asyncHandler(
   async (req, res, next) => {
-    const content = (req.body as { content: string }).content;
+    const body = req.body as { content: string; replyTo?: string };
+    const content = body.content;
     const postedBy = req.user._id;
 
     if (!req.body.content) {
       return throwErrResponse(res, 400, 'No content to create a post');
     }
 
-    const postData = { content, postedBy };
+    const postData: { content: string; postedBy: string; replyTo?: string } = {
+      content,
+      postedBy,
+    };
+
+    if (body.replyTo) {
+      postData.replyTo = body.replyTo;
+    }
 
     const createdPost: IPost = await Post.create(postData);
     const postWithPopulatedUser = await User.populate(createdPost, {
@@ -134,11 +142,14 @@ async function getPostsFromDB(filter: {}) {
   const posts = await Post.find(filter)
     .populate('postedBy')
     .populate('retweetData')
+    .populate('replyTo')
     .sort({ createdAt: -1 });
 
   const populatedPosts = await User.populate(posts, {
-    path: 'retweetData.postedBy',
+    path: 'replyTo.postedBy',
   });
 
-  return populatedPosts;
+  return await User.populate(posts, {
+    path: 'retweetData.postedBy',
+  });
 }

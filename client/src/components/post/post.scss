@@ -45,6 +45,16 @@
         color: $greyText;
       }
 
+      .replyFlag {
+        margin-bottom: 5px;
+        a {
+          color: $primary-blue;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+
       .postFooter {
         display: flex;
         align-items: center;
