@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 
 import User from '../../models/schemas/UserSchema';
 import generateToken from '../../utils/generateToken';
-import { UserRegisterData, UserLoginData } from './userInterface';
+import { UserRegisterData, UserLoginData } from '../../models/interfaces/User';
 
 import { LoggedInUserType } from '../../models/interfaces/User';
 import { throwErrResponse } from '../../utils/throwErrResponse';

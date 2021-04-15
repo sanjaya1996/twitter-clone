@@ -31,7 +31,11 @@ interface PostListDefaultStateI extends DefaultStateI {
 }
 
 interface PostDetailsDefaultStateI extends DefaultStateI {
-  post?: PostInterface;
+  post?: {
+    postData: PostInterface;
+    replyTo?: PostInterface;
+    replies: PostInterface[];
+  };
 }
 
 interface PostCreateDefaultStateI extends DefaultStateI {

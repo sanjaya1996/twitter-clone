@@ -82,7 +82,11 @@ export interface PostDetailsLoading {
 
 export interface PostDetailsSuccess {
   type: typeof POST_DETAILS_SUCCESS;
-  payload: PostInterface;
+  payload: {
+    postData: PostInterface;
+    replyTo?: PostInterface;
+    replies: PostInterface[];
+  };
 }
 
 export interface PostDetailsFail {

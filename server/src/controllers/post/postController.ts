@@ -1,11 +1,13 @@
-import mongoose from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
 import { LoggedInUserType } from '../../models/interfaces/User';
 
-import Post, { IPost } from '../../models/schemas/PostSchema';
+import Post from '../../models/schemas/PostSchema';
 import User from '../../models/schemas/UserSchema';
 import { throwErrResponse } from '../../utils/throwErrResponse';
+
+import { IPost, GetPostsResultI } from '../../models/interfaces/Post';
 
 export const getPosts: RequestHandler = asyncHandler(async (req, res, next) => {
   const userId = req.user._id;
@@ -19,11 +21,19 @@ export const getPostById: RequestHandler = asyncHandler(
   async (req, res, next) => {
     const postId = req.params.id;
 
-    const results = await getPostsFromDB({ _id: postId });
+    const postArray = await getPostsFromDB({ _id: postId });
 
-    const post = results[0];
+    const postData = postArray[0];
 
-    res.json(post);
+    let results: Partial<GetPostsResultI> = { postData };
+
+    if (postData.replyTo) {
+      results.replyTo = postData.replyTo;
+    }
+
+    results.replies = await getPostsFromDB({ replyTo: postId });
+
+    res.json(results);
   }
 );
 
@@ -139,17 +149,19 @@ export const retweetPost: RequestHandler = asyncHandler(
 // -------- UTILS FUNCTIONS
 
 async function getPostsFromDB(filter: {}) {
-  const posts = await Post.find(filter)
+  let results = await Post.find(filter)
     .populate('postedBy')
     .populate('retweetData')
     .populate('replyTo')
     .sort({ createdAt: -1 });
 
-  const populatedPosts = await User.populate(posts, {
+  results = await Post.populate(results, {
     path: 'replyTo.postedBy',
+    model: 'User',
   });
 
-  return await User.populate(posts, {
+  return await Post.populate(results, {
     path: 'retweetData.postedBy',
+    model: 'User',
   });
 }

@@ -1,17 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-export interface IUser extends mongoose.Document {
-  firstName: string;
-  lastName: string;
-  userName: string;
-  email: string;
-  password: string;
-  profilePic?: string;
-  likes: (string | Schema.Types.ObjectId)[];
-  retweets: (string | Schema.Types.ObjectId)[];
-  matchPassword(enteredPassword: string): Promise<boolean>;
-}
+import { IUser } from '../interfaces/User';
 
 const userSchema = new Schema(
   {

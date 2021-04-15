@@ -1,14 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-export interface IPost extends mongoose.Document {
-  content: string;
-  postedBy: Schema.Types.ObjectId | string;
-  pinned: boolean;
-  likes: (string | Schema.Types.ObjectId)[];
-  retweetUsers: (string | Schema.Types.ObjectId)[];
-  retweetData: Schema.Types.ObjectId | string;
-  replyTo: Schema.Types.ObjectId | string;
-}
+import { IPost } from '../interfaces/Post';
 
 const PostSchema = new Schema(
   {

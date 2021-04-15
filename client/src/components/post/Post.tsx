@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { PostInterface } from '../../store/actions/post/postActionTypes';
 import { timeDifference } from '../../utils/timeDifference';
 import ProfileImage from '../image/ProfileImage';
@@ -9,10 +9,10 @@ import * as postActions from '../../store/actions/post/postActions';
 import './post.scss';
 import PostReplyModal from '../modals/PostReplyModal';
 
-type PostProps = {
+interface PostProps {
   post: PostInterface;
   userId: string;
-};
+}
 
 const Post: React.FC<PostProps> = ({ post, userId }) => {
   const isRetweet = post.retweetData;
@@ -39,20 +39,27 @@ const Post: React.FC<PostProps> = ({ post, userId }) => {
     : '';
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const numOfLikes = likes?.length || '';
   const numOfRetweets = retweetUsers.length || '';
 
-  const postLikeHandler = () => {
+  const postLikeHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     dispatch(postActions.likePost(postId, retweetId));
   };
 
-  const postRetweetHandler = () => {
+  const postRetweetHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     dispatch(postActions.retweetPost(postId, retweetId));
   };
 
+  const postClickHandler = () => {
+    history.push(`/post/${post._id}`);
+  };
+
   return (
-    <div className='post'>
+    <div className='post' onClick={postClickHandler}>
       {retweetedBy && (
         <div className='postActionContainer'>
           <span>

@@ -41,14 +41,18 @@ const PostReplyModal: React.FC<PostReplyProps> = ({ postId }) => {
     }
   }, [success]);
 
-  const replyIconClickHandler = () => {
+  const replyIconClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     handleShow();
     dispatch(postActions.getPostDetails(postId));
   };
 
   const submitReplyHandler = () => {
     dispatch(
-      postActions.createPost({ content: replyText, replyTo: post?._id })
+      postActions.createPost({
+        content: replyText,
+        replyTo: post?.postData._id,
+      })
     );
   };
 
@@ -68,7 +72,7 @@ const PostReplyModal: React.FC<PostReplyProps> = ({ postId }) => {
           ) : error ? (
             <p>{error}</p>
           ) : post ? (
-            <Post post={post} userId={user!._id} />
+            <Post post={post.postData} userId={user!._id} />
           ) : (
             <p>Post not found</p>
           )}
