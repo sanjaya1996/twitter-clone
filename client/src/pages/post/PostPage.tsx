@@ -59,6 +59,7 @@ const ViewPostPage: React.FC<RouteComponentProps<RouteParams>> = ({
             key={post.postData._id}
             post={post.postData}
             userId={user!._id}
+            largeFont={true}
           />
           {/* Replies of User Clicked Post*/}
           {post.replies.length > 0 &&

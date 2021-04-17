@@ -12,9 +12,10 @@ import PostReplyModal from '../modals/PostReplyModal';
 interface PostProps {
   post: PostInterface;
   userId: string;
+  largeFont?: boolean;
 }
 
-const Post: React.FC<PostProps> = ({ post, userId }) => {
+const Post: React.FC<PostProps> = ({ post, userId, largeFont }) => {
   const isRetweet = post.retweetData;
   const retweetedBy = isRetweet ? post.postedBy.userName : null;
   const isReply = post.replyTo;
@@ -37,6 +38,7 @@ const Post: React.FC<PostProps> = ({ post, userId }) => {
   const retweetButtonActiveClass = retweetUsers.includes(userId)
     ? 'active-green'
     : '';
+  const largeFontClass = largeFont ? 'largeFont' : '';
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -59,7 +61,7 @@ const Post: React.FC<PostProps> = ({ post, userId }) => {
   };
 
   return (
-    <div className='post' onClick={postClickHandler}>
+    <div className={`post ${largeFontClass}`} onClick={postClickHandler}>
       {retweetedBy && (
         <div className='postActionContainer'>
           <span>
