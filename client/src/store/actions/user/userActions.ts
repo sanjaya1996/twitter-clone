@@ -90,6 +90,26 @@ export const getUserInfo = () => {
   };
 };
 
+export const getUserInfoById = (id: string) => {
+  return async (dispatch: Dispatch<UserInfoDispatchTypes>) => {
+    try {
+      dispatch({ type: USER_INFO_LOADING });
+
+      const { data } = await api.getUserInfoById(id);
+
+      dispatch({ type: USER_INFO_SUCCESS, payload: data });
+    } catch (err) {
+      dispatch({
+        type: USER_INFO_FAIL,
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
 export const logoutUser = () => {
   return (dispatch: Dispatch<UserLogoutDispatchTypes>) => {
     localStorage.removeItem('userInfo');

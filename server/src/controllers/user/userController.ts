@@ -95,3 +95,20 @@ export const getMyProfile: RequestHandler = asyncHandler(async (req, res) => {
   const userProfile = req.user;
   res.json(userProfile);
 });
+
+export const getProfileByIdOrUserName: RequestHandler = asyncHandler(
+  async (req, res) => {
+    const idOrUserName = req.params.id;
+
+    let user = await User.findOne({ userName: idOrUserName });
+
+    if (!user) {
+      user = await User.findById(idOrUserName);
+      if (!user) {
+        return throwErrResponse(res, 404, 'Profile Not Found');
+      }
+    }
+
+    res.json(user);
+  }
+);

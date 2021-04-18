@@ -4,6 +4,8 @@ import HomePage from '../pages/home/HomePage';
 import LoginPage from '../pages/login/LoginPage';
 import RegisterPage from '../pages/login/RegisterPage';
 import PostPage from '../pages/post/PostPage';
+import MyProfilePage from '../pages/profile/MyProfilePage';
+import OthersProfilePage from '../pages/profile/OthersProfilePage';
 
 interface PagesInterface {
   exact: boolean;
@@ -25,6 +27,20 @@ const pages: PagesInterface[] = [
     exact: true,
     path: '/post/:id',
     component: PostPage,
+    layout: MainLayout,
+    protect: true,
+  },
+  {
+    exact: true,
+    path: '/profile',
+    component: MyProfilePage,
+    layout: MainLayout,
+    protect: true,
+  },
+  {
+    exact: true,
+    path: '/profile/:id',
+    component: OthersProfilePage,
     layout: MainLayout,
     protect: true,
   },

@@ -1,0 +1,25 @@
+@import '../../sass/helpers/variables';
+
+.errorMessage {
+  padding: $spacing;
+}
+
+.profileHeaderContainer {
+  position: relative;
+  .coverPhotoContainer {
+    height: 180px;
+    background-color: $primary-blue;
+  }
+
+  .userImageContainer {
+    height: 132px;
+    width: 132px;
+    margin-left: $spacing;
+    position: absolute;
+    bottom: -66px;
+
+    img {
+      border: 4px solid #fff;
+    }
+  }
+}

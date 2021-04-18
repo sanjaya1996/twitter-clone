@@ -20,6 +20,9 @@ export const loginUser = (loginDetails: { email: string; password: string }) =>
 
 export const getUserInfo = () => API.get('/api/users/myprofile');
 
+export const getUserInfoById = (id: string) =>
+  API.get(`/api/users/profile/${id}`);
+
 // POSTS
 export const fetchPosts = () => API.get('/api/posts');
 
