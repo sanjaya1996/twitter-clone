@@ -1,5 +1,6 @@
 import {
   PostCreateDispatchTypes,
+  PostDeleteDispatchTypes,
   PostDetailsDispatchTypes,
   PostInterface,
   PostLikeDispatchTypes,
@@ -7,6 +8,9 @@ import {
   POST_CREATE_FAIL,
   POST_CREATE_LOADING,
   POST_CREATE_SUCCESS,
+  POST_DELETE_FAIL,
+  POST_DELETE_LOADING,
+  POST_DELETE_SUCCESS,
   POST_DETAILS_FAIL,
   POST_DETAILS_LOADING,
   POST_DETAILS_SUCCESS,
@@ -41,6 +45,12 @@ interface PostDetailsDefaultStateI extends DefaultStateI {
 interface PostCreateDefaultStateI extends DefaultStateI {
   post?: PostInterface;
   success?: boolean;
+}
+
+interface PostDeleteDefaultStateI extends DefaultStateI {
+  post?: PostInterface;
+  success?: boolean;
+  message?: string;
 }
 
 interface PostLikeDefaultStateI extends DefaultStateI {
@@ -109,6 +119,22 @@ export const postCreateReducer = (
     case POST_CREATE_SUCCESS:
       return { loading: false, success: true, post: action.payload };
     case POST_CREATE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const postDeleteReducer = (
+  state: PostDeleteDefaultStateI = {},
+  action: PostDeleteDispatchTypes
+): PostDeleteDefaultStateI => {
+  switch (action.type) {
+    case POST_DELETE_LOADING:
+      return { loading: true };
+    case POST_DELETE_SUCCESS:
+      return { loading: false, success: true, message: action.payload };
+    case POST_DELETE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

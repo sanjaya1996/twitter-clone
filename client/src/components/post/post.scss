@@ -26,6 +26,7 @@
       flex: 1;
 
       .header {
+        display: flex;
         a,
         span {
           padding-right: 5px;
@@ -43,6 +44,9 @@
       .username,
       .date {
         color: $greyText;
+      }
+      .date {
+        flex: 1;
       }
 
       .replyFlag {

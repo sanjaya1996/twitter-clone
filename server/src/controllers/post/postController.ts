@@ -146,6 +146,18 @@ export const retweetPost: RequestHandler = asyncHandler(
   }
 );
 
+export const deletePost: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    const post = await Post.findById(req.params.id);
+    if (post) {
+      await post.remove();
+      res.status(202).json({ message: 'Post Deleted Successfully' });
+    } else {
+      return throwErrResponse(res, 404, 'Post Not Found');
+    }
+  }
+);
+
 // -------- UTILS FUNCTIONS
 
 async function getPostsFromDB(filter: {}) {

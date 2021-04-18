@@ -1,6 +1,7 @@
 import { Dispatch } from 'react';
 import {
   PostCreateDispatchTypes,
+  PostDeleteDispatchTypes,
   PostDetailsDispatchTypes,
   PostLikeDispatchTypes,
   PostListDispatchTypes,
@@ -8,6 +9,9 @@ import {
   POST_CREATE_FAIL,
   POST_CREATE_LOADING,
   POST_CREATE_SUCCESS,
+  POST_DELETE_FAIL,
+  POST_DELETE_LOADING,
+  POST_DELETE_SUCCESS,
   POST_DETAILS_FAIL,
   POST_DETAILS_LOADING,
   POST_DETAILS_SUCCESS,
@@ -120,6 +124,28 @@ export const retweetPost = (id: string, retweetId: string | null) => {
           ? err.response.data.message
           : err.message
       );
+    }
+  };
+};
+
+export const deletePost = (id: string) => {
+  return async (dispatch: Dispatch<PostDeleteDispatchTypes>) => {
+    try {
+      dispatch({ type: POST_DELETE_LOADING });
+
+      const {
+        data: { message },
+      } = await api.deletePost(id);
+
+      dispatch({ type: POST_DELETE_SUCCESS, payload: message });
+    } catch (err) {
+      dispatch({
+        type: POST_DELETE_FAIL,
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
     }
   };
 };

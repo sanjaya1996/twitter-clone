@@ -6,8 +6,10 @@ import { timeDifference } from '../../utils/timeDifference';
 import ProfileImage from '../image/ProfileImage';
 import * as postActions from '../../store/actions/post/postActions';
 
-import './post.scss';
 import PostReplyModal from '../modals/PostReplyModal';
+import PostDelteModal from '../modals/PostDeleteModal';
+
+import './post.scss';
 
 interface PostProps {
   post: PostInterface;
@@ -20,7 +22,7 @@ const Post: React.FC<PostProps> = ({ post, userId, largeFont }) => {
   const retweetedBy = isRetweet ? post.postedBy.userName : null;
   const isReply = post.replyTo;
   const replyingTo = isReply ? post.replyTo.postedBy.userName : null;
-  const retweetId = isRetweet ? post._id : null; //Track this ID to update right Component in UI otherwise the component with original tweet will be updated.
+  const retweetId = isRetweet ? post._id : null; //Track this ID to update right Component in UI otherwise the component with original tweet will be updated incase of liking and tweeting.
   const originalPost = post.retweetData || post;
   const {
     postedBy,
@@ -30,6 +32,8 @@ const Post: React.FC<PostProps> = ({ post, userId, largeFont }) => {
     likes,
     retweetUsers,
   } = originalPost;
+
+  const isLoggedInUserPost = userId === postedBy._id;
 
   const displayName = postedBy.firstName + ' ' + postedBy.lastName;
   const timeStamp = timeDifference(new Date(), new Date(createdAt));
@@ -79,6 +83,7 @@ const Post: React.FC<PostProps> = ({ post, userId, largeFont }) => {
             </Link>
             <span className='username'> @{postedBy.userName}</span>
             <span className='date'> {timeStamp}</span>
+            {isLoggedInUserPost && <PostDelteModal postId={postId} />}
           </div>
           {isReply && (
             <div className='replyFlag'>

@@ -24,6 +24,9 @@ const HomePage: React.FC<RouteComponentProps> = ({
     success,
   } = postCreateState;
 
+  const postDeleteState = useSelector((state: RootStore) => state.postDelete);
+  const { success: successDelete } = postDeleteState;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,7 +35,7 @@ const HomePage: React.FC<RouteComponentProps> = ({
     } else {
       dispatch(postActions.listPosts());
     }
-  }, [user, history, dispatch, success]);
+  }, [user, history, dispatch, success, successDelete]);
 
   if (!user) {
     return <h1>Authentication Failed, Please Try Again</h1>;

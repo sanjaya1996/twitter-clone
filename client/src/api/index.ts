@@ -31,3 +31,5 @@ export const createPost = (data: { content: string; replyTo?: string }) =>
 export const likePost = (id: string) => API.put(`/api/posts/${id}/like`);
 
 export const retweetPost = (id: string) => API.post(`/api/posts/${id}/retweet`);
+
+export const deletePost = (id: string) => API.delete(`/api/posts/${id}`);

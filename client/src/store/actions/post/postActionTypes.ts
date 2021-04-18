@@ -7,7 +7,6 @@ export const POST_CREATE_FAIL = 'POST_CREATE_FAIL';
 export const POST_LIST_LOADING = 'POST_LIST_LOADING';
 export const POST_LIST_SUCCESS = 'POST_LIST_SUCCESS';
 export const POST_LIST_FAIL = 'POST_LIST_FAIL';
-
 export const POST_LIST_UPDATE_ONLIKE = 'POST_LIST_UPDATE_ONLIKE';
 
 export const POST_DETAILS_LOADING = 'POST_DETAILS_LOADING';
@@ -137,7 +136,7 @@ export interface PostDeleteLoading {
 
 export interface PostDeleteSuccess {
   type: typeof POST_DELETE_SUCCESS;
-  payload: PostInterface;
+  payload: 'string';
 }
 
 export interface PostDeleteFail {
