@@ -26,6 +26,12 @@ export const getUserInfoById = (id: string) =>
 // POSTS
 export const fetchPosts = () => API.get('/api/posts');
 
+export const fetchUserPosts = (userId?: string) =>
+  API.get(`/api/posts?postedBy=${userId}`);
+
+export const fetchUserPostReplies = (userId: string) =>
+  API.get(`/api/posts?postedBy=${userId}&isReply=true`);
+
 export const fetchPostDetails = (id: string) => API.get(`/api/posts/${id}`);
 
 export const createPost = (data: { content: string; replyTo?: string }) =>

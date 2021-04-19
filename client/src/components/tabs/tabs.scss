@@ -1,0 +1,26 @@
+@import '../../sass/helpers/variables';
+
+.tabsContainer {
+  display: flex;
+  border-bottom: 1px solid $lightGrey;
+  flex-shrink: 0;
+
+  .tab {
+    flex: 1;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $greyText;
+    font-weight: bold;
+
+    &:hover {
+      background-color: $blueBackground;
+    }
+  }
+
+  .active {
+    color: $primary-blue;
+    border-bottom: 2px solid $primary-blue;
+  }
+}

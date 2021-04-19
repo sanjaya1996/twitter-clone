@@ -50,6 +50,10 @@ const Post: React.FC<PostProps> = ({ post, userId, largeFont }) => {
   const numOfLikes = likes?.length || '';
   const numOfRetweets = retweetUsers.length || '';
 
+  const stopPropagation = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+  };
+
   const postLikeHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     dispatch(postActions.likePost(postId, retweetId));
@@ -78,7 +82,11 @@ const Post: React.FC<PostProps> = ({ post, userId, largeFont }) => {
         <ProfileImage uri={postedBy.profilePic} />
         <div className='postContentContainer'>
           <div className='header'>
-            <Link to='/profile' className='displayName'>
+            <Link
+              to={`/profile/${postedBy.userName}`}
+              className='displayName'
+              onClick={stopPropagation}
+            >
               {displayName}
             </Link>
             <span className='username'> @{postedBy.userName}</span>

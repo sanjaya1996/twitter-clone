@@ -15,3 +15,9 @@ export interface GetPostsResultI {
   replyTo?: any;
   replies: IPost[];
 }
+
+export interface GetPostsQueryI {
+  postedby?: string;
+  isReply?: string;
+  replyTo?: any;
+}

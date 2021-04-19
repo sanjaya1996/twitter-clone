@@ -7,12 +7,23 @@ import Post from '../../models/schemas/PostSchema';
 import User from '../../models/schemas/UserSchema';
 import { throwErrResponse } from '../../utils/throwErrResponse';
 
-import { IPost, GetPostsResultI } from '../../models/interfaces/Post';
+import {
+  IPost,
+  GetPostsResultI,
+  GetPostsQueryI,
+} from '../../models/interfaces/Post';
 
 export const getPosts: RequestHandler = asyncHandler(async (req, res, next) => {
-  const userId = req.user._id;
+  // const userId = req.user._id;
+  const searchObj: GetPostsQueryI = req.query;
 
-  const results = await getPostsFromDB({ postedBy: userId });
+  if (searchObj.isReply) {
+    const isReply = searchObj.isReply == 'true';
+    searchObj.replyTo = { $exists: isReply };
+    delete searchObj.isReply;
+  }
+
+  const results = await getPostsFromDB(searchObj);
 
   res.json(results);
 });

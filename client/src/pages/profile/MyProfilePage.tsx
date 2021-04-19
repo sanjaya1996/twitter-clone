@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
 import { RootStore } from '../../store/store';
 
 import ProfilePage from './ProfilePage';
@@ -8,34 +9,23 @@ import TitleBar from '../../components/titleBar/TitleBar';
 
 import './profile.scss';
 
-const MyProfilePage = () => {
+const MyProfilePage: React.FC<RouteComponentProps> = ({
+  history,
+}: RouteComponentProps) => {
   const dispatch = useDispatch();
 
-  const userInfoState = useSelector((state: RootStore) => state.userInfo);
-  const { user, loading, error } = userInfoState;
+  const userLoginState = useSelector((state: RootStore) => state.userLogin);
+  const { user } = userLoginState;
 
   useEffect(() => {
     dispatch(userActions.getUserInfo());
   }, [dispatch]);
 
-  if (loading) {
-    return <p>Loading Profile...</p>;
-  }
-  if (error) {
-    return (
-      <>
-        <TitleBar title={error} />
-        <span className='errorMessage'>
-          Check the url you are trying to access
-        </span>
-      </>
-    );
-  }
-
   if (user) {
     return <ProfilePage userInfo={user} />;
   } else {
-    return <h1>User Not Found</h1>;
+    history.push('/login');
+    return <h1>Not logged in</h1>;
   }
 };
 

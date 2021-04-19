@@ -27,6 +27,11 @@
 
       .header {
         display: flex;
+
+        .date {
+          flex: 1;
+        }
+
         a,
         span {
           padding-right: 5px;
@@ -35,18 +40,6 @@
         & a:hover {
           text-decoration: underline;
         }
-      }
-
-      .displayName {
-        font-weight: bold;
-      }
-
-      .username,
-      .date {
-        color: $greyText;
-      }
-      .date {
-        flex: 1;
       }
 
       .replyFlag {
@@ -103,4 +96,13 @@
 .largeFont .postBody,
 .largeFont .postFooter {
   font-size: 23px;
+}
+
+.displayName {
+  font-weight: bold;
+}
+
+.username,
+.date {
+  color: $greyText;
 }

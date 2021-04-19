@@ -1,21 +1,110 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import ProfileImage from '../../components/image/ProfileImage';
 import TitleBar from '../../components/titleBar/TitleBar';
 import { UserType } from '../../store/actions/user/userActionTypes';
+import { RootStore } from '../../store/store';
+
+import Tabs from '../../components/tabs/Tabs';
+import Post from '../../components/post/Post';
+import * as postActions from '../../store/actions/post/postActions';
 
 interface ProfileProps {
   userInfo: UserType;
 }
 
 const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
+  const [activeTabId, setActiveTabId] = useState(0);
+
+  const { _id, firstName, lastName, userName, profilePic } = userInfo;
+
+  const isFollowing = true;
+  const followBtnText = isFollowing ? 'Following' : 'Follow';
+  const followBtnClass = isFollowing
+    ? 'followButton following'
+    : 'followButton';
+
+  const dispatch = useDispatch();
+
+  const userLoginState = useSelector((state: RootStore) => state.userLogin);
+  const { user: loggedInUser } = userLoginState;
+
+  const postListState = useSelector((state: RootStore) => state.postList);
+  const { posts, loading, error } = postListState;
+
+  useEffect(() => {
+    if (activeTabId === 0) {
+      dispatch(postActions.listPosts(_id));
+    } else if (activeTabId === 1) {
+      dispatch(postActions.listPosts(_id, true));
+    }
+  }, [dispatch, _id, activeTabId]);
+
+  const TABS = [
+    {
+      id: 0,
+      name: 'Posts',
+      link: `/profile/${userName}`,
+      active: activeTabId === 0,
+    },
+    {
+      id: 1,
+      name: 'Replies',
+      link: `/profile/${userName}/replies`,
+      active: activeTabId === 1,
+    },
+  ];
+
+  const tabSelectHandler = (id: number) => {
+    setActiveTabId(id);
+  };
+
   return (
     <>
-      <TitleBar title={userInfo.firstName + ' ' + userInfo.lastName} />
+      <TitleBar title={firstName + ' ' + lastName} />
       <div className='profileHeaderContainer'>
         <div className='coverPhotoContainer'>
-          <ProfileImage uri={userInfo.profilePic} />
+          <ProfileImage uri={profilePic} />
+        </div>
+        <div className='profileButtonsContainer'>
+          {loggedInUser?._id === _id && (
+            <>
+              <Link to={`/messages/${_id}`} className='profileButton'>
+                <i className='fas fa-envelope'></i>
+              </Link>
+              <button className={followBtnClass}>{followBtnText}</button>
+            </>
+          )}
+        </div>
+        <div className='userDetailsContainer'>
+          <span className='displayName'>{firstName + ' ' + lastName}</span>
+          <span className='username'>@{userName}</span>
+          <span className='description'></span>
+          <div className='followersContainer'>
+            <Link to={`/profile/${userName}/following`}>
+              <span className='value'>0</span>
+              <span>Following</span>
+            </Link>
+            <Link to={`/profile/${userName}/following`}>
+              <span className='value'>0</span>
+              <span>Followers</span>
+            </Link>
+          </div>
         </div>
       </div>
+      <Tabs data={TABS} handleSelect={tabSelectHandler} />
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : posts.length === 0 ? (
+        <p>Nothing to Show</p>
+      ) : (
+        posts.map((post) => (
+          <Post key={post._id} post={post} userId={loggedInUser!._id} />
+        ))
+      )}
     </>
   );
 };

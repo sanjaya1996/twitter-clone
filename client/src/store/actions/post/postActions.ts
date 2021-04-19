@@ -27,12 +27,21 @@ import {
 
 import * as api from '../../../api/index';
 
-export const listPosts = () => {
+export const listPosts = (userId?: string, isReply?: boolean) => {
   return async (dispatch: Dispatch<PostListDispatchTypes>) => {
     try {
       dispatch({ type: POST_LIST_LOADING });
 
-      const { data } = await api.fetchPosts();
+      let res;
+      if (userId && isReply) {
+        res = await api.fetchUserPostReplies(userId);
+      } else if (userId) {
+        res = await api.fetchUserPosts(userId);
+      } else {
+        res = await api.fetchPosts();
+      }
+
+      const { data } = res;
 
       dispatch({ type: POST_LIST_SUCCESS, payload: data });
     } catch (err) {
