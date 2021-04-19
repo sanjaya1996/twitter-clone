@@ -87,7 +87,7 @@ export const likePost: RequestHandler = asyncHandler(async (req, res, next) => {
     // CONDITION 1:
 
     // Check if the post is already liked and create mongoose option accordingly
-    const isLiked = req.user.likes?.includes(postId);
+    const isLiked = req.user.likes && req.user.likes.includes(postId);
 
     const option = isLiked ? '$pull' : '$addToSet';
 

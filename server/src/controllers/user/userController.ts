@@ -112,3 +112,29 @@ export const getProfileByIdOrUserName: RequestHandler = asyncHandler(
     res.json(user);
   }
 );
+
+export const followUser = asyncHandler(async (req, res, next) => {
+  const userId = req.params.id;
+  const user = await User.findById(userId);
+  if (user) {
+    const isFollowing = user.followers && user.followers.includes(req.user._id);
+    const option = isFollowing ? '$pull' : '$addToSet';
+    // Update following array of Current User
+    req.user = (await User.findByIdAndUpdate(
+      req.user._id,
+      { [option]: { following: userId } },
+      { new: true }
+    )) as LoggedInUserType;
+
+    // Update the followers array of the user that is being followed by Current User
+    await User.findByIdAndUpdate(
+      userId,
+      { [option]: { followers: req.user._id } },
+      { new: true }
+    );
+
+    res.status(200).json(req.user);
+  } else {
+    return throwErrResponse(res, 404, 'User Not Found');
+  }
+});

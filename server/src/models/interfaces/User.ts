@@ -9,6 +9,8 @@ export interface IUser extends mongoose.Document {
   profilePic?: string;
   likes: (string | Schema.Types.ObjectId)[];
   retweets: (string | Schema.Types.ObjectId)[];
+  following: (string | Schema.Types.ObjectId)[];
+  followers: (string | Schema.Types.ObjectId)[];
   matchPassword(enteredPassword: string): Promise<boolean>;
 }
 

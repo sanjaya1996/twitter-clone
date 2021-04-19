@@ -6,6 +6,6 @@
   border-right: 1px solid $lightGrey;
 }
 
-.row {
-  width: 100%;
+.wrapper > .row {
+  margin: 0;
 }

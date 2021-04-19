@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  followUser,
   getMyProfile,
   getProfileByIdOrUserName,
   loginUser,
@@ -12,4 +13,6 @@ router.post('/', registerUser);
 router.post('/login', loginUser);
 router.get('/myprofile', requireLogin, getMyProfile);
 router.get('/profile/:id', requireLogin, getProfileByIdOrUserName);
+router.put('/:id/follow', requireLogin, followUser);
+
 export default router;
