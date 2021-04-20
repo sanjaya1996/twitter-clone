@@ -25,6 +25,11 @@ export const getUserInfoById = (id: string) =>
 
 export const followUser = (id: string) => API.put(`/api/users/${id}/follow`);
 
+export const getUserFollowers = (id: string) =>
+  API.get(`/api/users/${id}/followers`);
+
+export const getUserFollowng = (id: string) =>
+  API.get(`/api/users/${id}/following`);
 // POSTS
 export const fetchPosts = () => API.get('/api/posts');
 

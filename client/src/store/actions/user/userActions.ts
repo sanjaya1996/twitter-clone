@@ -20,6 +20,14 @@ import {
   USER_AUTHENTICATE_FAIL,
   UPDATE_AUTH_USER,
   USER_INFO_UPDATE_FOLLOWERS,
+  UserFollowersDispatchTypes,
+  USER_FOLLOWERS_LOADING,
+  USER_FOLLOWERS_SUCCESS,
+  USER_FOLLOWERS_FAIL,
+  UserFollowingListDispatchTypes,
+  USER_FOLLOWING_LIST_LOADING,
+  USER_FOLLOWING_LIST_SUCCESS,
+  USER_FOLLOWING_LIST_FAIL,
 } from './userActionTypes';
 
 import * as api from '../../../api/index';
@@ -111,6 +119,46 @@ export const followUser = (id: string) => {
     } catch (err) {
       dispatch({
         type: USER_FOLLOW_FAIL,
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
+export const getUserFollowers = (id: string) => {
+  return async (dispatch: Dispatch<UserFollowersDispatchTypes>) => {
+    try {
+      dispatch({ type: USER_FOLLOWERS_LOADING });
+
+      const { data } = await api.getUserFollowers(id);
+
+      dispatch({ type: USER_FOLLOWERS_SUCCESS, payload: data });
+    } catch (err) {
+      dispatch({
+        type: USER_FOLLOWERS_FAIL,
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
+export const getUserFollowing = (id: string) => {
+  return async (dispatch: Dispatch<UserFollowingListDispatchTypes>) => {
+    try {
+      dispatch({ type: USER_FOLLOWING_LIST_LOADING });
+
+      const { data } = await api.getUserFollowers(id);
+
+      dispatch({ type: USER_FOLLOWING_LIST_SUCCESS, payload: data });
+    } catch (err) {
+      dispatch({
+        type: USER_FOLLOWING_LIST_FAIL,
         payload:
           err.response && err.response.data.message
             ? err.response.data.message

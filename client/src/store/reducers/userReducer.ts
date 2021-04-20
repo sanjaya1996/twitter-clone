@@ -15,6 +15,14 @@ import {
   USER_AUTHENTICATE_SUCCESS,
   USER_AUTHENTICATE_FAIL,
   USER_INFO_UPDATE_FOLLOWERS,
+  UserFollowersDispatchTypes,
+  USER_FOLLOWERS_LOADING,
+  USER_FOLLOWERS_SUCCESS,
+  USER_FOLLOWERS_FAIL,
+  UserFollowingListDispatchTypes,
+  USER_FOLLOWING_LIST_LOADING,
+  USER_FOLLOWING_LIST_SUCCESS,
+  USER_FOLLOWING_LIST_FAIL,
 } from '../actions/user/userActionTypes';
 
 interface DefaultStateI {
@@ -26,6 +34,12 @@ interface DefaultStateI {
 interface DefaultLoginStateI {
   loading?: boolean;
   user?: LoggedInUserI;
+  error?: string;
+}
+
+interface DefaultFollowingFollowersListI {
+  loading?: boolean;
+  users: UserType[];
   error?: string;
 }
 
@@ -96,6 +110,38 @@ export const userInfoReducer = (
         updatedUser.followers?.push(newFollowerId);
       }
       return { user: updatedUser };
+    default:
+      return state;
+  }
+};
+
+export const userFollowersReducer = (
+  state: DefaultFollowingFollowersListI = { users: [] },
+  action: UserFollowersDispatchTypes
+): DefaultFollowingFollowersListI => {
+  switch (action.type) {
+    case USER_FOLLOWERS_LOADING:
+      return { ...state, loading: true };
+    case USER_FOLLOWERS_SUCCESS:
+      return { loading: false, users: action.payload };
+    case USER_FOLLOWERS_FAIL:
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const userFollowingListReducer = (
+  state: DefaultFollowingFollowersListI = { users: [] },
+  action: UserFollowingListDispatchTypes
+): DefaultFollowingFollowersListI => {
+  switch (action.type) {
+    case USER_FOLLOWING_LIST_LOADING:
+      return { ...state, loading: true };
+    case USER_FOLLOWING_LIST_SUCCESS:
+      return { loading: false, users: action.payload };
+    case USER_FOLLOWING_LIST_FAIL:
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }

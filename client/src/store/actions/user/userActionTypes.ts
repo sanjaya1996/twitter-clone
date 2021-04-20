@@ -20,6 +20,14 @@ export const USER_FOLLOW_LOADING = 'USER_FOLLOW_LOADING';
 export const USER_FOLLOW_FAIL = 'USER_FOLLOW_FAIL';
 export const USER_FOLLOW_SUCCESS = 'USER_FOLLOW_SUCCESS';
 
+export const USER_FOLLOWERS_LOADING = 'USER_FOLLOWERS_LOADING';
+export const USER_FOLLOWERS_FAIL = 'USER_FOLLOWERS_FAIL';
+export const USER_FOLLOWERS_SUCCESS = 'USER_FOLLOWERS_SUCCESS';
+
+export const USER_FOLLOWING_LIST_LOADING = 'USER_FOLLOWING_LIST_LOADING';
+export const USER_FOLLOWING_LIST_FAIL = 'USER_FOLLOWING_LIST_FAIL';
+export const USER_FOLLOWING_LIST_SUCCESS = 'USER_FOLLOWING_LIST_SUCCESS';
+
 export type RegisterUserDataType = {
   firstName: string;
   lastName: string;
@@ -125,6 +133,36 @@ export interface UserFollowFail {
   payload: string;
 }
 
+// USER FOLLOWERS
+export interface UserFollowersLoading {
+  type: typeof USER_FOLLOWERS_LOADING;
+}
+
+export interface UserFollowersSuccess {
+  type: typeof USER_FOLLOWERS_SUCCESS;
+  payload: UserType[];
+}
+
+export interface UserFollowersFail {
+  type: typeof USER_FOLLOWERS_FAIL;
+  payload: string;
+}
+
+// USER FOLLOWING LIST
+export interface UserFollowingListLoading {
+  type: typeof USER_FOLLOWING_LIST_LOADING;
+}
+
+export interface UserFollowingListSuccess {
+  type: typeof USER_FOLLOWING_LIST_SUCCESS;
+  payload: UserType[];
+}
+
+export interface UserFollowingListFail {
+  type: typeof USER_FOLLOWING_LIST_FAIL;
+  payload: string;
+}
+
 // DISPATCH TYPES
 export type UserAuthenticateDispatchTypes =
   | UserAuthenticateLoading
@@ -155,5 +193,15 @@ export type UserFollowDispatchTypes =
   | UserInfoUpdateFollowers
   | UpdateAuthUser
   | LoggedInUserInfoSuccess;
+
+export type UserFollowersDispatchTypes =
+  | UserFollowersLoading
+  | UserFollowersFail
+  | UserFollowersSuccess;
+
+export type UserFollowingListDispatchTypes =
+  | UserFollowingListLoading
+  | UserFollowingListFail
+  | UserFollowingListSuccess;
 
 export type UserLogoutDispatchTypes = UserLogout;

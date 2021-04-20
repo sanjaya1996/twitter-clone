@@ -9,6 +9,8 @@ import {
 import {
   loggedInUserInfoReducer,
   userAuthenticateReducer,
+  userFollowersReducer,
+  userFollowingListReducer,
   userInfoReducer,
 } from './userReducer';
 
@@ -16,6 +18,8 @@ const RootReducer = combineReducers({
   userAuth: userAuthenticateReducer,
   userInfo: userInfoReducer,
   loggedInUserInfo: loggedInUserInfoReducer,
+  userFollowers: userFollowersReducer,
+  userFollowingList: userFollowingListReducer,
   postList: postListReducer,
   postDetails: postDetailsReducer,
   postCreate: postCreateReducer,
