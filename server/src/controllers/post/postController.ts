@@ -16,7 +16,6 @@ import {
 export const getPosts: RequestHandler = asyncHandler(async (req, res, next) => {
   // const userId = req.user._id;
   const searchObj: GetPostsQueryI = req.query;
-  console.log(searchObj, 'First');
 
   if (searchObj.isReply) {
     const isReply = searchObj.isReply == 'true';

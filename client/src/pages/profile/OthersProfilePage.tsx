@@ -15,16 +15,29 @@ interface RouteParams {
 
 const OthersProfilePage: React.FC<RouteComponentProps<RouteParams>> = ({
   match,
+  history,
 }) => {
   const profileId = match.params.id;
   const dispatch = useDispatch();
 
+  const loggedInUserState = useSelector(
+    (state: RootStore) => state.loggedInUserInfo
+  );
+  const { user: loggedInUser } = loggedInUserState;
+
   const userInfoState = useSelector((state: RootStore) => state.userInfo);
   const { user, loading, error } = userInfoState;
 
+  const loggedInUserId = loggedInUser?._id;
+  const loggedInUserName = loggedInUser?.userName;
+
   useEffect(() => {
-    dispatch(userActions.getUserInfoById(profileId));
-  }, [dispatch, profileId]);
+    if (profileId === loggedInUserId || profileId === loggedInUserName) {
+      return history.push('/profile');
+    } else {
+      dispatch(userActions.getUserInfoById(profileId));
+    }
+  }, [dispatch, profileId, history, loggedInUserId, loggedInUserName]);
 
   if (loading) {
     return <p>Loading Profile...</p>;

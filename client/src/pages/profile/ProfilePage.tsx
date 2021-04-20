@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import ProfileImage from '../../components/image/ProfileImage';
 import TitleBar from '../../components/titleBar/TitleBar';
 import { UserType } from '../../store/actions/user/userActionTypes';
 import { RootStore } from '../../store/store';
@@ -10,6 +9,7 @@ import Tabs from '../../components/tabs/Tabs';
 import Post from '../../components/post/Post';
 import * as postActions from '../../store/actions/post/postActions';
 import * as userActions from '../../store/actions/user/userActions';
+import ProfilePageProfile from '../../components/image/ProfilePageProfile';
 
 interface ProfileProps {
   userInfo: UserType;
@@ -83,7 +83,7 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
       <TitleBar title={firstName + ' ' + lastName} />
       <div className='profileHeaderContainer'>
         <div className='coverPhotoContainer'>
-          <ProfileImage uri={profilePic} />
+          <ProfilePageProfile uri={profilePic} profileUser={userInfo} />
         </div>
         <div className='profileButtonsContainer'>
           {loggedInUser?._id !== _id && (
