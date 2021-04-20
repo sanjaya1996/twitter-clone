@@ -140,3 +140,23 @@ export const followUser = asyncHandler(async (req, res, next) => {
     return throwErrResponse(res, 404, 'User Not Found');
   }
 });
+
+export const getFollowers = asyncHandler(async (req, res, next) => {
+  const userId = req.params.id;
+  const user = await User.findById(userId).populate('followers');
+  if (user) {
+    res.status(200).json(user);
+  } else {
+    return throwErrResponse(res, 404, 'User Not Found');
+  }
+});
+
+export const getFollowing = asyncHandler(async (req, res, next) => {
+  const userId = req.params.id;
+  const user = await User.findById(userId).populate('following');
+  if (user) {
+    res.status(200).json(user);
+  } else {
+    return throwErrResponse(res, 404, 'User Not Found');
+  }
+});
