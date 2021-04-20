@@ -1,41 +1,54 @@
 import { Dispatch } from 'redux';
 import {
-  UserRegisterDispatchTypes,
-  USER_REGISTER_LOADING,
-  USER_REGISTER_SUCCESS,
-  USER_REGISTER_FAIL,
-  UserLoginDispatchTypes,
-  USER_LOGIN_LOADING,
-  USER_LOGIN_SUCCESS,
-  USER_LOGIN_FAIL,
   USER_INFO_LOADING,
   USER_INFO_SUCCESS,
   USER_INFO_FAIL,
   UserInfoDispatchTypes,
-  UserLoginSuccess,
   UserLogoutDispatchTypes,
   USER_LOGOUT,
   RegisterUserDataType,
+  LoginUserDataType,
+  UserFollowDispatchTypes,
+  USER_FOLLOW_FAIL,
+  LoggedInUserInfoDispatchTypes,
+  LOGGED_IN_USER_INFO_LOADING,
+  LOGGED_IN_USER_INFO_SUCCESS,
+  LOGGED_IN_USER_INFO_FAIL,
+  UserAuthenticateDispatchTypes,
+  USER_AUTHENTICATE_LOADING,
+  USER_AUTHENTICATE_SUCCESS,
+  USER_AUTHENTICATE_FAIL,
+  UPDATE_AUTH_USER,
 } from './userActionTypes';
 
 import * as api from '../../../api/index';
 
-export const registerUser = (userInfo: RegisterUserDataType) => {
-  return async (
-    dispatch: Dispatch<UserRegisterDispatchTypes | UserLoginSuccess>
-  ) => {
+type AuthType = 'login' | 'register';
+
+export const authenticateUser = (
+  formData: LoginUserDataType | RegisterUserDataType,
+  type: AuthType
+) => {
+  return async (dispatch: Dispatch<UserAuthenticateDispatchTypes>) => {
     try {
-      dispatch({ type: USER_REGISTER_LOADING });
+      dispatch({ type: USER_AUTHENTICATE_LOADING });
 
-      const { data } = await api.registerUser(userInfo);
+      let resData;
+      if (type === 'login') {
+        resData = await api.loginUser(formData);
+      } else {
+        resData = await api.registerUser(formData as RegisterUserDataType);
+      }
 
-      dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
-      dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+      const data = resData.data;
+
+      dispatch({ type: USER_AUTHENTICATE_SUCCESS, payload: data });
+      dispatch({ type: LOGGED_IN_USER_INFO_SUCCESS, payload: data });
 
       localStorage.setItem('userInfo', JSON.stringify(data));
     } catch (err) {
       dispatch({
-        type: USER_REGISTER_FAIL,
+        type: USER_AUTHENTICATE_FAIL,
         payload:
           err.response && err.response.data.message
             ? err.response.data.message
@@ -45,42 +58,18 @@ export const registerUser = (userInfo: RegisterUserDataType) => {
   };
 };
 
-export const loginUser = (loginDetails: {
-  email: string;
-  password: string;
-}) => {
-  return async (dispatch: Dispatch<UserLoginDispatchTypes>) => {
+export const getLoggedInUserInfo = () => {
+  return async (dispatch: Dispatch<LoggedInUserInfoDispatchTypes>) => {
     try {
-      dispatch({ type: USER_LOGIN_LOADING });
+      dispatch({ type: LOGGED_IN_USER_INFO_LOADING });
 
-      const { data } = await api.loginUser(loginDetails);
+      const { data } = await api.getLoggedInUserInfo();
 
-      dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
-
-      localStorage.setItem('userInfo', JSON.stringify(data));
+      dispatch({ type: LOGGED_IN_USER_INFO_SUCCESS, payload: data });
+      dispatch({ type: UPDATE_AUTH_USER, payload: data });
     } catch (err) {
       dispatch({
-        type: USER_LOGIN_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
-      });
-    }
-  };
-};
-
-export const getUserInfo = () => {
-  return async (dispatch: Dispatch<UserInfoDispatchTypes>) => {
-    try {
-      dispatch({ type: USER_INFO_LOADING });
-
-      const { data } = await api.getUserInfo();
-
-      dispatch({ type: USER_INFO_SUCCESS, payload: data });
-    } catch (err) {
-      dispatch({
-        type: USER_INFO_FAIL,
+        type: LOGGED_IN_USER_INFO_FAIL,
         payload:
           err.response && err.response.data.message
             ? err.response.data.message
@@ -101,6 +90,22 @@ export const getUserInfoById = (id: string) => {
     } catch (err) {
       dispatch({
         type: USER_INFO_FAIL,
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
+export const followUser = (id: string) => {
+  return async (dispatch: Dispatch<UserFollowDispatchTypes>) => {
+    try {
+      await api.followUser(id);
+    } catch (err) {
+      dispatch({
+        type: USER_FOLLOW_FAIL,
         payload:
           err.response && err.response.data.message
             ? err.response.data.message

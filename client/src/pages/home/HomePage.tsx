@@ -11,8 +11,8 @@ import Post from '../../components/post/Post';
 const HomePage: React.FC<RouteComponentProps> = ({
   history,
 }: RouteComponentProps) => {
-  const userLoginState = useSelector((state: RootStore) => state.userLogin);
-  const { user } = userLoginState;
+  const userAuthState = useSelector((state: RootStore) => state.userAuth);
+  const { user } = userAuthState;
 
   const postListState = useSelector((state: RootStore) => state.postList);
   const { posts, loading, error } = postListState;

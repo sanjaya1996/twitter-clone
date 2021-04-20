@@ -5,7 +5,6 @@ import { RootStore } from '../../store/store';
 
 import ProfilePage from './ProfilePage';
 import * as userActions from '../../store/actions/user/userActions';
-import TitleBar from '../../components/titleBar/TitleBar';
 
 import './profile.scss';
 
@@ -14,18 +13,23 @@ const MyProfilePage: React.FC<RouteComponentProps> = ({
 }: RouteComponentProps) => {
   const dispatch = useDispatch();
 
-  const userLoginState = useSelector((state: RootStore) => state.userLogin);
-  const { user } = userLoginState;
+  const loggedInUserInfoState = useSelector(
+    (state: RootStore) => state.loggedInUserInfo
+  );
+  const { loading, error, user } = loggedInUserInfoState;
 
   useEffect(() => {
-    dispatch(userActions.getUserInfo());
+    dispatch(userActions.getLoggedInUserInfo());
   }, [dispatch]);
 
-  if (user) {
+  if (loading) {
+    return <p>Loading...</p>;
+  } else if (error) {
+    return <p>{error}</p>;
+  } else if (user) {
     return <ProfilePage userInfo={user} />;
   } else {
-    history.push('/login');
-    return <h1>Not logged in</h1>;
+    return <h1>No User found</h1>;
   }
 };
 

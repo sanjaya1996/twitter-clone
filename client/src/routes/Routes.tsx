@@ -5,13 +5,20 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import pages from './pages';
 
 import { RootStore } from '../store/store';
-import { useSelector } from 'react-redux';
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+
+import * as userActions from '../store/actions/user/userActions';
 
 const Routes: React.FC = () => {
-  const userLoginState = useSelector((store: RootStore) => store.userLogin);
-  const { user } = userLoginState;
+  const dispatch = useDispatch();
+  const userAuthState = useSelector((store: RootStore) => store.userAuth);
+  const { user } = userAuthState;
   const isAuth = !!user;
+
+  useEffect(() => {
+    dispatch(userActions.getLoggedInUserInfo());
+  }, [dispatch]);
 
   return (
     <Router>

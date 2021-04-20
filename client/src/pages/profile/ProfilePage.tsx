@@ -9,6 +9,7 @@ import { RootStore } from '../../store/store';
 import Tabs from '../../components/tabs/Tabs';
 import Post from '../../components/post/Post';
 import * as postActions from '../../store/actions/post/postActions';
+import * as userActions from '../../store/actions/user/userActions';
 
 interface ProfileProps {
   userInfo: UserType;
@@ -17,21 +18,34 @@ interface ProfileProps {
 const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
   const [activeTabId, setActiveTabId] = useState(0);
 
-  const { _id, firstName, lastName, userName, profilePic } = userInfo;
-
-  const isFollowing = true;
-  const followBtnText = isFollowing ? 'Following' : 'Follow';
-  const followBtnClass = isFollowing
-    ? 'followButton following'
-    : 'followButton';
+  const {
+    _id,
+    firstName,
+    lastName,
+    userName,
+    profilePic,
+    followers,
+    following,
+  } = userInfo;
 
   const dispatch = useDispatch();
 
-  const userLoginState = useSelector((state: RootStore) => state.userLogin);
+  const userLoginState = useSelector(
+    (state: RootStore) => state.loggedInUserInfo
+  );
   const { user: loggedInUser } = userLoginState;
 
   const postListState = useSelector((state: RootStore) => state.postList);
   const { posts, loading, error } = postListState;
+
+  const isFollowing =
+    loggedInUser?.following && loggedInUser.following.includes(_id);
+  const followBtnText = isFollowing ? 'Following' : 'Follow';
+  const followBtnClass = isFollowing
+    ? 'followButton following'
+    : 'followButton';
+  const followingCount = following.length || 0;
+  const followersCount = followers.length || 0;
 
   useEffect(() => {
     if (activeTabId === 0) {
@@ -56,6 +70,10 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
     },
   ];
 
+  const followUserHandler = () => {
+    dispatch(userActions.followUser(_id));
+  };
+
   const tabSelectHandler = (id: number) => {
     setActiveTabId(id);
   };
@@ -68,12 +86,14 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
           <ProfileImage uri={profilePic} />
         </div>
         <div className='profileButtonsContainer'>
-          {loggedInUser?._id === _id && (
+          {loggedInUser?._id !== _id && (
             <>
-              <Link to={`/messages/${_id}`} className='profileButton'>
+              <button className='profileButton'>
                 <i className='fas fa-envelope'></i>
-              </Link>
-              <button className={followBtnClass}>{followBtnText}</button>
+              </button>
+              <button onClick={followUserHandler} className={followBtnClass}>
+                {followBtnText}
+              </button>
             </>
           )}
         </div>
@@ -83,11 +103,11 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
           <span className='description'></span>
           <div className='followersContainer'>
             <Link to={`/profile/${userName}/following`}>
-              <span className='value'>0</span>
+              <span className='value'>{followingCount}</span>
               <span>Following</span>
             </Link>
             <Link to={`/profile/${userName}/following`}>
-              <span className='value'>0</span>
+              <span className='value'>{followersCount}</span>
               <span>Followers</span>
             </Link>
           </div>

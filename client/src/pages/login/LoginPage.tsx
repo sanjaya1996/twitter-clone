@@ -16,8 +16,8 @@ const LoginPage: React.FC<RouteComponentProps> = ({
   const [logUserName, setLogUserName] = useState('');
   const [logPassword, setLogPassword] = useState('');
 
-  const userLoginState = useSelector((state: RootStore) => state.userLogin);
-  const { error, user } = userLoginState;
+  const userAuthState = useSelector((state: RootStore) => state.userAuth);
+  const { error, user } = userAuthState;
 
   const dispatch = useDispatch();
 
@@ -30,7 +30,10 @@ const LoginPage: React.FC<RouteComponentProps> = ({
   const loginHandler = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(
-      userActions.loginUser({ email: logUserName, password: logPassword })
+      userActions.authenticateUser(
+        { email: logUserName, password: logPassword },
+        'login'
+      )
     );
   };
 

@@ -21,6 +21,7 @@ export type LoggedInUserType = {
   userName: string;
   email: string;
   profilePic: string;
+  token?: string;
 };
 
 export interface UserRegisterData {

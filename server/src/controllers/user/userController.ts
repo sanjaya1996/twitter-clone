@@ -86,6 +86,8 @@ export const loginUser: RequestHandler = asyncHandler(
       lastName: user.lastName,
       userName: user.userName,
       profilePic: user.profilePic,
+      following: user.following,
+      followers: user.followers,
       token: generateToken(user._id),
     });
   }

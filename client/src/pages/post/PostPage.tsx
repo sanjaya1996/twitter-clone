@@ -17,8 +17,8 @@ const ViewPostPage: React.FC<RouteComponentProps<RouteParams>> = ({
 
   const dispatch = useDispatch();
 
-  const userLoginState = useSelector((state: RootStore) => state.userLogin);
-  const { user } = userLoginState;
+  const userAuthState = useSelector((state: RootStore) => state.userAuth);
+  const { user } = userAuthState;
 
   const postDetalsState = useSelector((state: RootStore) => state.postDetails);
   const { loading, error, post } = postDetalsState;

@@ -1,19 +1,19 @@
 import {
-  UserRegisterDispatchTypes,
   UserType,
-  USER_REGISTER_LOADING,
-  USER_REGISTER_SUCCESS,
-  USER_REGISTER_FAIL,
   UserInfoDispatchTypes,
   USER_INFO_LOADING,
   USER_INFO_SUCCESS,
   USER_INFO_FAIL,
-  UserLoginDispatchTypes,
-  USER_LOGIN_LOADING,
-  USER_LOGIN_SUCCESS,
-  USER_LOGIN_FAIL,
   LoggedInUserI,
   USER_LOGOUT,
+  LoggedInUserInfoDispatchTypes,
+  LOGGED_IN_USER_INFO_LOADING,
+  LOGGED_IN_USER_INFO_SUCCESS,
+  LOGGED_IN_USER_INFO_FAIL,
+  USER_AUTHENTICATE_LOADING,
+  UserAuthenticateDispatchTypes,
+  USER_AUTHENTICATE_SUCCESS,
+  USER_AUTHENTICATE_FAIL,
 } from '../actions/user/userActionTypes';
 
 interface DefaultStateI {
@@ -36,16 +36,16 @@ const defaultLoginState: DefaultLoginStateI = {
   loading: false,
 };
 
-export const userRegisterReducer = (
+export const userAuthenticateReducer = (
   state: DefaultLoginStateI = defaultLoginState,
-  action: UserRegisterDispatchTypes
+  action: UserAuthenticateDispatchTypes
 ): DefaultLoginStateI => {
   switch (action.type) {
-    case USER_REGISTER_LOADING:
+    case USER_AUTHENTICATE_LOADING:
       return { loading: true };
-    case USER_REGISTER_SUCCESS:
+    case USER_AUTHENTICATE_SUCCESS:
       return { loading: false, user: action.payload };
-    case USER_REGISTER_FAIL:
+    case USER_AUTHENTICATE_FAIL:
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
       return {};
@@ -54,16 +54,16 @@ export const userRegisterReducer = (
   }
 };
 
-export const userLoginReducer = (
-  state: DefaultLoginStateI = defaultLoginState,
-  action: UserLoginDispatchTypes
-): DefaultLoginStateI => {
+export const loggedInUserInfoReducer = (
+  state: DefaultStateI = defaultState,
+  action: LoggedInUserInfoDispatchTypes
+): DefaultStateI => {
   switch (action.type) {
-    case USER_LOGIN_LOADING:
+    case LOGGED_IN_USER_INFO_LOADING:
       return { loading: true };
-    case USER_LOGIN_SUCCESS:
+    case LOGGED_IN_USER_INFO_SUCCESS:
       return { loading: false, user: action.payload };
-    case USER_LOGIN_FAIL:
+    case LOGGED_IN_USER_INFO_FAIL:
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
       return {};

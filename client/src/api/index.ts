@@ -18,10 +18,12 @@ export const registerUser = (userInfo: RegisterUserDataType) =>
 export const loginUser = (loginDetails: { email: string; password: string }) =>
   API.post('/api/users/login', loginDetails);
 
-export const getUserInfo = () => API.get('/api/users/myprofile');
+export const getLoggedInUserInfo = () => API.get('/api/users/myprofile');
 
 export const getUserInfoById = (id: string) =>
   API.get(`/api/users/profile/${id}`);
+
+export const followUser = (id: string) => API.put(`/api/users/${id}/follow`);
 
 // POSTS
 export const fetchPosts = () => API.get('/api/posts');

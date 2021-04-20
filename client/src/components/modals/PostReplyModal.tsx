@@ -19,8 +19,8 @@ const PostReplyModal: React.FC<PostReplyProps> = ({ postId }) => {
 
   const dispatch = useDispatch();
 
-  const userLoginState = useSelector((state: RootStore) => state.userLogin);
-  const { user } = userLoginState;
+  const userAuthState = useSelector((state: RootStore) => state.userAuth);
+  const { user } = userAuthState;
 
   const posts = useSelector((state: RootStore) => state.postList.posts);
   const post = posts.find((p) => p._id === postId);

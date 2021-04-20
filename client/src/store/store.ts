@@ -10,7 +10,7 @@ const userInfoFromStorage: LoggedInUserI = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo')!)
   : null;
 
-const initialState = { userLogin: { user: userInfoFromStorage } };
+const initialState = { userAuth: { user: userInfoFromStorage } };
 
 const store = createStore(
   rootReducer,

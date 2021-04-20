@@ -7,15 +7,15 @@ import {
   postListReducer,
 } from './postReducer';
 import {
+  loggedInUserInfoReducer,
+  userAuthenticateReducer,
   userInfoReducer,
-  userLoginReducer,
-  userRegisterReducer,
 } from './userReducer';
 
 const RootReducer = combineReducers({
-  userRegister: userRegisterReducer,
-  userLogin: userLoginReducer,
+  userAuth: userAuthenticateReducer,
   userInfo: userInfoReducer,
+  loggedInUserInfo: loggedInUserInfoReducer,
   postList: postListReducer,
   postDetails: postDetailsReducer,
   postCreate: postCreateReducer,

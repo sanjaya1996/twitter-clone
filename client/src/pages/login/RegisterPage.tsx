@@ -21,11 +21,9 @@ const RegisterPage = ({ history }: RouteComponentProps) => {
 
   const dispatch = useDispatch();
 
-  const userRegisterState = useSelector(
-    (state: RootStore) => state.userRegister
-  );
+  const userAuthState = useSelector((state: RootStore) => state.userAuth);
 
-  const { error, user } = userRegisterState;
+  const { error, user } = userAuthState;
 
   useEffect(() => {
     if (user) {
@@ -37,13 +35,16 @@ const RegisterPage = ({ history }: RouteComponentProps) => {
     e.preventDefault();
     if (password === confirmedPassword) {
       dispatch(
-        userActions.registerUser({
-          firstName,
-          lastName,
-          userName,
-          email,
-          password,
-        })
+        userActions.authenticateUser(
+          {
+            firstName,
+            lastName,
+            userName,
+            email,
+            password,
+          },
+          'register'
+        )
       );
     } else {
       alert('Passwords do not match. Please try again!');
