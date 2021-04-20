@@ -23,12 +23,17 @@ import {
   USER_FOLLOWING_LIST_LOADING,
   USER_FOLLOWING_LIST_SUCCESS,
   USER_FOLLOWING_LIST_FAIL,
+  UserFollowDispatchTypes,
+  USER_FOLLOW_SUCCESS,
+  USER_FOLLOW_LOADING,
+  USER_FOLLOW_FAIL,
 } from '../actions/user/userActionTypes';
 
 interface DefaultStateI {
   loading?: boolean;
   user?: UserType;
   error?: string;
+  success?: boolean;
 }
 
 interface DefaultLoginStateI {
@@ -110,6 +115,22 @@ export const userInfoReducer = (
         updatedUser.followers?.push(newFollowerId);
       }
       return { user: updatedUser };
+    default:
+      return state;
+  }
+};
+
+export const userFollowReducer = (
+  state: DefaultStateI = {},
+  action: UserFollowDispatchTypes
+): DefaultStateI => {
+  switch (action.type) {
+    case USER_FOLLOW_LOADING:
+      return { loading: true };
+    case USER_FOLLOW_SUCCESS:
+      return { loading: false, success: true };
+    case USER_FOLLOW_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

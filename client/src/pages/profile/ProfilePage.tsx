@@ -71,7 +71,7 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
   ];
 
   const followUserHandler = () => {
-    dispatch(userActions.followUser(_id));
+    dispatch(userActions.followUser(_id, true));
   };
 
   const tabSelectHandler = (id: number) => {
@@ -102,11 +102,11 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
           <span className='username'>@{userName}</span>
           <span className='description'></span>
           <div className='followersContainer'>
-            <Link to={`/profile/${userName}/following`}>
+            <Link to={`/profile/${_id}/following`}>
               <span className='value'>{followingCount}</span>
               <span>Following</span>
             </Link>
-            <Link to={`/profile/${userName}/following`}>
+            <Link to={`/profile/${_id}/followers`}>
               <span className='value'>{followersCount}</span>
               <span>Followers</span>
             </Link>

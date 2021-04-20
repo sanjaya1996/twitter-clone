@@ -16,11 +16,24 @@ import {
 export const getPosts: RequestHandler = asyncHandler(async (req, res, next) => {
   // const userId = req.user._id;
   const searchObj: GetPostsQueryI = req.query;
+  console.log(searchObj, 'First');
 
   if (searchObj.isReply) {
     const isReply = searchObj.isReply == 'true';
     searchObj.replyTo = { $exists: isReply };
     delete searchObj.isReply;
+  }
+
+  if (searchObj.followingOnly) {
+    const followingOnly = searchObj.followingOnly === 'true';
+    if (followingOnly) {
+      const objectIds = req.user.following;
+      objectIds.push(req.user._id);
+
+      searchObj.postedBy = { $in: objectIds };
+    }
+
+    delete searchObj.followingOnly;
   }
 
   const results = await getPostsFromDB(searchObj);

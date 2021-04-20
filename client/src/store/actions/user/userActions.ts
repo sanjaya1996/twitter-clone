@@ -108,14 +108,16 @@ export const getUserInfoById = (id: string) => {
   };
 };
 
-export const followUser = (id: string) => {
+export const followUser = (id: string, updateUserInfo?: boolean) => {
   return async (dispatch: Dispatch<UserFollowDispatchTypes>) => {
     try {
       const { data } = await api.followUser(id);
 
       dispatch({ type: UPDATE_AUTH_USER, payload: data });
       dispatch({ type: LOGGED_IN_USER_INFO_SUCCESS, payload: data });
-      dispatch({ type: USER_INFO_UPDATE_FOLLOWERS, payload: id });
+      if (updateUserInfo) {
+        dispatch({ type: USER_INFO_UPDATE_FOLLOWERS, payload: data._id });
+      }
     } catch (err) {
       dispatch({
         type: USER_FOLLOW_FAIL,
@@ -135,7 +137,7 @@ export const getUserFollowers = (id: string) => {
 
       const { data } = await api.getUserFollowers(id);
 
-      dispatch({ type: USER_FOLLOWERS_SUCCESS, payload: data });
+      dispatch({ type: USER_FOLLOWERS_SUCCESS, payload: data.followers });
     } catch (err) {
       dispatch({
         type: USER_FOLLOWERS_FAIL,
@@ -153,9 +155,9 @@ export const getUserFollowing = (id: string) => {
     try {
       dispatch({ type: USER_FOLLOWING_LIST_LOADING });
 
-      const { data } = await api.getUserFollowers(id);
+      const { data } = await api.getUserFollowng(id);
 
-      dispatch({ type: USER_FOLLOWING_LIST_SUCCESS, payload: data });
+      dispatch({ type: USER_FOLLOWING_LIST_SUCCESS, payload: data.following });
     } catch (err) {
       dispatch({
         type: USER_FOLLOWING_LIST_FAIL,

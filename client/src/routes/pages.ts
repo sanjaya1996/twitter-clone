@@ -6,6 +6,7 @@ import RegisterPage from '../pages/login/RegisterPage';
 import PostPage from '../pages/post/PostPage';
 import MyProfilePage from '../pages/profile/MyProfilePage';
 import OthersProfilePage from '../pages/profile/OthersProfilePage';
+import FollowersFollowingPage from '../pages/profile/followers-following/FollowersFollowingPage';
 
 interface PagesInterface {
   exact: boolean;
@@ -41,6 +42,13 @@ const pages: PagesInterface[] = [
     exact: true,
     path: '/profile/:id',
     component: OthersProfilePage,
+    layout: MainLayout,
+    protect: true,
+  },
+  {
+    exact: true,
+    path: '/profile/:id/:tabname',
+    component: FollowersFollowingPage,
     layout: MainLayout,
     protect: true,
   },

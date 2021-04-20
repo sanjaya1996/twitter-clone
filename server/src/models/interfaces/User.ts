@@ -22,6 +22,8 @@ export type LoggedInUserType = {
   email: string;
   profilePic: string;
   token?: string;
+  following: string[];
+  followers: string[];
 };
 
 export interface UserRegisterData {

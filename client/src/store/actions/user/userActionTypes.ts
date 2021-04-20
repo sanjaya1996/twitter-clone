@@ -125,7 +125,7 @@ export interface UserFollowLoading {
 
 export interface UserFollowSuccess {
   type: typeof USER_FOLLOW_SUCCESS;
-  payload: UserType;
+  payload: string;
 }
 
 export interface UserFollowFail {

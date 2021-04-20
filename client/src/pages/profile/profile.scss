@@ -29,25 +29,6 @@
     text-align: right;
     padding: $spacing;
     min-height: 66px;
-
-    .profileButton,
-    .followButton {
-      border: 1px solid $primary-blue;
-      color: $primary-blue;
-      font-weight: bold;
-      padding: 5px 15px;
-      border-radius: 60px;
-      display: inline-block;
-      margin-left: $spacing;
-
-      &:hover {
-        background-color: $blueBackground;
-      }
-    }
-    .followButton.following {
-      background-color: $primary-blue;
-      color: #fff;
-    }
   }
 
   .userDetailsContainer {
@@ -73,4 +54,23 @@
       }
     }
   }
+}
+
+.profileButton,
+.followButton {
+  border: 1px solid $primary-blue;
+  color: $primary-blue;
+  font-weight: bold;
+  padding: 5px 15px;
+  border-radius: 60px;
+  display: inline-block;
+  margin-left: $spacing;
+
+  &:hover {
+    background-color: $blueBackground;
+  }
+}
+.followButton.following {
+  background-color: $primary-blue;
+  color: #fff;
 }

@@ -1,0 +1,17 @@
+@import '../../sass/helpers/variables';
+
+.resultsContainer {
+  display: flex;
+  flex-direction: column;
+
+  .user {
+    padding: $spacing;
+    display: flex;
+    border-bottom: 1px solid $lightGrey;
+
+    .userDetailsContainer {
+      flex: 1;
+      padding: 0 $spacing;
+    }
+  }
+}
