@@ -14,6 +14,7 @@ import {
   UserAuthenticateDispatchTypes,
   USER_AUTHENTICATE_SUCCESS,
   USER_AUTHENTICATE_FAIL,
+  USER_INFO_UPDATE_FOLLOWERS,
 } from '../actions/user/userActionTypes';
 
 interface DefaultStateI {
@@ -85,6 +86,16 @@ export const userInfoReducer = (
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
       return {};
+    case USER_INFO_UPDATE_FOLLOWERS:
+      const newFollowerId = action.payload;
+      const index = state.user?.followers.indexOf(newFollowerId);
+      let updatedUser = { ...state.user } as LoggedInUserI;
+      if (index !== undefined && index > -1) {
+        updatedUser.followers?.splice(index, 1);
+      } else {
+        updatedUser.followers?.push(newFollowerId);
+      }
+      return { user: updatedUser };
     default:
       return state;
   }

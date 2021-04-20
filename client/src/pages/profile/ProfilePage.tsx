@@ -30,10 +30,10 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
 
   const dispatch = useDispatch();
 
-  const userLoginState = useSelector(
+  const loggedInUserState = useSelector(
     (state: RootStore) => state.loggedInUserInfo
   );
-  const { user: loggedInUser } = userLoginState;
+  const { user: loggedInUser } = loggedInUserState;
 
   const postListState = useSelector((state: RootStore) => state.postList);
   const { posts, loading, error } = postListState;

@@ -14,6 +14,8 @@ export const USER_INFO_LOADING = 'USER_INFO_LOADING';
 export const USER_INFO_FAIL = 'USER_INFO_FAIL';
 export const USER_INFO_SUCCESS = 'USER_INFO_SUCCESS';
 
+export const USER_INFO_UPDATE_FOLLOWERS = 'USER_INFO_UPDATE_FOLLOWERS';
+
 export const USER_FOLLOW_LOADING = 'USER_FOLLOW_LOADING';
 export const USER_FOLLOW_FAIL = 'USER_FOLLOW_FAIL';
 export const USER_FOLLOW_SUCCESS = 'USER_FOLLOW_SUCCESS';
@@ -102,6 +104,12 @@ export interface UserInfoSuccess {
   payload: UserType;
 }
 
+// UPDATE USER INFO
+export interface UserInfoUpdateFollowers {
+  type: typeof USER_INFO_UPDATE_FOLLOWERS;
+  payload: string;
+}
+
 // FOLLOW USER
 export interface UserFollowLoading {
   type: typeof USER_FOLLOW_LOADING;
@@ -137,11 +145,15 @@ export type UserInfoDispatchTypes =
   | UserInfoLoading
   | UserInfoFail
   | UserInfoSuccess
-  | UserLogout;
+  | UserLogout
+  | UserInfoUpdateFollowers;
 
 export type UserFollowDispatchTypes =
   | UserFollowLoading
   | UserFollowFail
-  | UserFollowSuccess;
+  | UserFollowSuccess
+  | UserInfoUpdateFollowers
+  | UpdateAuthUser
+  | LoggedInUserInfoSuccess;
 
 export type UserLogoutDispatchTypes = UserLogout;

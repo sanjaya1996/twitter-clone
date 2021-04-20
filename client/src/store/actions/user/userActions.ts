@@ -19,6 +19,7 @@ import {
   USER_AUTHENTICATE_SUCCESS,
   USER_AUTHENTICATE_FAIL,
   UPDATE_AUTH_USER,
+  USER_INFO_UPDATE_FOLLOWERS,
 } from './userActionTypes';
 
 import * as api from '../../../api/index';
@@ -102,7 +103,11 @@ export const getUserInfoById = (id: string) => {
 export const followUser = (id: string) => {
   return async (dispatch: Dispatch<UserFollowDispatchTypes>) => {
     try {
-      await api.followUser(id);
+      const { data } = await api.followUser(id);
+
+      dispatch({ type: UPDATE_AUTH_USER, payload: data });
+      dispatch({ type: LOGGED_IN_USER_INFO_SUCCESS, payload: data });
+      dispatch({ type: USER_INFO_UPDATE_FOLLOWERS, payload: id });
     } catch (err) {
       dispatch({
         type: USER_FOLLOW_FAIL,
