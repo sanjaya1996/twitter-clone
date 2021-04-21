@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import Cropper from 'cropperjs';
+import 'cropperjs/src/css/cropper.scss';
+import ModalLayout from './ModalLayout';
 
 import './modal.scss';
-import ModalLayout from './ModalLayout';
+import 'react-image-crop/lib/ReactCrop.scss';
+
+let cropper: Cropper;
 
 interface ImageUploadProps {
   showModal: boolean;
@@ -14,7 +19,9 @@ const ImageUploadModal: React.FC<ImageUploadProps> = ({
   closeModal,
 }) => {
   const [show, setShow] = useState(showModal || false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
+  const imageElementRef = React.createRef<HTMLImageElement>();
   const dispatch = useDispatch();
 
   const handleClose = () => {
@@ -23,10 +30,37 @@ const ImageUploadModal: React.FC<ImageUploadProps> = ({
   };
 
   const imageUploadHandler = () => {
+    const canvas = cropper.getCroppedCanvas();
+    if (!canvas) {
+      return alert('Could not upload image. Make suer it is an image file.');
+    }
+
+    canvas.toBlob((blob) => console.log(blob, 'BLOOOOB'));
     console.log('Uploaded');
+    // const result = getCroppedImg(imageUrl, crop);
+    // setCroppedImg(result);
     // dispatch(postActions.deletePost(postId));
     handleClose();
   };
+
+  const fileChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const url = URL.createObjectURL(file);
+      setImageUrl(url);
+    } else {
+      console.log('No file selected');
+    }
+  };
+
+  useEffect(() => {
+    if (imageUrl) {
+      cropper = new Cropper(imageElementRef.current!, {
+        aspectRatio: 1 / 1,
+        background: false,
+      });
+    }
+  }, [imageUrl, imageElementRef]);
 
   return (
     <>
@@ -39,7 +73,17 @@ const ImageUploadModal: React.FC<ImageUploadProps> = ({
         submitHandler={imageUploadHandler}
         handleClose={handleClose}
       >
-        Upload Your Profile Picture Here.
+        <input type='file' name='filePhoto' onChange={fileChangeHandler} />
+        {imageUrl && (
+          <div className='imagePreviewContainer'>
+            <img
+              src={imageUrl}
+              alt='Preview'
+              id='imagePreview'
+              ref={imageElementRef}
+            />
+          </div>
+        )}
       </ModalLayout>
     </>
   );
