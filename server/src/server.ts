@@ -2,10 +2,12 @@ import express from 'express';
 import './env';
 import 'colors';
 import cors, { CorsOptions } from 'cors';
+import path from 'path';
 
 import connectDB from './config/db';
 import userRoutes from './routes/userRoutes';
 import postRoutes from './routes/postRoutes';
+import uploadRoutes from './routes/uploadRoutes';
 import { errorHandler, notFound } from './middleware/errorMiddleware';
 
 connectDB();
@@ -27,6 +29,10 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
+app.use('/api/uploads', uploadRoutes);
+
+const dirname = path.resolve();
+app.use('/uploads', express.static(path.join(dirname, './uploads')));
 
 app.use(notFound);
 
