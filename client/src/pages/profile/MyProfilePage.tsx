@@ -18,9 +18,14 @@ const MyProfilePage: React.FC<RouteComponentProps> = ({
   );
   const { loading, error, user } = loggedInUserInfoState;
 
+  const profilePicUploadState = useSelector(
+    (state: RootStore) => state.profilePicUpload
+  );
+  const { success } = profilePicUploadState;
+
   useEffect(() => {
     dispatch(userActions.getLoggedInUserInfo());
-  }, [dispatch]);
+  }, [dispatch, success]);
 
   if (loading) {
     return <p>Loading...</p>;

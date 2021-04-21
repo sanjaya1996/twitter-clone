@@ -6,6 +6,7 @@ import {
   postLikeReducer,
   postListReducer,
 } from './postReducer';
+import { profilePicUploadReducer } from './uploadReducer';
 import {
   loggedInUserInfoReducer,
   userAuthenticateReducer,
@@ -22,6 +23,7 @@ const RootReducer = combineReducers({
   userFollow: userFollowReducer,
   userFollowers: userFollowersReducer,
   userFollowingList: userFollowingListReducer,
+  profilePicUpload: profilePicUploadReducer,
   postList: postListReducer,
   postDetails: postDetailsReducer,
   postCreate: postCreateReducer,

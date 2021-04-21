@@ -1,5 +1,8 @@
-import axios from 'axios';
+// ------------------------------ IMPORTS ------------------------------
+import axios, { AxiosRequestConfig } from 'axios';
 import { RegisterUserDataType } from '../store/actions/user/userActionTypes';
+
+// ------------------------------ AXIOS CONFIGURATION ---------------------
 
 const API = axios.create({ baseURL: 'http://localhost:5000' });
 
@@ -10,6 +13,14 @@ API.interceptors.request.use((req) => {
   }
   return req;
 });
+
+const formDataConfig: AxiosRequestConfig = {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+};
+
+// -------------------------------------- ALL API CALLS -----------------------
 
 // USERS
 export const registerUser = (userInfo: RegisterUserDataType) =>
@@ -50,3 +61,7 @@ export const likePost = (id: string) => API.put(`/api/posts/${id}/like`);
 export const retweetPost = (id: string) => API.post(`/api/posts/${id}/retweet`);
 
 export const deletePost = (id: string) => API.delete(`/api/posts/${id}`);
+
+// UPLOADS
+export const uploadProfilePicture = (formData: FormData) =>
+  API.post('/api/uploads/profilePicture', formData, formDataConfig);

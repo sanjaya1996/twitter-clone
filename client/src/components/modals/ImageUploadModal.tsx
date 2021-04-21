@@ -4,6 +4,8 @@ import Cropper from 'cropperjs';
 import 'cropperjs/src/css/cropper.scss';
 import ModalLayout from './ModalLayout';
 
+import * as uploadActions from '../../store/actions/upload/uploadActions';
+
 import './modal.scss';
 import 'react-image-crop/lib/ReactCrop.scss';
 
@@ -24,6 +26,19 @@ const ImageUploadModal: React.FC<ImageUploadProps> = ({
   const imageElementRef = React.createRef<HTMLImageElement>();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (imageUrl) {
+      if (cropper !== undefined) {
+        cropper.destroy();
+      }
+
+      cropper = new Cropper(imageElementRef.current!, {
+        aspectRatio: 1 / 1,
+        background: false,
+      });
+    }
+  }, [imageUrl, imageElementRef]);
+
   const handleClose = () => {
     setShow(false);
     closeModal();
@@ -35,11 +50,16 @@ const ImageUploadModal: React.FC<ImageUploadProps> = ({
       return alert('Could not upload image. Make suer it is an image file.');
     }
 
-    canvas.toBlob((blob) => console.log(blob, 'BLOOOOB'));
-    console.log('Uploaded');
-    // const result = getCroppedImg(imageUrl, crop);
-    // setCroppedImg(result);
-    // dispatch(postActions.deletePost(postId));
+    canvas.toBlob((blob) => {
+      if (blob) {
+        const formData = new FormData();
+        formData.append('profileImage', blob, 'filename.png');
+        dispatch(uploadActions.uploadProfilePic(formData));
+      } else {
+        alert('Could not Upload Image');
+      }
+    });
+
     handleClose();
   };
 
@@ -52,15 +72,6 @@ const ImageUploadModal: React.FC<ImageUploadProps> = ({
       console.log('No file selected');
     }
   };
-
-  useEffect(() => {
-    if (imageUrl) {
-      cropper = new Cropper(imageElementRef.current!, {
-        aspectRatio: 1 / 1,
-        background: false,
-      });
-    }
-  }, [imageUrl, imageElementRef]);
 
   return (
     <>

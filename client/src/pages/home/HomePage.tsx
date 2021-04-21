@@ -11,8 +11,10 @@ import Post from '../../components/post/Post';
 const HomePage: React.FC<RouteComponentProps> = ({
   history,
 }: RouteComponentProps) => {
-  const userAuthState = useSelector((state: RootStore) => state.userAuth);
-  const { user } = userAuthState;
+  const loggedInUserState = useSelector(
+    (state: RootStore) => state.loggedInUserInfo
+  );
+  const { user } = loggedInUserState;
 
   const postListState = useSelector((state: RootStore) => state.postList);
   const { posts, loading, error } = postListState;
@@ -30,12 +32,8 @@ const HomePage: React.FC<RouteComponentProps> = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!user) {
-      history.push('/login');
-    } else {
-      dispatch(postActions.listPosts());
-    }
-  }, [user, history, dispatch, success, successDelete]);
+    dispatch(postActions.listPosts());
+  }, [dispatch, success, successDelete]);
 
   if (!user) {
     return <h1>Authentication Failed, Please Try Again</h1>;
