@@ -33,7 +33,10 @@ const Routes: React.FC = () => {
               if (isPermitted) {
                 if (page.layout) {
                   return (
-                    <page.layout history={props.history}>
+                    <page.layout
+                      history={props.history}
+                      pageTitle={page.pageTitle || null}
+                    >
                       <page.component {...props} />
                     </page.layout>
                   );

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import PostForm from '../../components/postForm/PostForm';
-import TitleBar from '../../components/titleBar/TitleBar';
 
 import { RootStore } from '../../store/store';
 import * as postActions from '../../store/actions/post/postActions';
@@ -44,7 +43,6 @@ const HomePage: React.FC<RouteComponentProps> = ({
 
   return (
     <div>
-      <TitleBar title='Home' />
       <PostForm
         imageUrl={user.profilePic}
         creating={loadingCreate}

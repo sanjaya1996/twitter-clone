@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import TitleBar from '../../components/titleBar/TitleBar';
 import { RootStore } from '../../store/store';
 import * as postActions from '../../store/actions/post/postActions';
 import Post from '../../components/post/Post';
@@ -37,7 +36,6 @@ const ViewPostPage: React.FC<RouteComponentProps<RouteParams>> = ({
 
   return (
     <div>
-      <TitleBar title='View Post' />
       {loading ? (
         <p>Loading...</p>
       ) : error ? (

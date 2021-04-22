@@ -7,6 +7,7 @@ import PostPage from '../pages/post/PostPage';
 import MyProfilePage from '../pages/profile/MyProfilePage';
 import OthersProfilePage from '../pages/profile/OthersProfilePage';
 import FollowersFollowingPage from '../pages/profile/followers-following/FollowersFollowingPage';
+import SearchPage from '../pages/search/SearchPage';
 
 interface PagesInterface {
   exact: boolean;
@@ -14,6 +15,7 @@ interface PagesInterface {
   component: React.FC<any>;
   layout?: React.FC<any>;
   protect: boolean;
+  pageTitle?: string;
 }
 
 const pages: PagesInterface[] = [
@@ -23,6 +25,7 @@ const pages: PagesInterface[] = [
     component: HomePage,
     layout: MainLayout,
     protect: true,
+    pageTitle: 'Home',
   },
   {
     exact: true,
@@ -30,6 +33,7 @@ const pages: PagesInterface[] = [
     component: PostPage,
     layout: MainLayout,
     protect: true,
+    pageTitle: 'View Post',
   },
   {
     exact: true,
@@ -52,8 +56,28 @@ const pages: PagesInterface[] = [
     layout: MainLayout,
     protect: true,
   },
-  { exact: true, path: '/register', component: RegisterPage, protect: false },
-  { exact: true, path: '/login', component: LoginPage, protect: false },
+  {
+    exact: true,
+    path: '/search/:tabname',
+    component: SearchPage,
+    layout: MainLayout,
+    protect: true,
+    pageTitle: 'Search',
+  },
+  {
+    exact: true,
+    path: '/register',
+    component: RegisterPage,
+    protect: false,
+    pageTitle: 'Register',
+  },
+  {
+    exact: true,
+    path: '/login',
+    component: LoginPage,
+    protect: false,
+    pageTitle: 'Login',
+  },
 ];
 
 export default pages;
