@@ -10,6 +10,7 @@ import Post from '../../components/post/Post';
 import * as postActions from '../../store/actions/post/postActions';
 import * as userActions from '../../store/actions/user/userActions';
 import ProfilePageProfile from '../../components/image/ProfilePageProfile';
+import CoverPhoto from '../../components/image/CoverPhoto';
 
 interface ProfileProps {
   userInfo: UserType;
@@ -82,7 +83,8 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
     <>
       <TitleBar title={firstName + ' ' + lastName} />
       <div className='profileHeaderContainer'>
-        <div className='coverPhotoContainer'>
+        <div className='coverPhotoSection'>
+          <CoverPhoto uri={''} profileUser={userInfo} />
           <ProfilePageProfile uri={profilePic} profileUser={userInfo} />
         </div>
         <div className='profileButtonsContainer'>

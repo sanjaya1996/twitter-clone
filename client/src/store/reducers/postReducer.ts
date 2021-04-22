@@ -74,6 +74,10 @@ export const postListReducer = (
       return { loading: false, posts: action.payload };
     case POST_LIST_FAIL:
       return { ...state, loading: false, error: action.payload };
+    case POST_CREATE_SUCCESS:
+      let updatedPosts = [...state.posts];
+      updatedPosts.unshift(action.payload);
+      return { ...state, posts: updatedPosts };
     case POST_LIST_UPDATE_ONLIKE:
       return updatePostField(
         state.posts,

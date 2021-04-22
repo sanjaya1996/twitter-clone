@@ -7,6 +7,7 @@ export interface IUser extends mongoose.Document {
   email: string;
   password: string;
   profilePic?: string;
+  coverPhoto?: string;
   likes: (string | Schema.Types.ObjectId)[];
   retweets: (string | Schema.Types.ObjectId)[];
   following: (string | Schema.Types.ObjectId)[];
@@ -21,6 +22,7 @@ export type LoggedInUserType = {
   userName: string;
   email: string;
   profilePic: string;
+  coverPhoto: string;
   token?: string;
   following: string[];
   followers: string[];

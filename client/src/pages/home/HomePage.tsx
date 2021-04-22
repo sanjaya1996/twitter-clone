@@ -33,7 +33,7 @@ const HomePage: React.FC<RouteComponentProps> = ({
 
   useEffect(() => {
     dispatch(postActions.listPosts());
-  }, [dispatch, success, successDelete]);
+  }, [dispatch, successDelete]);
 
   if (!user) {
     return <h1>Authentication Failed, Please Try Again</h1>;

@@ -5,12 +5,11 @@
 }
 
 .profileHeaderContainer {
-  .coverPhotoContainer {
+  .coverPhotoSection {
     height: 180px;
     background-color: $primary-blue;
     position: relative;
   }
-
   // userImageContainer Class from Post Component
 
   .userImageContainer {

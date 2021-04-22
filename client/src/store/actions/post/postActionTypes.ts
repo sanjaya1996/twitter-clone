@@ -155,6 +155,7 @@ export type PostListDispatchTypes =
   | PostListSuccess
   | PostListFail
   | PostListUpdateOnLike
+  | PostCreateSuccess
   | PostRetweet;
 
 export type PostDetailsDispatchTypes =

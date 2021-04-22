@@ -65,4 +65,27 @@ router.post('/profilePicture', requireLogin, function (req, res, next) {
   });
 });
 
+router.post('/coverPhoto', requireLogin, function (req, res, next) {
+  upload.single('coverPhoto')(req, res, async function (err: any) {
+    try {
+      if (err instanceof multer.MulterError) {
+        return next(err);
+      } else if (!req.file) {
+        const error = new Error('No image was uploaded');
+        return next(error);
+      }
+
+      const filePath = `/${req.file.path}`;
+      req.user = (await User.findByIdAndUpdate(
+        req.user._id,
+        { coverPhoto: filePath },
+        { new: true }
+      )) as LoggedInUserType;
+      res.status(204).json({ message: 'Cover Photo Updated' });
+    } catch (err) {
+      next(err);
+    }
+  });
+});
+
 export default router;

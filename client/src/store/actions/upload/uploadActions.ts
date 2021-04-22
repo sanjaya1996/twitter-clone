@@ -26,3 +26,23 @@ export const uploadProfilePic = (formData: FormData) => {
     }
   };
 };
+
+export const uploadCoverPhoto = (formData: FormData) => {
+  return async (dispatch: Dispatch<ProfilePicUploadDispatchTypes>) => {
+    try {
+      dispatch({ type: PROFILE_PIC_UPLOAD_LOADING });
+
+      await api.uploadCoverPhoto(formData);
+
+      dispatch({ type: PROFILE_PIC_UPLOAD_SUCCESS });
+    } catch (err) {
+      dispatch({
+        type: PROFILE_PIC_UPLOAD_FAIL,
+        payload:
+          err.resposne && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};

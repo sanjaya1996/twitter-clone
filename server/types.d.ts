@@ -6,6 +6,7 @@ declare namespace Express {
     userName: string;
     email: string;
     profilePic: string;
+    coverPhoto: string;
     likes?: string[];
     following: string[];
     followers: string[];

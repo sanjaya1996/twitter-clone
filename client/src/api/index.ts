@@ -65,3 +65,6 @@ export const deletePost = (id: string) => API.delete(`/api/posts/${id}`);
 // UPLOADS
 export const uploadProfilePicture = (formData: FormData) =>
   API.post('/api/uploads/profilePicture', formData, formDataConfig);
+
+export const uploadCoverPhoto = (formData: FormData) =>
+  API.post('/api/uploads/coverPhoto', formData, formDataConfig);

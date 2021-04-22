@@ -47,6 +47,7 @@ export interface UserType {
   lastName: string;
   userName: string;
   profilePic: string;
+  coverPhoto: string;
   email: string;
   following: string[];
   followers: string[];

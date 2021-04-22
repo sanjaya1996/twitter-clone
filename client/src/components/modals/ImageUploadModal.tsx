@@ -13,11 +13,19 @@ let cropper: Cropper;
 
 interface ImageUploadProps {
   showModal: boolean;
+  aspectRatio?: number;
+  dispatchAction?: (formData: FormData) => void;
+  formDataName?: string;
+  modalTitle?: string;
   closeModal: () => void;
 }
 
 const ImageUploadModal: React.FC<ImageUploadProps> = ({
   showModal,
+  aspectRatio = 1 / 1,
+  dispatchAction = uploadActions.uploadProfilePic,
+  formDataName = 'profileImage',
+  modalTitle = 'Upload a new profile picture',
   closeModal,
 }) => {
   const [show, setShow] = useState(showModal || false);
@@ -33,11 +41,11 @@ const ImageUploadModal: React.FC<ImageUploadProps> = ({
       }
 
       cropper = new Cropper(imageElementRef.current!, {
-        aspectRatio: 1 / 1,
+        aspectRatio: aspectRatio,
         background: false,
       });
     }
-  }, [imageUrl, imageElementRef]);
+  }, [imageUrl, imageElementRef, aspectRatio]);
 
   const handleClose = () => {
     setShow(false);
@@ -53,8 +61,8 @@ const ImageUploadModal: React.FC<ImageUploadProps> = ({
     canvas.toBlob((blob) => {
       if (blob) {
         const formData = new FormData();
-        formData.append('profileImage', blob, 'filename.png');
-        dispatch(uploadActions.uploadProfilePic(formData));
+        formData.append(formDataName, blob, 'image.jpg');
+        dispatch(dispatchAction(formData));
       } else {
         alert('Could not Upload Image');
       }
@@ -77,7 +85,7 @@ const ImageUploadModal: React.FC<ImageUploadProps> = ({
     <>
       <ModalLayout
         show={show}
-        title='Upload a new profile picture'
+        title={modalTitle}
         actionBtnText='Save'
         cancelBtnText='Cancel'
         loadingSave={false}
