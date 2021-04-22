@@ -6,6 +6,7 @@ import {
   getPosts,
   likePost,
   retweetPost,
+  updatePost,
 } from '../controllers/post/postController';
 
 import { requireLogin } from '../middleware/authMiddleware';
@@ -16,6 +17,7 @@ router.route('/').get(requireLogin, getPosts).post(requireLogin, createPost);
 router
   .route('/:id')
   .get(requireLogin, getPostById)
+  .put(requireLogin, updatePost)
   .delete(requireLogin, deletePost);
 
 router.put('/:id/like', requireLogin, likePost);

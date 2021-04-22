@@ -88,6 +88,20 @@ export const createPost: RequestHandler = asyncHandler(
   }
 );
 
+export const updatePost: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    const userId = req.user._id;
+    const postId = req.params.id;
+
+    if (req.body.pinned !== undefined) {
+      await Post.updateMany({ postedBy: userId }, { pinned: false });
+    }
+
+    await Post.findByIdAndUpdate(postId, req.body);
+    res.status(200).json({ message: 'Post Updated Successfully' });
+  }
+);
+
 export const likePost: RequestHandler = asyncHandler(async (req, res, next) => {
   const postId = req.params.id;
   const userId = req.user._id;
