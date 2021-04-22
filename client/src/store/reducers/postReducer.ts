@@ -5,6 +5,7 @@ import {
   PostInterface,
   PostLikeDispatchTypes,
   PostListDispatchTypes,
+  PostUpdateDispatchTypes,
   POST_CREATE_FAIL,
   POST_CREATE_LOADING,
   POST_CREATE_SUCCESS,
@@ -22,6 +23,9 @@ import {
   POST_LIST_SUCCESS,
   POST_LIST_UPDATE_ONLIKE,
   POST_RETWEET,
+  POST_UPDATE_FAIL,
+  POST_UPDATE_LOADING,
+  POST_UPDATE_SUCCESS,
 } from '../actions/post/postActionTypes';
 
 // ---TYPES AND INTERFACES
@@ -55,6 +59,10 @@ interface PostDeleteDefaultStateI extends DefaultStateI {
 
 interface PostLikeDefaultStateI extends DefaultStateI {
   post?: PostInterface;
+  success?: boolean;
+}
+
+interface PostUpdateDefaultStateI extends DefaultStateI {
   success?: boolean;
 }
 
@@ -155,6 +163,22 @@ export const postLikeReducer = (
     case POST_LIKE_SUCCESS:
       return { loading: false, success: true, post: action.payload };
     case POST_LIKE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const postUpdateReducer = (
+  state: PostUpdateDefaultStateI = {},
+  action: PostUpdateDispatchTypes
+): PostUpdateDefaultStateI => {
+  switch (action.type) {
+    case POST_UPDATE_LOADING:
+      return { loading: true };
+    case POST_UPDATE_SUCCESS:
+      return { loading: false, success: true };
+    case POST_UPDATE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

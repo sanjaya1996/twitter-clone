@@ -5,6 +5,7 @@ import {
   postDetailsReducer,
   postLikeReducer,
   postListReducer,
+  postUpdateReducer,
 } from './postReducer';
 import { profilePicUploadReducer } from './uploadReducer';
 import {
@@ -29,6 +30,7 @@ const RootReducer = combineReducers({
   postCreate: postCreateReducer,
   postLike: postLikeReducer,
   postDelete: postDeleteReducer,
+  postUpdate: postUpdateReducer,
 });
 
 export default RootReducer;

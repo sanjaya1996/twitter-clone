@@ -10,6 +10,7 @@ import PostReplyModal from '../modals/PostReplyModal';
 import PostDelteModal from '../modals/PostDeleteModal';
 
 import './post.scss';
+import PinPostModal from '../modals/PinPostModal';
 
 interface PostProps {
   post: PostInterface;
@@ -31,6 +32,7 @@ const Post: React.FC<PostProps> = ({ post, userId, largeFont }) => {
     _id: postId,
     likes,
     retweetUsers,
+    pinned,
   } = originalPost;
 
   const isLoggedInUserPost = userId === postedBy._id;
@@ -81,6 +83,11 @@ const Post: React.FC<PostProps> = ({ post, userId, largeFont }) => {
       <div className='mainContentContainer'>
         <ProfileImage uri={postedBy.profilePic} />
         <div className='postContentContainer'>
+          {pinned && (
+            <div className='pinnedPostText'>
+              <i className='fas fa-thumbtack'></i> <span> Pinned post</span>{' '}
+            </div>
+          )}
           <div className='header'>
             <Link
               to={`/profile/${postedBy.userName}`}
@@ -91,7 +98,12 @@ const Post: React.FC<PostProps> = ({ post, userId, largeFont }) => {
             </Link>
             <span className='username'> @{postedBy.userName}</span>
             <span className='date'> {timeStamp}</span>
-            {isLoggedInUserPost && <PostDelteModal postId={postId} />}
+            {isLoggedInUserPost && (
+              <>
+                <PinPostModal postId={postId} isPinned={pinned} />
+                <PostDelteModal postId={postId} />
+              </>
+            )}
           </div>
           {isReply && (
             <div className='replyFlag'>

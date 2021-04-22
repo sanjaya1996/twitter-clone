@@ -3,9 +3,11 @@ import {
   PostCreateDispatchTypes,
   PostDeleteDispatchTypes,
   PostDetailsDispatchTypes,
+  PostInterface,
   PostLikeDispatchTypes,
   PostListDispatchTypes,
   PostRetweetDispatchType,
+  PostUpdateDispatchTypes,
   POST_CREATE_FAIL,
   POST_CREATE_LOADING,
   POST_CREATE_SUCCESS,
@@ -23,6 +25,9 @@ import {
   POST_LIST_SUCCESS,
   POST_LIST_UPDATE_ONLIKE,
   POST_RETWEET,
+  POST_UPDATE_FAIL,
+  POST_UPDATE_LOADING,
+  POST_UPDATE_SUCCESS,
 } from './postActionTypes';
 
 import * as api from '../../../api/index';
@@ -150,6 +155,28 @@ export const deletePost = (id: string) => {
     } catch (err) {
       dispatch({
         type: POST_DELETE_FAIL,
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
+};
+
+export const updatePost = (id: string, data: Partial<PostInterface>) => {
+  return async (dispatch: Dispatch<PostUpdateDispatchTypes>) => {
+    try {
+      dispatch({ type: POST_UPDATE_LOADING });
+
+      const {
+        data: { message },
+      } = await api.updatePost(id, data);
+
+      dispatch({ type: POST_UPDATE_SUCCESS, payload: message });
+    } catch (err) {
+      dispatch({
+        type: POST_UPDATE_FAIL,
         payload:
           err.response && err.response.data.message
             ? err.response.data.message

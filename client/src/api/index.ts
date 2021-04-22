@@ -1,6 +1,7 @@
 // ------------------------------ IMPORTS ------------------------------
 import axios, { AxiosRequestConfig } from 'axios';
 import { RegisterUserDataType } from '../store/actions/user/userActionTypes';
+import { PostInterface } from '../store/actions/post/postActionTypes';
 
 // ------------------------------ AXIOS CONFIGURATION ---------------------
 
@@ -62,6 +63,8 @@ export const retweetPost = (id: string) => API.post(`/api/posts/${id}/retweet`);
 
 export const deletePost = (id: string) => API.delete(`/api/posts/${id}`);
 
+export const updatePost = (id: string, body: Partial<PostInterface>) =>
+  API.put(`/api/posts/${id}`, body);
 // UPLOADS
 export const uploadProfilePicture = (formData: FormData) =>
   API.post('/api/uploads/profilePicture', formData, formDataConfig);

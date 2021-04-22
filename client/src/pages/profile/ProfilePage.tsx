@@ -31,13 +31,18 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
 
   const dispatch = useDispatch();
 
-  const loggedInUserState = useSelector(
-    (state: RootStore) => state.loggedInUserInfo
-  );
+  const state = useSelector((state: RootStore) => state);
+
+  const loggedInUserState = state.loggedInUserInfo;
   const { user: loggedInUser } = loggedInUserState;
 
-  const postListState = useSelector((state: RootStore) => state.postList);
+  const postListState = state.postList;
   const { posts, loading, error } = postListState;
+
+  const postUpdateState = state.postUpdate;
+  const { success } = postUpdateState;
+
+  const pinnedPost = posts.find((p) => p.pinned === true);
 
   const isFollowing =
     loggedInUser?.following && loggedInUser.following.includes(_id);
@@ -54,7 +59,7 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
     } else if (activeTabId === 1) {
       dispatch(postActions.listPosts(_id, true));
     }
-  }, [dispatch, _id, activeTabId]);
+  }, [dispatch, _id, activeTabId, success]);
 
   const TABS = [
     {
@@ -123,9 +128,16 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
       ) : posts.length === 0 ? (
         <p>Nothing to Show</p>
       ) : (
-        posts.map((post) => (
-          <Post key={post._id} post={post} userId={loggedInUser!._id} />
-        ))
+        <>
+          {activeTabId === 0 && pinnedPost && (
+            <div className='pinnedPostContainer'>
+              <Post post={pinnedPost} userId={loggedInUser!._id} />
+            </div>
+          )}
+          {posts.map((post) => (
+            <Post key={post._id} post={post} userId={loggedInUser!._id} />
+          ))}
+        </>
       )}
     </>
   );

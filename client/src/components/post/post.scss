@@ -25,6 +25,11 @@
       flex-direction: column;
       flex: 1;
 
+      .pinnedPostText {
+        font-size: 12px;
+        color: $greyText;
+      }
+
       .header {
         display: flex;
 

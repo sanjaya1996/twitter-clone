@@ -13,14 +13,12 @@ const MyProfilePage: React.FC<RouteComponentProps> = ({
 }: RouteComponentProps) => {
   const dispatch = useDispatch();
 
-  const loggedInUserInfoState = useSelector(
-    (state: RootStore) => state.loggedInUserInfo
-  );
+  const state = useSelector((state: RootStore) => state);
+
+  const loggedInUserInfoState = state.loggedInUserInfo;
   const { loading, error, user } = loggedInUserInfoState;
 
-  const profilePicUploadState = useSelector(
-    (state: RootStore) => state.profilePicUpload
-  );
+  const profilePicUploadState = state.profilePicUpload;
   const { success } = profilePicUploadState;
 
   useEffect(() => {
