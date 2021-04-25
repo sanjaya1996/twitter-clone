@@ -38,8 +38,8 @@ export const getUserFollowers = (id: string) =>
 export const getUserFollowng = (id: string) =>
   API.get(`/api/users/${id}/following`);
 
-export const searchUsers = (value: string) =>
-  API.get(`api/users?search=${value}`);
+export const searchUsers = (keywords: string) =>
+  API.get(`api/users?search=${keywords}`);
 
 export const registerUser = (userInfo: RegisterUserDataType) =>
   API.post('/api/users', userInfo);
@@ -58,8 +58,8 @@ export const fetchUserPostReplies = (userId: string) =>
 
 export const fetchPostDetails = (id: string) => API.get(`/api/posts/${id}`);
 
-export const searchPosts = (value: string) =>
-  API.get(`api/posts?search=${value}`);
+export const searchPosts = (keywords: string) =>
+  API.get(`api/posts?search=${keywords}`);
 
 export const createPost = (data: { content: string; replyTo?: string }) =>
   API.post('/api/posts', data);

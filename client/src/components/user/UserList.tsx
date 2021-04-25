@@ -12,9 +12,13 @@ interface userListProps {
 const UserList: React.FC<userListProps> = ({ users, showBtns }) => {
   return (
     <div className='resultsContainer'>
-      {users.map((user) => (
-        <User key={user._id} user={user} showFollowBtn={showBtns} />
-      ))}
+      {users.length === 0 ? (
+        <p>Nothing to Show</p>
+      ) : (
+        users.map((user) => (
+          <User key={user._id} user={user} showFollowBtn={showBtns} />
+        ))
+      )}
     </div>
   );
 };

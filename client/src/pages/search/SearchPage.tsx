@@ -117,7 +117,9 @@ const SearchPage: React.FC<RouteComponentProps<RouteParams>> = ({
           {selectedTab === 'posts' && (
             <PostList posts={posts} userId={user!._id} />
           )}
-          {selectedTab === 'users' && <UserList users={users} />}
+          {selectedTab === 'users' && (
+            <UserList users={users} showBtns={true} />
+          )}
         </>
       )}
     </>

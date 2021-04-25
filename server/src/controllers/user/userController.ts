@@ -3,10 +3,34 @@ import asyncHandler from 'express-async-handler';
 
 import User from '../../models/schemas/UserSchema';
 import generateToken from '../../utils/generateToken';
-import { UserRegisterData, UserLoginData } from '../../models/interfaces/User';
+import {
+  UserRegisterData,
+  UserLoginData,
+  IUser,
+} from '../../models/interfaces/User';
 
 import { LoggedInUserType } from '../../models/interfaces/User';
 import { throwErrResponse } from '../../utils/throwErrResponse';
+import { FilterQuery } from 'mongoose';
+
+export const getUsers = asyncHandler(async (req, res) => {
+  const queryParams = req.query as { search: string };
+
+  let searchObj = {} as FilterQuery<IUser>;
+
+  if (queryParams.search) {
+    searchObj = {
+      $or: [
+        { firstName: { $regex: queryParams.search, $options: 'i' } },
+        { lastName: { $regex: queryParams.search, $options: 'i' } },
+        { userName: { $regex: queryParams.search, $options: 'i' } },
+      ],
+    };
+  }
+
+  const users = await User.find(searchObj);
+  res.json(users);
+});
 
 export const registerUser: RequestHandler = asyncHandler(async (req, res) => {
   const requestBody = req.body as UserRegisterData;

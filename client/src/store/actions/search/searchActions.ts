@@ -15,11 +15,16 @@ export const search = (searchObj: SearchObjectI) => {
     try {
       dispatch({ type: SEARCH_LOADING });
 
-      if (searchObj.type === 'posts') {
-        const { data } = await api.searchPosts(searchObj.text);
+      const searchingFor = searchObj.type;
+      const keyword = searchObj.text;
+
+      if (searchingFor === 'posts') {
+        const { data } = await api.searchPosts(keyword);
+
         dispatch({ type: SEARCH_POSTS_SUCCESS, payload: data });
-      } else {
-        const { data } = await api.searchUsers(searchObj.text);
+      } else if (searchingFor === 'users') {
+        const { data } = await api.searchUsers(keyword);
+
         dispatch({ type: SEARCH_USERS_SUCCESS, payload: data });
       }
     } catch (err) {
