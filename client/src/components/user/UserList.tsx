@@ -13,7 +13,7 @@ const UserList: React.FC<userListProps> = ({ users, showBtns }) => {
   return (
     <div className='resultsContainer'>
       {users.length === 0 ? (
-        <p>Nothing to Show</p>
+        <p>No results found</p>
       ) : (
         users.map((user) => (
           <User key={user._id} user={user} showFollowBtn={showBtns} />

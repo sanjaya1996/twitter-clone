@@ -8,6 +8,8 @@ import MyProfilePage from '../pages/profile/MyProfilePage';
 import OthersProfilePage from '../pages/profile/OthersProfilePage';
 import FollowersFollowingPage from '../pages/profile/followers-following/FollowersFollowingPage';
 import SearchPage from '../pages/search/SearchPage';
+import InboxPage from '../pages/messages/inbox/InboxPage';
+import NewMessagePage from '../pages/messages/newMessage/NewMessagePage';
 
 interface PagesInterface {
   exact: boolean;
@@ -63,6 +65,22 @@ const pages: PagesInterface[] = [
     layout: MainLayout,
     protect: true,
     pageTitle: 'Search',
+  },
+  {
+    exact: true,
+    path: '/messages',
+    component: InboxPage,
+    layout: MainLayout,
+    protect: true,
+    // pageTitle: 'Inbox',
+  },
+  {
+    exact: true,
+    path: '/messages/new',
+    component: NewMessagePage,
+    layout: MainLayout,
+    protect: true,
+    pageTitle: 'New message',
   },
   {
     exact: true,

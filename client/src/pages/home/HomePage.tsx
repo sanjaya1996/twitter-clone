@@ -5,7 +5,7 @@ import PostForm from '../../components/postForm/PostForm';
 
 import { RootStore } from '../../store/store';
 import * as postActions from '../../store/actions/post/postActions';
-import Post from '../../components/post/Post';
+import PostList from '../../components/post/PostList';
 
 const HomePage: React.FC<RouteComponentProps> = ({
   history,
@@ -53,14 +53,8 @@ const HomePage: React.FC<RouteComponentProps> = ({
         <p>Loading...</p>
       ) : error ? (
         <p>{error}</p>
-      ) : posts.length === 0 ? (
-        <p>No Post to Load</p>
       ) : (
-        <>
-          {posts.map((post) => (
-            <Post key={post._id} post={post} userId={user._id} />
-          ))}
-        </>
+        <PostList posts={posts} userId={user._id} />
       )}
     </div>
   );

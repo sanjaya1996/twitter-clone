@@ -7,4 +7,8 @@
   align-items: center;
   border-bottom: 1px solid $lightGrey;
   flex-shrink: 0;
+
+  h1 {
+    flex: 1;
+  }
 }

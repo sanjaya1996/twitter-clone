@@ -11,7 +11,7 @@ const PostList: React.FC<postListProps> = ({ posts, userId }) => {
   return (
     <>
       {posts.length === 0 ? (
-        <p>Nothing to Show</p>
+        <p>No results found</p>
       ) : (
         posts.map((post) => <Post key={post._id} post={post} userId={userId} />)
       )}
