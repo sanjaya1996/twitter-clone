@@ -24,11 +24,6 @@ const formDataConfig: AxiosRequestConfig = {
 // -------------------------------------- ALL API CALLS -----------------------
 
 // USERS
-export const registerUser = (userInfo: RegisterUserDataType) =>
-  API.post('/api/users', userInfo);
-
-export const loginUser = (loginDetails: { email: string; password: string }) =>
-  API.post('/api/users/login', loginDetails);
 
 export const getLoggedInUserInfo = () => API.get('/api/users/myprofile');
 
@@ -43,6 +38,15 @@ export const getUserFollowers = (id: string) =>
 export const getUserFollowng = (id: string) =>
   API.get(`/api/users/${id}/following`);
 
+export const searchUsers = (value: string) =>
+  API.get(`api/users?search=${value}`);
+
+export const registerUser = (userInfo: RegisterUserDataType) =>
+  API.post('/api/users', userInfo);
+
+export const loginUser = (loginDetails: { email: string; password: string }) =>
+  API.post('/api/users/login', loginDetails);
+
 // POSTS
 export const fetchPosts = () => API.get('/api/posts?followingOnly=true');
 
@@ -54,17 +58,21 @@ export const fetchUserPostReplies = (userId: string) =>
 
 export const fetchPostDetails = (id: string) => API.get(`/api/posts/${id}`);
 
+export const searchPosts = (value: string) =>
+  API.get(`api/posts?search=${value}`);
+
 export const createPost = (data: { content: string; replyTo?: string }) =>
   API.post('/api/posts', data);
 
-export const likePost = (id: string) => API.put(`/api/posts/${id}/like`);
-
 export const retweetPost = (id: string) => API.post(`/api/posts/${id}/retweet`);
 
-export const deletePost = (id: string) => API.delete(`/api/posts/${id}`);
+export const likePost = (id: string) => API.put(`/api/posts/${id}/like`);
 
 export const updatePost = (id: string, body: Partial<PostInterface>) =>
   API.put(`/api/posts/${id}`, body);
+
+export const deletePost = (id: string) => API.delete(`/api/posts/${id}`);
+
 // UPLOADS
 export const uploadProfilePicture = (formData: FormData) =>
   API.post('/api/uploads/profilePicture', formData, formDataConfig);

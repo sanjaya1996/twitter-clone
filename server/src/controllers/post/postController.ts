@@ -35,6 +35,11 @@ export const getPosts: RequestHandler = asyncHandler(async (req, res, next) => {
     delete searchObj.followingOnly;
   }
 
+  if (searchObj.search) {
+    searchObj.content = { $regex: searchObj.search, $options: 'i' };
+    delete searchObj.search;
+  }
+
   const results = await getPostsFromDB(searchObj);
 
   res.json(results);

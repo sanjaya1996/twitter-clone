@@ -20,7 +20,7 @@ const NavBar = () => {
       <Link to='/' className='nav-link'>
         <i className='fas fa-home'></i>
       </Link>
-      <Link to='/search/users' className='nav-link'>
+      <Link to='/search/posts' className='nav-link'>
         <i className='fas fa-search'></i>
       </Link>
       <Link to='/notifications' className='nav-link'>

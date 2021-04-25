@@ -17,8 +17,10 @@ export interface GetPostsResultI {
 }
 
 export interface GetPostsQueryI {
-  postedBy?: {};
   isReply?: 'true' | 'false';
-  replyTo?: {};
   followingOnly?: 'true' | 'false';
+  search?: string;
+  postedBy?: {};
+  replyTo?: {};
+  content?: {};
 }
