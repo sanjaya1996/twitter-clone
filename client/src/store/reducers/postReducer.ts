@@ -66,13 +66,9 @@ interface PostUpdateDefaultStateI extends DefaultStateI {
   success?: boolean;
 }
 
-const postListDefaultState: PostListDefaultStateI = {
-  posts: [],
-};
-
 // ------REDUCERS
 export const postListReducer = (
-  state: PostListDefaultStateI = postListDefaultState,
+  state: PostListDefaultStateI = { posts: [] },
   action: PostListDispatchTypes
 ): PostListDefaultStateI => {
   switch (action.type) {

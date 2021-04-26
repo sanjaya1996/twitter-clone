@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { chatCreateReducer } from './chatReducer';
+import { chatCreateReducer, chatListReducer } from './chatReducer';
 import {
   postCreateReducer,
   postDeleteReducer,
@@ -34,6 +34,7 @@ const RootReducer = combineReducers({
   postDelete: postDeleteReducer,
   postUpdate: postUpdateReducer,
   search: searchReducer,
+  chatList: chatListReducer,
   chatCreate: chatCreateReducer,
 });
 

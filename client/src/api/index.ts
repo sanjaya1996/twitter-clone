@@ -77,6 +77,8 @@ export const updatePost = (id: string, body: Partial<PostInterface>) =>
 export const deletePost = (id: string) => API.delete(`/api/posts/${id}`);
 
 //CHATS
+export const fetchChats = () => API.get('/api/chats');
+
 export const createChat = (users: UserType[]) =>
   API.post('/api/chats', { users });
 

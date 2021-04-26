@@ -2,6 +2,14 @@ import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
 import Chat from '../../models/schemas/ChatSchema';
 
+export const getChats: RequestHandler = asyncHandler(async (req, res, next) => {
+  const chats = await Chat.find({
+    users: { $elemMatch: { $eq: req.user._id } },
+  });
+
+  res.status(200).json(chats);
+});
+
 export const createChat: RequestHandler = asyncHandler(
   async (req, res, next) => {
     const body = req.body as { users: [] };
