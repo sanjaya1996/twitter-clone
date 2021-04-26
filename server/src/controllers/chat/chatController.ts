@@ -5,7 +5,7 @@ import Chat from '../../models/schemas/ChatSchema';
 export const getChats: RequestHandler = asyncHandler(async (req, res, next) => {
   const chats = await Chat.find({
     users: { $elemMatch: { $eq: req.user._id } },
-  });
+  }).populate('users');
 
   res.status(200).json(chats);
 });

@@ -10,6 +10,7 @@ export const CHAT_CREATE_FAIL = 'CHAT_CREATE_FAIL';
 
 export interface ChatInterface {
   _id: string;
+  chatName?: string;
   isGroupChat: boolean;
   users: UserType[];
   latestMessage: string;
