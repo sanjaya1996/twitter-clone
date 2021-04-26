@@ -3,15 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import UserList from '../../../components/user/UserList';
 
 import * as searchActions from '../../../store/actions/search/searchActions';
+import * as chatActions from '../../../store/actions/chat/chatActions';
 import { SEARCH_RESET } from '../../../store/actions/search/searchActionTypes';
 import { UserType } from '../../../store/actions/user/userActionTypes';
 import { RootStore } from '../../../store/store';
 
 import './newMessage.scss';
+import { RouteChildrenProps } from 'react-router';
 
 let timer: NodeJS.Timeout;
 
-const NewMessagePage: React.FC = () => {
+const NewMessagePage: React.FC<RouteChildrenProps> = ({ history }) => {
   const [searchText, setSearchText] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<UserType[]>([]);
@@ -28,16 +30,23 @@ const NewMessagePage: React.FC = () => {
   const searchState = state.search;
   const { users, loading } = searchState;
 
+  const chatCreateState = state.chatCreate;
+  const { success, chat } = chatCreateState;
+
   const selectableUsers = users.filter(
     (u) =>
       u._id !== user?._id && !selectedUsers.some((usr) => usr._id === u._id)
   );
 
   useEffect(() => {
+    if (success && chat) {
+      return history.push(`/messages/${chat._id}`);
+    }
+
     if (searchText.length === 0) {
       dispatch({ type: SEARCH_RESET });
     }
-  }, [searchText, dispatch]);
+  }, [searchText, dispatch, success, history, chat]);
 
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShowSearchResults(false);
@@ -72,14 +81,20 @@ const NewMessagePage: React.FC = () => {
     dispatch({ type: SEARCH_RESET });
   };
 
+  const createChatHandler = () => {
+    dispatch(chatActions.createChat(selectedUsers));
+  };
+
   return (
     <div className='chatPageContainer'>
       <div className='chatTitleBar'>
         <label htmlFor='userSearchTextbox'>To:</label>
         <div id='selectedUsers'>
           {selectedUsers.length > 0 &&
-            selectedUsers.map(({ firstName, lastName }) => (
-              <span className='selectedUser'>{firstName + ' ' + lastName}</span>
+            selectedUsers.map(({ _id, firstName, lastName }) => (
+              <span key={_id} className='selectedUser'>
+                {firstName + ' ' + lastName}
+              </span>
             ))}
           <input
             ref={textInputRef}
@@ -96,7 +111,11 @@ const NewMessagePage: React.FC = () => {
           <UserList users={selectableUsers} onSelectUser={selectUserHandler} />
         )}
       </div>
-      <button id='createChatButton' disabled={selectedUsers.length === 0}>
+      <button
+        id='createChatButton'
+        disabled={selectedUsers.length === 0}
+        onClick={createChatHandler}
+      >
         Create chat
       </button>
     </div>

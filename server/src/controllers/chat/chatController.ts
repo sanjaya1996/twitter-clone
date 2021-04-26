@@ -5,15 +5,17 @@ import Chat from '../../models/schemas/ChatSchema';
 export const createChat: RequestHandler = asyncHandler(
   async (req, res, next) => {
     const body = req.body as { users: [] };
-    let users = [];
 
     if (!body.users || body.users.length === 0) {
       return res.sendStatus(400);
     }
 
-    users.push(req.user);
+    let users = [...req.body.users, req.user];
 
-    const createdChat = Chat.create({ users: users, isGroupChat: true });
+    const createdChat = await Chat.create({
+      users: users,
+      isGroupChat: true,
+    });
 
     res.status(201).json(createdChat);
   }

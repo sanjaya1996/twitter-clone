@@ -1,6 +1,9 @@
 // ------------------------------ IMPORTS ------------------------------
 import axios, { AxiosRequestConfig } from 'axios';
-import { RegisterUserDataType } from '../store/actions/user/userActionTypes';
+import {
+  RegisterUserDataType,
+  UserType,
+} from '../store/actions/user/userActionTypes';
 import { PostInterface } from '../store/actions/post/postActionTypes';
 
 // ------------------------------ AXIOS CONFIGURATION ---------------------
@@ -72,6 +75,10 @@ export const updatePost = (id: string, body: Partial<PostInterface>) =>
   API.put(`/api/posts/${id}`, body);
 
 export const deletePost = (id: string) => API.delete(`/api/posts/${id}`);
+
+//CHATS
+export const createChat = (users: UserType[]) =>
+  API.post('/api/chats', { users });
 
 // UPLOADS
 export const uploadProfilePicture = (formData: FormData) =>
