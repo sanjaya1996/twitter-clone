@@ -8,7 +8,7 @@ import User from '../../models/schemas/UserSchema';
 import { throwErrResponse } from '../../utils/throwErrResponse';
 
 import {
-  IPost,
+  IPostSchema,
   GetPostsResultI,
   GetPostsQueryI,
 } from '../../models/interfaces/Post';
@@ -84,7 +84,7 @@ export const createPost: RequestHandler = asyncHandler(
       postData.replyTo = body.replyTo;
     }
 
-    const createdPost: IPost = await Post.create(postData);
+    const createdPost: IPostSchema = await Post.create(postData);
     const postWithPopulatedUser = await User.populate(createdPost, {
       path: 'postedBy',
     });

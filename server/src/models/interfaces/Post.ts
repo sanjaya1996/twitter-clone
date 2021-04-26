@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-export interface IPost extends mongoose.Document {
+export interface IPostSchema extends mongoose.Document {
   content: string;
   postedBy: Schema.Types.ObjectId | string;
   pinned: boolean;
@@ -11,9 +11,9 @@ export interface IPost extends mongoose.Document {
 }
 
 export interface GetPostsResultI {
-  postData: IPost;
+  postData: IPostSchema;
   replyTo?: any;
-  replies: IPost[];
+  replies: IPostSchema[];
 }
 
 export interface GetPostsQueryI {

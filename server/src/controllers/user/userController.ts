@@ -6,7 +6,7 @@ import generateToken from '../../utils/generateToken';
 import {
   UserRegisterData,
   UserLoginData,
-  IUser,
+  IUserSchema,
 } from '../../models/interfaces/User';
 
 import { LoggedInUserType } from '../../models/interfaces/User';
@@ -16,7 +16,7 @@ import { FilterQuery } from 'mongoose';
 export const getUsers = asyncHandler(async (req, res) => {
   const queryParams = req.query as { search: string };
 
-  let searchObj = {} as FilterQuery<IUser>;
+  let searchObj = {} as FilterQuery<IUserSchema>;
 
   if (queryParams.search) {
     searchObj = {
