@@ -28,6 +28,7 @@ export const searchReducer = (
       return { ...state, loading: false, users: action.payload };
     case SEARCH_RESET:
       return { users: [], posts: [] };
+
     default:
       return state;
   }

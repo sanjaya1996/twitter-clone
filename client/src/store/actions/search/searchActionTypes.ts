@@ -4,11 +4,14 @@ import { UserType } from '../user/userActionTypes';
 export const SEARCH_LOADING = 'SEARCH_LOADING';
 export const SEARCH_POSTS_SUCCESS = 'SEARCH_POSTS_SUCCESS';
 export const SEARCH_USERS_SUCCESS = 'SEARCH_USERS_SUCCESS';
+
 export const SEARCH_FAIL = 'SEARCH_FAIL';
 export const SEARCH_RESET = 'SEARCH_RESET';
 
+export type SearchTypes = 'users' | 'posts';
+
 export interface SearchObjectI {
-  type: 'users' | 'posts';
+  type: SearchTypes;
   text: string;
 }
 

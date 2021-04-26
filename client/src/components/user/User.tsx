@@ -9,8 +9,9 @@ import * as userActions from '../../store/actions/user/userActions';
 interface UserProps {
   user: UserType;
   showFollowBtn?: boolean;
+  onSelectUser?: (user: UserType) => void;
 }
-const User: React.FC<UserProps> = ({ user, showFollowBtn }) => {
+const User: React.FC<UserProps> = ({ user, showFollowBtn, onSelectUser }) => {
   const dispatch = useDispatch();
   const fullName = user.firstName + ' ' + user.lastName;
   const loggedInUserState = useSelector(
@@ -31,8 +32,13 @@ const User: React.FC<UserProps> = ({ user, showFollowBtn }) => {
     dispatch(userActions.followUser(user._id));
   };
 
+  const userSelectHandler = () => {
+    if (onSelectUser) onSelectUser(user);
+    else return;
+  };
+
   return (
-    <div className='user'>
+    <div className='user' onClick={userSelectHandler}>
       <div className='userImageContainer'>
         <img src={user.profilePic} alt='Profile Pic' />
       </div>
