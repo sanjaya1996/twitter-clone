@@ -1,0 +1,65 @@
+@import '../../../sass/helpers/variables';
+
+.chatPageContainer {
+  flex: 1;
+  display: flex;
+  .mainContentContainer {
+    flex: 1;
+    display: flex;
+  }
+}
+
+.chatTitleBarContianer {
+  border-bottom: 1px solid $lightGrey;
+  display: flex;
+  align-items: center;
+  padding: $spacing;
+}
+
+#chatName {
+  width: 100%;
+  border: 1px solid transparent;
+  padding: 0 5px;
+
+  &:hover {
+    border: 1px solid $lightGrey;
+    cursor: text;
+  }
+}
+
+.chatContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+
+  .footer {
+    display: flex;
+    padding: $spacing;
+    flex-shrink: 0px;
+
+    textarea {
+      flex: 1;
+      resize: none;
+      background-color: rgba(0, 0, 0, 0.05);
+      border: none;
+      border-radius: 18px;
+      padding: 8px 12px;
+      height: 38px;
+    }
+
+    button {
+      background-color: transparent;
+      color: $primary-blue;
+      font-size: 24px;
+    }
+  }
+}
+
+.chatMessages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: $spacing;
+}

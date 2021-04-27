@@ -31,6 +31,7 @@ import {
 } from './userActionTypes';
 
 import * as api from '../../../api/index';
+import { getApiErrorMessage } from '../../../utils/errorMessage';
 
 type AuthType = 'login' | 'register';
 
@@ -58,10 +59,7 @@ export const authenticateUser = (
     } catch (err) {
       dispatch({
         type: USER_AUTHENTICATE_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };
@@ -79,10 +77,7 @@ export const getLoggedInUserInfo = () => {
     } catch (err) {
       dispatch({
         type: LOGGED_IN_USER_INFO_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };
@@ -99,10 +94,7 @@ export const getUserInfoById = (id: string) => {
     } catch (err) {
       dispatch({
         type: USER_INFO_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };
@@ -121,10 +113,7 @@ export const followUser = (id: string, updateUserInfo?: boolean) => {
     } catch (err) {
       dispatch({
         type: USER_FOLLOW_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };
@@ -141,10 +130,7 @@ export const getUserFollowers = (id: string) => {
     } catch (err) {
       dispatch({
         type: USER_FOLLOWERS_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };
@@ -161,10 +147,7 @@ export const getUserFollowing = (id: string) => {
     } catch (err) {
       dispatch({
         type: USER_FOLLOWING_LIST_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };

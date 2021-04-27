@@ -10,6 +10,7 @@ import FollowersFollowingPage from '../pages/profile/followers-following/Followe
 import SearchPage from '../pages/search/SearchPage';
 import InboxPage from '../pages/messages/inbox/InboxPage';
 import NewMessagePage from '../pages/messages/newMessage/NewMessagePage';
+import ChatPage from '../pages/messages/chat/ChatPage';
 
 interface PagesInterface {
   exact: boolean;
@@ -81,6 +82,14 @@ const pages: PagesInterface[] = [
     layout: MainLayout,
     protect: true,
     pageTitle: 'New message',
+  },
+  {
+    exact: true,
+    path: '/message/:id',
+    component: ChatPage,
+    layout: MainLayout,
+    protect: true,
+    pageTitle: 'Chat',
   },
   {
     exact: true,

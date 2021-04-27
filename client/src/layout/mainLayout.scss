@@ -1,11 +1,18 @@
 @import '../sass/helpers/variables';
 
 .mainSectionContainer {
+  display: flex;
+  flex-direction: column;
   padding: 0;
   border-left: 1px solid $lightGrey;
   border-right: 1px solid $lightGrey;
 }
 
+.wrapper {
+  height: 100%;
+}
+
 .wrapper > .row {
   margin: 0;
+  height: 100%;
 }

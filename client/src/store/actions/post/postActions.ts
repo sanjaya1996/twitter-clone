@@ -31,6 +31,7 @@ import {
 } from './postActionTypes';
 
 import * as api from '../../../api/index';
+import { getApiErrorMessage } from '../../../utils/errorMessage';
 
 export const listPosts = (userId?: string, isReply?: boolean) => {
   return async (dispatch: Dispatch<PostListDispatchTypes>) => {
@@ -52,10 +53,7 @@ export const listPosts = (userId?: string, isReply?: boolean) => {
     } catch (err) {
       dispatch({
         type: POST_LIST_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };
@@ -72,10 +70,7 @@ export const getPostDetails = (id: string) => {
     } catch (err) {
       dispatch({
         type: POST_DETAILS_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };
@@ -92,10 +87,7 @@ export const createPost = (postData: { content: string; replyTo?: string }) => {
     } catch (err) {
       dispatch({
         type: POST_CREATE_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };
@@ -117,10 +109,7 @@ export const likePost = (id: string, retweetId: string | null) => {
     } catch (err) {
       dispatch({
         type: POST_LIKE_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };
@@ -155,10 +144,7 @@ export const deletePost = (id: string) => {
     } catch (err) {
       dispatch({
         type: POST_DELETE_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };
@@ -177,10 +163,7 @@ export const updatePost = (id: string, data: Partial<PostInterface>) => {
     } catch (err) {
       dispatch({
         type: POST_UPDATE_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };

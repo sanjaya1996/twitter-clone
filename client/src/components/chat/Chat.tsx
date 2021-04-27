@@ -65,7 +65,7 @@ const Chat: React.FC<chatProps> = ({ chat }) => {
 
   const latestMessage = 'This is the latest message '; // TODO
   return (
-    <Link to={`/messages/${chat._id}`} className='resultListItem'>
+    <Link to={`/message/${chat._id}`} className='resultListItem'>
       <div className={`resultsImageContainer ${groupChatClass}`}>
         {images.map((src, i) => (
           <img key={i} src={src} alt='Chat Pic' />

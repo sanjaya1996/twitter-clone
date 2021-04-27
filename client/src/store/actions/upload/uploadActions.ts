@@ -1,5 +1,6 @@
 import { Dispatch } from 'react';
 import * as api from '../../../api/index';
+import { getApiErrorMessage } from '../../../utils/errorMessage';
 import {
   ProfilePicUploadDispatchTypes,
   PROFILE_PIC_UPLOAD_FAIL,
@@ -18,10 +19,7 @@ export const uploadProfilePic = (formData: FormData) => {
     } catch (err) {
       dispatch({
         type: PROFILE_PIC_UPLOAD_FAIL,
-        payload:
-          err.resposne && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };
@@ -38,10 +36,7 @@ export const uploadCoverPhoto = (formData: FormData) => {
     } catch (err) {
       dispatch({
         type: PROFILE_PIC_UPLOAD_FAIL,
-        payload:
-          err.resposne && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };

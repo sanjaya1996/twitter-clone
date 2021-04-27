@@ -9,6 +9,7 @@ import {
 } from './searchActionTypes';
 
 import * as api from '../../../api/index';
+import { getApiErrorMessage } from '../../../utils/errorMessage';
 
 export const search = (searchObj: SearchObjectI) => {
   return async (dispatch: Dispatch<SearchDispatchTypes>) => {
@@ -30,10 +31,7 @@ export const search = (searchObj: SearchObjectI) => {
     } catch (err) {
       dispatch({
         type: SEARCH_FAIL,
-        payload:
-          err.response && err.response.data.message
-            ? err.response.data.message
-            : err.message,
+        payload: getApiErrorMessage(err),
       });
     }
   };
