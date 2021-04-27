@@ -79,3 +79,12 @@ export const createChat: RequestHandler = asyncHandler(
     res.status(201).json(createdChat);
   }
 );
+
+export const updateChat: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    const chatId = req.params.chatId;
+    const data = req.body;
+    await Chat.findByIdAndUpdate(chatId, data);
+    res.sendStatus(204);
+  }
+);

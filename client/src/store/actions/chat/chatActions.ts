@@ -3,6 +3,7 @@ import {
   ChatCreateDispatchTypes,
   ChatDetailsDispatchTypes,
   ChatListDispatchTypes,
+  ChatUpdateDispatchTypes,
   CHAT_CREATE_FAIL,
   CHAT_CREATE_LOADING,
   CHAT_CREATE_SUCCESS,
@@ -12,6 +13,9 @@ import {
   CHAT_LIST_FAIL,
   CHAT_LIST_LOADING,
   CHAT_LIST_SUCCESS,
+  CHAT_UPDATE_FAIL,
+  CHAT_UPDATE_LOADING,
+  CHAT_UPDATE_SUCCESS,
 } from './chatActionTypes';
 
 import * as api from '../../../api/index';
@@ -63,6 +67,23 @@ export const createChat = (users: UserType[]) => {
     } catch (err) {
       dispatch({
         type: CHAT_CREATE_FAIL,
+        payload: getApiErrorMessage(err),
+      });
+    }
+  };
+};
+
+export const updateChat = (id: string, name: string) => {
+  return async (dispatch: Dispatch<ChatUpdateDispatchTypes>) => {
+    try {
+      dispatch({ type: CHAT_UPDATE_LOADING });
+
+      await api.updateChat(id, name);
+
+      dispatch({ type: CHAT_UPDATE_SUCCESS });
+    } catch (err) {
+      dispatch({
+        type: CHAT_UPDATE_FAIL,
         payload: getApiErrorMessage(err),
       });
     }

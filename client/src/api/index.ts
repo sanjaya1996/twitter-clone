@@ -84,6 +84,9 @@ export const fetchChatDetails = (id: string) => API.get(`/api/chats/${id}`);
 export const createChat = (users: UserType[]) =>
   API.post('/api/chats', { users });
 
+export const updateChat = (id: string, name: string) =>
+  API.put(`/api/chats/${id}`, { chatName: name });
+
 // UPLOADS
 export const uploadProfilePicture = (formData: FormData) =>
   API.post('/api/uploads/profilePicture', formData, formDataConfig);

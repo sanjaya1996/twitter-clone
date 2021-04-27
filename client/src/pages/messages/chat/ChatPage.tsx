@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import ChatNameModal from '../../../components/modals/ChatNameModal';
 
 import * as chatActions from '../../../store/actions/chat/chatActions';
 import { UserType } from '../../../store/actions/user/userActionTypes';
@@ -30,6 +31,8 @@ const getRemainingImagesCount = (totalCount: number) => {
 };
 
 const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
+  const [textMessage, setTextMessage] = useState('');
+
   const chatId = match.params.id;
 
   const dispatch = useDispatch();
@@ -41,9 +44,34 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
   const chatDetailsState = state.chatDetails;
   const { chat, loading, error } = chatDetailsState;
 
+  const chatUpdateState = state.chatUpdate;
+  const { success } = chatUpdateState;
+
   useEffect(() => {
     dispatch(chatActions.getChatDetails(chatId));
-  }, [dispatch, chatId]);
+  }, [dispatch, chatId, success]);
+
+  const messageSubmitHandler = () => {
+    const content = textMessage.trim();
+    if (content.length === 0) {
+      console.log('No message');
+      return;
+    }
+
+    console.log(textMessage);
+    setTextMessage('');
+  };
+
+  const keyDownHandler = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      messageSubmitHandler();
+      e.preventDefault();
+    }
+  };
+
+  const messageTypingHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTextMessage(e.target.value);
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -69,7 +97,7 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
             <img key={i} src={src} alt={'User' + i} />
           ))}
         </div>
-        <span id='chatName'>{chat._id}</span>
+        <ChatNameModal chat={chat} />
       </div>
       <div className='mainContentContainer'>
         <div className='chatContainer'>
@@ -78,8 +106,14 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
             <textarea
               name='messageInput'
               placeholder='Type a message...'
+              value={textMessage}
+              onChange={messageTypingHandler}
+              onKeyDown={keyDownHandler}
             ></textarea>
-            <button className='sendMessageButton'>
+            <button
+              onClick={messageSubmitHandler}
+              className='sendMessageButton'
+            >
               <i className='fas fa-paper-plane'></i>
             </button>
           </div>

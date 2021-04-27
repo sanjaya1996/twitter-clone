@@ -9,6 +9,7 @@ import userRoutes from './routes/userRoutes';
 import postRoutes from './routes/postRoutes';
 import chatRoutes from './routes/chatRoutes';
 import uploadRoutes from './routes/uploadRoutes';
+import messageRoutes from './routes/messageRoutes';
 import { errorHandler, notFound } from './middleware/errorMiddleware';
 
 connectDB();
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/chats', chatRoutes);
+app.use('/api/messages', messageRoutes);
 app.use('/api/uploads', uploadRoutes);
 
 const dirname = path.resolve();

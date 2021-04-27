@@ -3,6 +3,7 @@ import {
   chatCreateReducer,
   chatDetailsReducer,
   chatListReducer,
+  chatUpdateReducer,
 } from './chatReducer';
 import {
   postCreateReducer,
@@ -41,6 +42,7 @@ const RootReducer = combineReducers({
   chatList: chatListReducer,
   chatDetails: chatDetailsReducer,
   chatCreate: chatCreateReducer,
+  chatUpdate: chatUpdateReducer,
 });
 
 export default RootReducer;

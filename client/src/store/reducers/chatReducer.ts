@@ -3,6 +3,7 @@ import {
   ChatDetailsDispatchTypes,
   ChatInterface,
   ChatListDispatchTypes,
+  ChatUpdateDispatchTypes,
   CHAT_CREATE_FAIL,
   CHAT_CREATE_LOADING,
   CHAT_CREATE_SUCCESS,
@@ -12,6 +13,9 @@ import {
   CHAT_LIST_FAIL,
   CHAT_LIST_LOADING,
   CHAT_LIST_SUCCESS,
+  CHAT_UPDATE_FAIL,
+  CHAT_UPDATE_LOADING,
+  CHAT_UPDATE_SUCCESS,
 } from '../actions/chat/chatActionTypes';
 
 interface DefaultStateI {
@@ -29,6 +33,10 @@ interface ChatDetailsStateI extends DefaultStateI {
 
 interface ChatCreateStateI extends DefaultStateI {
   chat?: ChatInterface;
+  success?: boolean;
+}
+
+interface ChatUpdateStateI extends DefaultStateI {
   success?: boolean;
 }
 
@@ -74,6 +82,22 @@ export const chatCreateReducer = (
     case CHAT_CREATE_SUCCESS:
       return { loading: false, success: true, chat: action.payload };
     case CHAT_CREATE_FAIL:
+      return { error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const chatUpdateReducer = (
+  state: ChatUpdateStateI = {},
+  action: ChatUpdateDispatchTypes
+): ChatCreateStateI => {
+  switch (action.type) {
+    case CHAT_UPDATE_LOADING:
+      return { loading: true };
+    case CHAT_UPDATE_SUCCESS:
+      return { loading: false, success: true };
+    case CHAT_UPDATE_FAIL:
       return { error: action.payload };
     default:
       return state;
