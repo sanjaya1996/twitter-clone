@@ -6,6 +6,7 @@ import { LoggedInUserType } from '../../models/interfaces/User';
 import Post from '../../models/schemas/PostSchema';
 import User from '../../models/schemas/UserSchema';
 import { throwErrResponse } from '../../utils/throwErrResponse';
+import { getPostsFromDB } from './helpers';
 
 import {
   IPostSchema,
@@ -199,23 +200,3 @@ export const deletePost: RequestHandler = asyncHandler(
     }
   }
 );
-
-// -------- UTILS FUNCTIONS
-
-async function getPostsFromDB(filter: {}) {
-  let results = await Post.find(filter)
-    .populate('postedBy')
-    .populate('retweetData')
-    .populate('replyTo')
-    .sort({ createdAt: -1 });
-
-  results = await Post.populate(results, {
-    path: 'replyTo.postedBy',
-    model: 'User',
-  });
-
-  return await Post.populate(results, {
-    path: 'retweetData.postedBy',
-    model: 'User',
-  });
-}

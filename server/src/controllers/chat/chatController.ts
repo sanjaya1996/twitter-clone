@@ -1,14 +1,65 @@
 import { RequestHandler } from 'express';
+import mongoose from 'mongoose';
 import asyncHandler from 'express-async-handler';
 import Chat from '../../models/schemas/ChatSchema';
+import User from '../../models/schemas/UserSchema';
+import { throwErrResponse } from '../../utils/throwErrResponse';
+import { getChatByUserId } from './helpers';
+import { IChatSchema } from '../../models/interfaces/Chat';
 
 export const getChats: RequestHandler = asyncHandler(async (req, res, next) => {
   const chats = await Chat.find({
     users: { $elemMatch: { $eq: req.user._id } },
-  }).populate('users');
+  })
+    .populate('users')
+    .sort({ updatedAt: -1 });
 
   res.status(200).json(chats);
 });
+
+export const getChatById: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    const userId = req.user._id;
+    const chatId = req.params.chatId;
+
+    const isValidId = mongoose.isValidObjectId(chatId);
+
+    if (!isValidId) {
+      return throwErrResponse(
+        res,
+        404,
+        'Chat does not exist or you do not have permission to view it.'
+      );
+    }
+
+    let chat: IChatSchema | null;
+
+    chat = await Chat.findOne({
+      _id: chatId,
+      users: { $elemMatch: { $eq: userId } },
+    }).populate('users');
+
+    if (!chat) {
+      // Check if chat Id is really user Id
+      const userFound = await User.findById(chatId);
+
+      if (userFound) {
+        // Get chat using user Id
+        chat = await getChatByUserId(userId, chatId);
+      }
+    }
+
+    if (!chat) {
+      return throwErrResponse(
+        res,
+        404,
+        'Chat does not exist or you do not have permission to view it.'
+      );
+    }
+
+    res.status(200).json(chat);
+  }
+);
 
 export const createChat: RequestHandler = asyncHandler(
   async (req, res, next) => {
