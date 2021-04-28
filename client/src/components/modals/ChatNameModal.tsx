@@ -7,7 +7,7 @@ import { ChatInterface } from '../../store/actions/chat/chatActionTypes';
 
 import * as chatActions from '../../store/actions/chat/chatActions';
 import { RootStore } from '../../store/store';
-import { getChatName } from '../../utils/chatName';
+import { getChatName } from '../../components/chat/helpers';
 
 interface chatNameModalProps {
   chat: ChatInterface;

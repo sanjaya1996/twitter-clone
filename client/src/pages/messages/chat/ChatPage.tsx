@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import ChatBoxMessages from '../../../components/chatBox/ChatBoxMessages';
 import ChatNameModal from '../../../components/modals/ChatNameModal';
 
 import * as chatActions from '../../../store/actions/chat/chatActions';
+import * as messageActions from '../../../store/actions/message/messageActions';
 import { UserType } from '../../../store/actions/user/userActionTypes';
 import { RootStore } from '../../../store/store';
 
@@ -47,9 +49,20 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
   const chatUpdateState = state.chatUpdate;
   const { success } = chatUpdateState;
 
+  const messageSendState = state.messageSend;
+  const { message, failedTextMessage } = messageSendState;
+
   useEffect(() => {
+    if (failedTextMessage) {
+      setTextMessage(failedTextMessage);
+      return;
+    }
     dispatch(chatActions.getChatDetails(chatId));
-  }, [dispatch, chatId, success]);
+  }, [dispatch, chatId, success, failedTextMessage]);
+
+  const sendMessage = () => {
+    dispatch(messageActions.sendMessage(textMessage, chatId));
+  };
 
   const messageSubmitHandler = () => {
     const content = textMessage.trim();
@@ -58,7 +71,7 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
       return;
     }
 
-    console.log(textMessage);
+    sendMessage();
     setTextMessage('');
   };
 
@@ -101,7 +114,7 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
       </div>
       <div className='mainContentContainer'>
         <div className='chatContainer'>
-          <div className='chatMessages'></div>
+          <ChatBoxMessages messages={message} />
           <div className='footer'>
             <textarea
               name='messageInput'

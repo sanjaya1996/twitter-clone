@@ -1,3 +1,4 @@
+import { MessageInterface } from '../message/messageActionTypes';
 import { UserType } from '../user/userActionTypes';
 
 export const CHAT_LIST_LOADING = 'CHAT_LIST_LOADING';
@@ -21,7 +22,7 @@ export interface ChatInterface {
   chatName?: string;
   isGroupChat: boolean;
   users: UserType[];
-  latestMessage: string;
+  latestMessage?: MessageInterface;
 }
 
 // List Chats

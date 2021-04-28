@@ -8,11 +8,17 @@ import { getChatByUserId } from './helpers';
 import { IChatSchema } from '../../models/interfaces/Chat';
 
 export const getChats: RequestHandler = asyncHandler(async (req, res, next) => {
-  const chats = await Chat.find({
+  let chats = await Chat.find({
     users: { $elemMatch: { $eq: req.user._id } },
   })
     .populate('users')
+    .populate('latestMessage')
     .sort({ updatedAt: -1 });
+
+  chats = await Chat.populate(chats, {
+    path: 'latestMessage.sender',
+    model: 'User',
+  });
 
   res.status(200).json(chats);
 });

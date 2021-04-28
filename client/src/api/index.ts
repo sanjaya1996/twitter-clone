@@ -87,6 +87,10 @@ export const createChat = (users: UserType[]) =>
 export const updateChat = (id: string, name: string) =>
   API.put(`/api/chats/${id}`, { chatName: name });
 
+// MESSAGES
+export const sendMessage = (content: string, chatId: string) =>
+  API.post('/api/messages', { content, chatId });
+
 // UPLOADS
 export const uploadProfilePicture = (formData: FormData) =>
   API.post('/api/uploads/profilePicture', formData, formDataConfig);

@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
+import Chat from '../../models/schemas/ChatSchema';
 import Message from '../../models/schemas/MessageSchema';
 import { throwErrResponse } from '../../utils/throwErrResponse';
 
@@ -14,11 +15,16 @@ export const createMessage: RequestHandler = asyncHandler(
       throwErrResponse(res, 400, 'Invalid data passed into request');
     }
 
-    const newMessage = await Message.create({
+    let newMessage = await Message.create({
       content: content,
       chat: chatId,
       sender: userId,
     });
+
+    newMessage = await newMessage.populate('sender').execPopulate();
+    newMessage = await newMessage.populate('chat').execPopulate();
+
+    await Chat.findByIdAndUpdate(chatId, { latestMessage: newMessage });
 
     res.status(201).json(newMessage);
   }
