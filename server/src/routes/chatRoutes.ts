@@ -5,6 +5,7 @@ import {
   getChats,
   updateChat,
 } from '../controllers/chat/chatController';
+import { getMessagesByChatId } from '../controllers/message/messageController';
 import { requireLogin } from '../middleware/authMiddleware';
 
 const router = express.Router();
@@ -14,5 +15,7 @@ router
   .route('/:chatId')
   .get(requireLogin, getChatById)
   .put(requireLogin, updateChat);
+
+router.get('/:chatId/messages', requireLogin, getMessagesByChatId);
 
 export default router;

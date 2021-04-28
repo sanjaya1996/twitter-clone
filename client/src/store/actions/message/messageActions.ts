@@ -5,8 +5,29 @@ import {
   MESSAGE_SEND_LOADING,
   MESSAGE_SEND_SUCCESS,
   MESSAGE_SEND_FAIL,
+  MessageListDispatchTypes,
+  MESSAGE_LIST_LOADING,
+  MESSAGE_LIST_SUCCESS,
+  MESSAGE_LIST_FAIL,
 } from './messageActionTypes';
 import * as api from '../../../api/index';
+
+export const listMessages = (chatId: string) => {
+  return async (dispatch: Dispatch<MessageListDispatchTypes>) => {
+    try {
+      dispatch({ type: MESSAGE_LIST_LOADING });
+
+      const { data } = await api.getMessages(chatId);
+
+      dispatch({ type: MESSAGE_LIST_SUCCESS, payload: data });
+    } catch (err) {
+      dispatch({
+        type: MESSAGE_LIST_FAIL,
+        payload: getApiErrorMessage(err),
+      });
+    }
+  };
+};
 
 export const sendMessage = (content: string, chatId: string) => {
   return async (dispatch: Dispatch<MessageSendDispatchTypes>) => {

@@ -5,7 +5,7 @@ import {
   chatListReducer,
   chatUpdateReducer,
 } from './chatReducer';
-import { messageSendReducer } from './messageReducer';
+import { messageListReducer, messageSendReducer } from './messageReducer';
 import {
   postCreateReducer,
   postDeleteReducer,
@@ -44,6 +44,7 @@ const RootReducer = combineReducers({
   chatDetails: chatDetailsReducer,
   chatCreate: chatCreateReducer,
   chatUpdate: chatUpdateReducer,
+  messageList: messageListReducer,
   messageSend: messageSendReducer,
 });
 

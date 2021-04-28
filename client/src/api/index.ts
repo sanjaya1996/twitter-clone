@@ -91,6 +91,9 @@ export const updateChat = (id: string, name: string) =>
 export const sendMessage = (content: string, chatId: string) =>
   API.post('/api/messages', { content, chatId });
 
+export const getMessages = (chatId: string) =>
+  API.get(`/api/chats/${chatId}/messages`); // Get messages from Chats by chatId
+
 // UPLOADS
 export const uploadProfilePicture = (formData: FormData) =>
   API.post('/api/uploads/profilePicture', formData, formDataConfig);

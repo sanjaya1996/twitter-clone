@@ -37,4 +37,56 @@
       color: #fff;
     }
   }
+
+  // LoggedINUser Message borders styles
+  .message.mine.first {
+    .messageBody {
+      border-bottom-right-radius: 2px;
+    }
+  }
+
+  .message.mine:not(.first):not(.last) {
+    .messageBody {
+      border-bottom-right-radius: 2px;
+      border-top-right-radius: 2px;
+    }
+  }
+
+  .message.mine.last {
+    .messageBody {
+      border-bottom-right-radius: a8px;
+    }
+  }
+
+  .message.mine.last:not(.first) {
+    .messageBody {
+      border-top-right-radius: 2px;
+    }
+  }
+
+  // Other Users Message borders styles
+  .message.theirs.first {
+    .messageBody {
+      border-bottom-left-radius: 2px;
+    }
+  }
+
+  .message.theirs:not(.first):not(.last) {
+    .messageBody {
+      border-bottom-left-radius: 2px;
+      border-top-left-radius: 2px;
+    }
+  }
+
+  .message.theirs.last {
+    .messageBody {
+      border-bottom-left-radius: a8px;
+    }
+  }
+
+  .message.theirs.last:not(.first) {
+    .messageBody {
+      border-top-left-radius: 2px;
+    }
+  }
 }

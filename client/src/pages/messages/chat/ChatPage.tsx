@@ -50,7 +50,7 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
   const { success } = chatUpdateState;
 
   const messageSendState = state.messageSend;
-  const { message, failedTextMessage } = messageSendState;
+  const { failedTextMessage } = messageSendState;
 
   useEffect(() => {
     if (failedTextMessage) {
@@ -114,7 +114,7 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
       </div>
       <div className='mainContentContainer'>
         <div className='chatContainer'>
-          <ChatBoxMessages messages={message} />
+          <ChatBoxMessages chatId={chatId} />
           <div className='footer'>
             <textarea
               name='messageInput'
