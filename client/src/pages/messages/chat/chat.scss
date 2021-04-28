@@ -3,9 +3,11 @@
 .chatPageContainer {
   flex: 1;
   display: flex;
+  flex-basis: 0;
   .mainContentContainer {
     flex: 1;
     display: flex;
+    overflow-y: hidden;
   }
 }
 

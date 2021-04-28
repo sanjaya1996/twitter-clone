@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import LoadingSpinner from '../../components/loadingSpinner/LoadSpinner';
 import PostList from '../../components/post/PostList';
 import Tabs from '../../components/tabs/Tabs';
 import UserList from '../../components/user/UserList';
@@ -110,7 +111,9 @@ const SearchPage: React.FC<RouteComponentProps<RouteParams>> = ({
         />
       </div>
       <Tabs data={TABS} handleSelect={tabSelectHandler} />
-      {loading || searchText.trim().length === 0 || !showSearchResults ? (
+      {loading ? (
+        <LoadingSpinner />
+      ) : searchText.trim().length === 0 || !showSearchResults ? (
         <></>
       ) : (
         <>

@@ -15,6 +15,18 @@
     flex-shrink: 0;
     -webkit-box-flex: 0;
 
+    .imageContainer {
+      height: 24px;
+      width: 24px;
+      margin-right: 7px;
+    }
+
+    img {
+      height: 100%;
+      border-radius: 50%;
+      vertical-align: bottom;
+    }
+
     .messageContainer {
       display: flex;
       flex-direction: column;
@@ -32,10 +44,24 @@
   .mine {
     flex-direction: row-reverse;
 
+    .messageContainer {
+      align-items: flex-end;
+    }
+
     .messageBody {
       background-color: $primary-blue;
       color: #fff;
     }
+  }
+
+  .theirs {
+    .messageContainer {
+      align-items: flex-start;
+    }
+  }
+
+  .last {
+    margin-bottom: 7px;
   }
 
   // LoggedINUser Message borders styles
@@ -89,4 +115,8 @@
       border-top-left-radius: 2px;
     }
   }
+}
+
+.senderName {
+  color: rgba(0, 0, 0, 0.4);
 }

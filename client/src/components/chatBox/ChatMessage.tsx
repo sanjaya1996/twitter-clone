@@ -18,9 +18,15 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
   const loggedInUser = useSelector(
     (state: RootStore) => state.loggedInUserInfo.user
   );
-  const isMsgMine = message.sender._id === loggedInUser?._id;
 
-  const isMsgFirstInchain = isFirstInMsgChain(lastMessage, message.sender._id);
+  const {
+    content,
+    sender: { _id: senderId, firstName, lastName, profilePic },
+  } = message;
+
+  const isMsgMine = senderId === loggedInUser?._id;
+
+  const isMsgFirstInchain = isFirstInMsgChain(lastMessage, senderId);
   const isMsgLastInChain = isLastInMsgChain(message.sender._id, nextMessage);
 
   const mineOrTheirMsgClassName = isMsgMine ? 'mine' : 'theirs';
@@ -37,8 +43,16 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
 
   return (
     <li className={liClassName}>
+      {!isMsgMine && (
+        <div className='imageContainer'>
+          {isMsgLastInChain && <img src={profilePic} alt={firstName} />}
+        </div>
+      )}
       <div className='messageContainer'>
-        <span className='messageBody'>{message.content}</span>
+        {!isMsgMine && isMsgFirstInchain && (
+          <span className='senderName'>{firstName + ' ' + lastName}</span>
+        )}
+        <span className='messageBody'>{content}</span>
       </div>
     </li>
   );

@@ -38,25 +38,23 @@ const HomePage: React.FC<RouteComponentProps> = ({
   }, [dispatch, successDelete, successUpdate]);
 
   if (!user) {
-    return <h1>Authentication Failed, Please Try Again</h1>;
+    return <></>;
   }
 
   return (
-    <div>
+    <>
       <PostForm
         imageUrl={user.profilePic}
         creating={loadingCreate}
         error={errorCreate}
         createSuccess={success}
       />
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
+      {error ? (
         <p>{error}</p>
       ) : (
-        <PostList posts={posts} userId={user._id} />
+        <PostList posts={posts} userId={user._id} loading={loading} />
       )}
-    </div>
+    </>
   );
 };
 

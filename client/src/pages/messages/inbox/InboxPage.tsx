@@ -5,6 +5,7 @@ import TitleBar from '../../../components/titleBar/TitleBar';
 import { RootStore } from '../../../store/store';
 
 import * as chatActions from '../../../store/actions/chat/chatActions';
+import LoadingSpinner from '../../../components/loadingSpinner/LoadSpinner';
 
 const InboxPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const InboxPage: React.FC = () => {
         link='/messages/new'
       />
       {loading ? (
-        <p>Loading...</p>
+        <LoadingSpinner />
       ) : error ? (
         <p>{error}</p>
       ) : (

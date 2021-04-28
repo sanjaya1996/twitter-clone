@@ -11,6 +11,7 @@ import * as postActions from '../../store/actions/post/postActions';
 import * as userActions from '../../store/actions/user/userActions';
 import ProfilePageProfile from '../../components/image/ProfilePageProfile';
 import CoverPhoto from '../../components/image/CoverPhoto';
+import LoadingSpinner from '../../components/loadingSpinner/LoadSpinner';
 
 interface ProfileProps {
   userInfo: UserType;
@@ -122,7 +123,7 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
       </div>
       <Tabs data={TABS} handleSelect={tabSelectHandler} />
       {loading ? (
-        <p>Loading...</p>
+        <LoadingSpinner />
       ) : error ? (
         <p>{error}</p>
       ) : posts.length === 0 ? (

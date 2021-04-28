@@ -3,6 +3,7 @@
 .resultsContainer {
   display: flex;
   flex-direction: column;
+  flex: 1;
 
   .user {
     padding: $spacing;
