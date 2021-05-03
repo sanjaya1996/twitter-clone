@@ -12,6 +12,7 @@ import {
 import { LoggedInUserType } from '../../models/interfaces/User';
 import { throwErrResponse } from '../../utils/throwErrResponse';
 import { FilterQuery } from 'mongoose';
+import Notification from '../../models/schemas/NotificationSchema';
 
 export const getUsers = asyncHandler(async (req, res) => {
   const queryParams = req.query as { search: string };
@@ -158,6 +159,16 @@ export const followUser = asyncHandler(async (req, res, next) => {
       { [option]: { followers: req.user._id } },
       { new: true }
     );
+
+    // Send Notification
+    if (!isFollowing) {
+      await Notification.insertNotification({
+        userTo: userId,
+        userFrom: req.user._id,
+        notificationType: 'follow',
+        entityId: req.user._id,
+      });
+    }
 
     res.status(200).json(req.user);
   } else {

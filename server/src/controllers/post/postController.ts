@@ -5,6 +5,7 @@ import { LoggedInUserType } from '../../models/interfaces/User';
 
 import Post from '../../models/schemas/PostSchema';
 import User from '../../models/schemas/UserSchema';
+import Notification from '../../models/schemas/NotificationSchema';
 import { throwErrResponse } from '../../utils/throwErrResponse';
 import { getPostsFromDB } from './helpers';
 
@@ -12,6 +13,7 @@ import {
   IPostSchema,
   GetPostsResultI,
   GetPostsQueryI,
+  isPopulatedPost,
 } from '../../models/interfaces/Post';
 
 export const getPosts: RequestHandler = asyncHandler(async (req, res, next) => {
@@ -85,12 +87,32 @@ export const createPost: RequestHandler = asyncHandler(
       postData.replyTo = body.replyTo;
     }
 
-    const createdPost: IPostSchema = await Post.create(postData);
-    const postWithPopulatedUser = await User.populate(createdPost, {
-      path: 'postedBy',
-    });
+    let createdPost = await Post.create(postData);
+    createdPost = await Post.populate(createdPost, [
+      {
+        path: 'postedBy',
+        model: 'User',
+      },
+      { path: 'replyTo' },
+    ]);
 
-    res.status(201).json(postWithPopulatedUser);
+    createdPost = await Post.populate(createdPost, {
+      path: 'replyTo.postedBy',
+      model: 'User',
+    });
+    console.log(createdPost);
+
+    // Send Notification for post reply
+    if (isPopulatedPost(createdPost.replyTo)) {
+      await Notification.insertNotification({
+        userTo: createdPost.replyTo.postedBy,
+        userFrom: req.user._id,
+        notificationType: 'reply',
+        entityId: createdPost._id,
+      });
+    }
+
+    res.status(201).json(createdPost);
   }
 );
 
@@ -137,6 +159,16 @@ export const likePost: RequestHandler = asyncHandler(async (req, res, next) => {
       { new: true }
     ).populate('postedBy');
 
+    // Send Notification while liking post not while unliking
+    if (!isLiked && post) {
+      await Notification.insertNotification({
+        userTo: post.postedBy,
+        userFrom: userId,
+        notificationType: 'postLike',
+        entityId: post._id,
+      });
+    }
+
     res.status(200).json(post);
   } else {
     // CONDITION 2:
@@ -180,6 +212,16 @@ export const retweetPost: RequestHandler = asyncHandler(
         { [option]: { retweetUsers: userId } },
         { new: true }
       ).populate('postedBy');
+
+      // Send Notification only in case of retweet not in untweet
+      if (!deletedPost && post) {
+        await Notification.insertNotification({
+          userTo: post.postedBy,
+          userFrom: userId,
+          notificationType: 'retweet',
+          entityId: post._id,
+        });
+      }
 
       return res.status(201).json(post);
     } else {

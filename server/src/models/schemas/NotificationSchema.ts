@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import {
   INotificationSchema,
   INotificationData,
+  INotificationModel,
 } from '../interfaces/Notification';
 
 const Schema = mongoose.Schema;
@@ -21,16 +22,15 @@ NotificationSchema.statics.insertNotification = async (
   data: INotificationData
 ) => {
   try {
-    const { userTo, userFrom, notificationType, entityId } = data;
-    const query = { userTo, userFrom, notificationType, entityId };
-    await Notification.deleteOne(query);
+    console.log('Creating Notification ');
+    await Notification.deleteOne(data);
     return await Notification.create(data);
   } catch (err) {
     throw new Error(err);
   }
 };
 
-const Notification = mongoose.model<INotificationSchema>(
+const Notification = mongoose.model<INotificationSchema, INotificationModel>(
   'Notification',
   NotificationSchema
 );

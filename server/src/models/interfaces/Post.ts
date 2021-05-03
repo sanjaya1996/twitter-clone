@@ -24,3 +24,7 @@ export interface GetPostsQueryI {
   replyTo?: {};
   content?: {};
 }
+
+export function isPopulatedPost(obj: IPostSchema | any): obj is IPostSchema {
+  return obj && obj._id;
+}
