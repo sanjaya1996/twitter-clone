@@ -11,6 +11,7 @@ import SearchPage from '../pages/search/SearchPage';
 import InboxPage from '../pages/messages/inbox/InboxPage';
 import NewMessagePage from '../pages/messages/newMessage/NewMessagePage';
 import ChatPage from '../pages/messages/chat/ChatPage';
+import NotificationPage from '../pages/notification/NotificationPage';
 
 interface PagesInterface {
   exact: boolean;
@@ -90,6 +91,14 @@ const pages: PagesInterface[] = [
     layout: MainLayout,
     protect: true,
     pageTitle: 'Chat',
+  },
+  {
+    exact: true,
+    path: '/notifications',
+    component: NotificationPage,
+    layout: MainLayout,
+    protect: true,
+    pageTitle: 'Notifications',
   },
   {
     exact: true,
