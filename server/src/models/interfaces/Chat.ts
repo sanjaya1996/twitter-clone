@@ -6,7 +6,7 @@ export interface IChatSchema extends mongoose.Document {
   _id: string;
   chatName: string;
   isGroupChat: boolean;
-  users: (string | Schema.Types.ObjectId | IUserSchema)[];
+  users: (string | Schema.Types.ObjectId)[];
   latestMessage: IMessageSchema;
 }
 

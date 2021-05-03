@@ -4,7 +4,7 @@ import { IUserSchema } from './User';
 export interface INotificationData {
   userTo: Schema.Types.ObjectId | string;
   userFrom: Schema.Types.ObjectId | string;
-  notificationType: 'follow' | 'retweet' | 'postLike' | 'reply';
+  notificationType: 'follow' | 'retweet' | 'postLike' | 'reply' | 'newMessage';
   opened?: boolean;
   entityId: Schema.Types.ObjectId | string;
 }
@@ -18,5 +18,5 @@ export interface INotificationModel extends Model<INotificationSchema> {
 }
 
 export function isPopulatedUser(obj: IUserSchema | any): obj is IUserSchema {
-  return obj && obj._id && typeof obj._id === 'string';
+  return obj && obj._id;
 }

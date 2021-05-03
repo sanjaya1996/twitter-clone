@@ -1,8 +1,11 @@
 import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
+import { IPopulatedMessageSchema } from '../../models/interfaces/Message';
+import { IUserSchema } from '../../models/interfaces/User';
 import Chat from '../../models/schemas/ChatSchema';
 import Message from '../../models/schemas/MessageSchema';
 import { throwErrResponse } from '../../utils/throwErrResponse';
+import { sendNotifications } from './helper';
 
 // @desc    Create a new Message in a Chat
 // @route   POST /api/messages
@@ -31,7 +34,13 @@ export const createMessage: RequestHandler = asyncHandler(
       model: 'User',
     });
 
-    await Chat.findByIdAndUpdate(chatId, { latestMessage: newMessage });
+    const chat = await Chat.findByIdAndUpdate(chatId, {
+      latestMessage: newMessage,
+    });
+
+    if (chat) {
+      sendNotifications(chat, newMessage);
+    }
 
     res.status(201).json(newMessage);
   }
