@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 export interface IUserSchema extends mongoose.Document {
+  _id: string;
   firstName: string;
   lastName: string;
   userName: string;

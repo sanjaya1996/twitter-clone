@@ -6,6 +6,12 @@ import ChatNameModal from '../../../components/modals/ChatNameModal';
 
 import * as chatActions from '../../../store/actions/chat/chatActions';
 import * as messageActions from '../../../store/actions/message/messageActions';
+import {
+  emitStopTypingSocket,
+  joinChatRoomSocket,
+  updateTypingSocket,
+} from '../../../store/actions/socket/socketActions';
+import { SOCKET_CHAT_ROOM_TYPING_RESET } from '../../../store/actions/socket/socketsActionsTypes';
 import { UserType } from '../../../store/actions/user/userActionTypes';
 import { RootStore } from '../../../store/store';
 
@@ -34,6 +40,7 @@ const getRemainingImagesCount = (totalCount: number) => {
 
 const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
   const [textMessage, setTextMessage] = useState('');
+  const [showTypingDots, setShowTypingDots] = useState(false);
 
   const chatId = match.params.id;
 
@@ -52,17 +59,33 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
   const messageSendState = state.messageSend;
   const { failedTextMessage } = messageSendState;
 
+  const socketChatRoomState = state.socketChatRoom;
+  const { isTyping, room } = socketChatRoomState;
+
   useEffect(() => {
     if (failedTextMessage) {
       setTextMessage(failedTextMessage);
       return;
     }
+    dispatch(joinChatRoomSocket(chatId));
     dispatch(chatActions.getChatDetails(chatId));
+
+    return () => {
+      dispatch({ type: SOCKET_CHAT_ROOM_TYPING_RESET });
+    };
   }, [dispatch, chatId, success, failedTextMessage]);
 
   const sendMessage = () => {
     dispatch(messageActions.sendMessage(textMessage, chatId));
   };
+
+  useEffect(() => {
+    if (isTyping && chatId === room) {
+      setShowTypingDots(true);
+    } else if (isTyping === false && chatId === room) {
+      setShowTypingDots(false);
+    }
+  }, [isTyping, chatId, room]);
 
   const messageSubmitHandler = () => {
     const content = textMessage.trim();
@@ -72,10 +95,13 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
     }
 
     sendMessage();
+    emitStopTypingSocket(chatId);
     setTextMessage('');
   };
 
   const keyDownHandler = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    updateTypingSocket(chatId);
+
     if (e.key === 'Enter' && !e.shiftKey) {
       messageSubmitHandler();
       e.preventDefault();
@@ -115,6 +141,12 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
       <div className='mainContentContainer'>
         <div className='chatContainer'>
           <ChatBoxMessages chatId={chatId} />
+          {showTypingDots && (
+            <div className='typingDots'>
+              <img src='/images/dots.gif' alt='typing dots' />
+            </div>
+          )}
+
           <div className='footer'>
             <textarea
               name='messageInput'

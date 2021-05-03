@@ -15,6 +15,7 @@ import {
   postUpdateReducer,
 } from './postReducer';
 import { searchReducer } from './searchReducer';
+import { socketChatRoomReducer, socketConnectReducer } from './socketReducer';
 import { profilePicUploadReducer } from './uploadReducer';
 import {
   loggedInUserInfoReducer,
@@ -46,6 +47,8 @@ const RootReducer = combineReducers({
   chatUpdate: chatUpdateReducer,
   messageList: messageListReducer,
   messageSend: messageSendReducer,
+  socketConnect: socketConnectReducer,
+  socketChatRoom: socketChatRoomReducer,
 });
 
 export default RootReducer;

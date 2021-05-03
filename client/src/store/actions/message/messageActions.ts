@@ -11,6 +11,7 @@ import {
   MESSAGE_LIST_FAIL,
 } from './messageActionTypes';
 import * as api from '../../../api/index';
+import { emitNewMessageSocket } from '../socket/socketActions';
 
 export const listMessages = (chatId: string) => {
   return async (dispatch: Dispatch<MessageListDispatchTypes>) => {
@@ -35,6 +36,8 @@ export const sendMessage = (content: string, chatId: string) => {
       dispatch({ type: MESSAGE_SEND_LOADING });
 
       const { data } = await api.sendMessage(content, chatId);
+
+      emitNewMessageSocket(data);
 
       dispatch({ type: MESSAGE_SEND_SUCCESS, payload: data });
     } catch (err) {

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
 
 import * as userActions from '../store/actions/user/userActions';
+import { setupSocket } from '../store/actions/socket/socketActions';
 
 const Routes: React.FC = () => {
   const dispatch = useDispatch();
@@ -17,8 +18,11 @@ const Routes: React.FC = () => {
   const isAuth = !!user;
 
   useEffect(() => {
+    if (user) {
+      dispatch(setupSocket(user));
+    }
     dispatch(userActions.getLoggedInUserInfo());
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   return (
     <Router>

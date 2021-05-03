@@ -57,6 +57,19 @@
   }
 }
 
+.typingDots {
+  padding: $spacing;
+  padding-bottom: 0;
+}
+
+.typingDots img {
+  background-color: #f1f1f0;
+  padding: 6px 12px;
+  border-radius: 18px;
+  font-size: 14px;
+  height: 35px;
+}
+
 .chatContainer {
   flex: 1;
   display: flex;

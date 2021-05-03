@@ -8,7 +8,9 @@ import { PostInterface } from '../store/actions/post/postActionTypes';
 
 // ------------------------------ AXIOS CONFIGURATION ---------------------
 
-const API = axios.create({ baseURL: 'http://localhost:5000' });
+export const BASE_URL = 'http://localhost:5000';
+
+const API = axios.create({ baseURL: BASE_URL });
 
 API.interceptors.request.use((req) => {
   const userInfoJSON = localStorage.getItem('userInfo');

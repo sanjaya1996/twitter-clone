@@ -26,6 +26,10 @@ export const createMessage: RequestHandler = asyncHandler(
 
     newMessage = await newMessage.populate('sender').execPopulate();
     newMessage = await newMessage.populate('chat').execPopulate();
+    newMessage = await Message.populate(newMessage, {
+      path: 'chat.users',
+      model: 'User',
+    });
 
     await Chat.findByIdAndUpdate(chatId, { latestMessage: newMessage });
 

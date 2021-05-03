@@ -2,10 +2,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import PostForm from '../../components/postForm/PostForm';
+import io from 'socket.io-client';
 
 import { RootStore } from '../../store/store';
 import * as postActions from '../../store/actions/post/postActions';
 import PostList from '../../components/post/PostList';
+
+let connected = false;
+let socket: SocketIOClient.Socket;
 
 const HomePage: React.FC<RouteComponentProps> = ({
   history,
@@ -36,6 +40,11 @@ const HomePage: React.FC<RouteComponentProps> = ({
   useEffect(() => {
     dispatch(postActions.listPosts());
   }, [dispatch, successDelete, successUpdate]);
+
+  useEffect(() => {
+    socket = io('http://localhost:5000/');
+    socket.emit('setup', user);
+  }, [user]);
 
   if (!user) {
     return <></>;
