@@ -1,19 +1,25 @@
 import React from 'react';
 import { NotificationInterface } from '../../store/actions/notification/notificationActionTypes';
 import ResultListItem from '../list/resultListItem/ResultListItem';
+import { getNotificationText, getNotificationUrl } from './helper';
 
 interface NotificationProps {
   notification: NotificationInterface;
 }
 
 const Notification: React.FC<NotificationProps> = ({ notification }) => {
-  const { userFrom } = notification;
+  const { userFrom, opened } = notification;
+
+  const notificationText = getNotificationText(notification);
+  const linkTo = getNotificationUrl(notification);
+  const className = opened ? '' : 'active';
 
   return (
     <ResultListItem
-      linkTo='#'
+      linkTo={linkTo}
       imageUrls={[userFrom.profilePic]}
-      listText='This is the text'
+      listText={notificationText}
+      containerClassName={className}
     />
   );
 };

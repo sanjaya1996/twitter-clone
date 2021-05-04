@@ -5,23 +5,28 @@ import './resultList.scss';
 
 interface ResultListProps {
   imageUrls?: string[];
-  imageClassName?: string;
   linkTo?: string;
   header?: string;
   subText?: string;
   listText?: string;
+  containerClassName?: string;
+  imageClassName?: string;
 }
 
 const ResultListItem: React.FC<ResultListProps> = ({
   imageUrls,
-  imageClassName,
   linkTo,
   header,
   subText,
   listText,
+  containerClassName,
+  imageClassName,
 }) => {
   return (
-    <Link to={linkTo || '#'} className='resultListItem'>
+    <Link
+      to={linkTo || '#'}
+      className={`resultListItem ${containerClassName || ''}`}
+    >
       {imageUrls && (
         <div className={`resultsImageContainer ${imageClassName || ''}`}>
           {imageUrls.map((src, i) => (

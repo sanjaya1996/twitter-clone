@@ -18,6 +18,10 @@
   }
 }
 
+.resultListItem.active {
+  background-color: $blueBackground;
+}
+
 .resultsDetailsContainer {
   display: flex;
   flex-direction: column;
