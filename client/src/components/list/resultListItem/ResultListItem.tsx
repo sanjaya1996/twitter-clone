@@ -11,6 +11,7 @@ interface ResultListProps {
   listText?: string;
   containerClassName?: string;
   imageClassName?: string;
+  onItemClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 const ResultListItem: React.FC<ResultListProps> = ({
@@ -21,11 +22,13 @@ const ResultListItem: React.FC<ResultListProps> = ({
   listText,
   containerClassName,
   imageClassName,
+  onItemClick,
 }) => {
   return (
     <Link
       to={linkTo || '#'}
       className={`resultListItem ${containerClassName || ''}`}
+      onClick={onItemClick}
     >
       {imageUrls && (
         <div className={`resultsImageContainer ${imageClassName || ''}`}>

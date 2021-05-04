@@ -98,7 +98,7 @@ const pages: PagesInterface[] = [
     component: NotificationPage,
     layout: MainLayout,
     protect: true,
-    pageTitle: 'Notifications',
+    // pageTitle: 'Notifications',
   },
   {
     exact: true,

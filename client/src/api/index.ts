@@ -99,6 +99,12 @@ export const getMessages = (chatId: string) =>
 // NOTIFICATIONS
 export const getNotifications = () => API.get('/api/notifications');
 
+export const markANotificationAsOpened = (id: string) =>
+  API.put(`/api/notifications/${id}/markAsOpened`);
+
+export const markAllNotificationsAsOpened = () =>
+  API.put('/api/notifications/markAsOpened');
+
 // UPLOADS
 export const uploadProfilePicture = (formData: FormData) =>
   API.post('/api/uploads/profilePicture', formData, formDataConfig);

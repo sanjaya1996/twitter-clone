@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import NotificationList from '../../components/notification/NotificationList';
+import TitleBar from '../../components/titleBar/TitleBar';
 import * as notificationActions from '../../store/actions/notification/notificationActions';
 import { RootStore } from '../../store/store';
 
@@ -16,12 +17,23 @@ const NotificationPage = () => {
     dispatch(notificationActions.listNotifications());
   }, [dispatch]);
 
+  const markNotificationHandler = () => {
+    dispatch(notificationActions.markNotificationsAsOpened());
+  };
+
   return (
-    <NotificationList
-      loading={loading}
-      error={error}
-      notifications={notifications}
-    />
+    <>
+      <TitleBar
+        title='Notifications'
+        headerBtnIcon='fas fa-check-double'
+        onBtnClick={markNotificationHandler}
+      />
+      <NotificationList
+        loading={loading}
+        error={error}
+        notifications={notifications}
+      />
+    </>
   );
 };
 

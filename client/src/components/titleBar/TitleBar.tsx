@@ -7,12 +7,14 @@ type PropsType = {
   title: string;
   headerBtnIcon?: string;
   link?: string;
+  onBtnClick?: () => void;
 };
 
 const TitleBar: React.FC<PropsType> = ({
   title,
   headerBtnIcon,
   link,
+  onBtnClick,
 }: PropsType) => {
   return (
     <div className='titleContainer'>
@@ -23,9 +25,9 @@ const TitleBar: React.FC<PropsType> = ({
             <i className={headerBtnIcon}></i>
           </Link>
         ) : (
-          <div className='headerButton'>
+          <button className='headerButton' onClick={onBtnClick}>
             <i className={headerBtnIcon}></i>
-          </div>
+          </button>
         ))}
     </div>
   );

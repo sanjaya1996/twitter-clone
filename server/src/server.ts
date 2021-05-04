@@ -10,6 +10,7 @@ import connectIO from './sockets';
 import routes from './routes';
 import { errorHandler } from './middleware/errorMiddleware';
 
+// MONGODB CONNECTION
 connectDB();
 
 const app = express();
@@ -26,10 +27,13 @@ app.use(express.json());
 const server = http.createServer(app);
 const io = new Server(server, { pingTimeout: 60000, cors: corsConfig });
 
+// ROUTES
 routes(app);
 
+// SOCKET IO
 connectIO(io);
 
+// ERROR Handler Middleware
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
