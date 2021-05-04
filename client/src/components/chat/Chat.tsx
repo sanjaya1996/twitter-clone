@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { ChatInterface } from '../../store/actions/chat/chatActionTypes';
 import {
   getOtherChatUsers,
@@ -11,7 +10,7 @@ import {
 
 import { RootStore } from '../../store/store';
 
-import './chat.scss';
+import ResultListItem from '../list/resultListItem/ResultListItem';
 
 interface chatProps {
   chat: ChatInterface;
@@ -32,17 +31,13 @@ const Chat: React.FC<chatProps> = ({ chat }) => {
 
   const latestMessage = getLatestMessage(chat.latestMessage);
   return (
-    <Link to={`/message/${chat._id}`} className='resultListItem'>
-      <div className={`resultsImageContainer ${groupChatClass}`}>
-        {images.map((src, i) => (
-          <img key={i} src={src} alt='Chat Pic' />
-        ))}
-      </div>
-      <div className='resultsDetailsContainer ellipsis'>
-        <span className='heading ellipsis'>{chatName}</span>
-        <span className='subText ellipsis'>{latestMessage}</span>
-      </div>
-    </Link>
+    <ResultListItem
+      linkTo={`/message/${chat._id}`}
+      imageUrls={images}
+      header={chatName}
+      subText={latestMessage}
+      imageClassName={groupChatClass}
+    />
   );
 };
 
