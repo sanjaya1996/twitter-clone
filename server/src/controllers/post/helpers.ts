@@ -1,5 +1,4 @@
 import Post from '../../models/schemas/PostSchema';
-// -------- UTILS FUNCTIONS
 
 export async function getPostsFromDB(filter: {}) {
   let results = await Post.find(filter)

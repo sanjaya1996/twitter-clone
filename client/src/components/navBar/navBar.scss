@@ -11,6 +11,7 @@
     font-size: 30px;
     width: 55px;
     height: 55px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,4 +27,20 @@
   .blue {
     color: $primary-blue;
   }
+}
+
+#notificationsBadge,
+#messagesBadge {
+  background-color: $redColor;
+  height: 25px;
+  width: 25px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

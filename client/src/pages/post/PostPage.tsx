@@ -4,6 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import { RootStore } from '../../store/store';
 import * as postActions from '../../store/actions/post/postActions';
 import Post from '../../components/post/Post';
+import LoadingSpinner from '../../components/loadingSpinner/LoadSpinner';
 
 interface RouteParams {
   id: string;
@@ -27,11 +28,11 @@ const ViewPostPage: React.FC<RouteComponentProps<RouteParams>> = ({
   }, [dispatch, postId]);
 
   if (loading) {
-    return <h1>Loading Post....</h1>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
-    return <h1>An Error Occured: ${error}</h1>;
+    return <p>An Error Occured: ${error}</p>;
   }
 
   return (
@@ -44,14 +45,17 @@ const ViewPostPage: React.FC<RouteComponentProps<RouteParams>> = ({
         <p>No Post to Load</p>
       ) : (
         <>
-          {post.replyTo && post.replyTo._id && (
-            // Replying To Post
-            <Post
-              key={post.replyTo._id}
-              post={post.replyTo}
-              userId={user!._id}
-            />
-          )}
+          {post.replyTo &&
+            (post.replyTo._id ? (
+              // Replying To Post
+              <Post
+                key={post.replyTo._id}
+                post={post.replyTo}
+                userId={user!._id}
+              />
+            ) : (
+              <p>Original Post Not Found</p>
+            ))}
           {/* User Clicked Post */}
           <Post
             key={post.postData._id}

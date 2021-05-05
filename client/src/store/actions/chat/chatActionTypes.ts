@@ -5,6 +5,10 @@ export const CHAT_LIST_LOADING = 'CHAT_LIST_LOADING';
 export const CHAT_LIST_SUCCESS = 'CHAT_LIST_SUCCESS';
 export const CHAT_LIST_FAIL = 'CHAT_LIST_FAIL';
 
+export const CHAT_UNREAD_LIST_LOADING = 'CHAT_UNREAD_LIST_LOADING';
+export const CHAT_UNREAD_LIST_SUCCESS = 'CHAT_UNREAD_LIST_SUCCESS';
+export const CHAT_UNREAD_LIST_FAIL = 'CHAT_UNREAD_LIST_FAIL';
+
 export const CHAT_DETAILS_LOADING = 'CHAT_DETAILS_LOADING';
 export const CHAT_DETAILS_SUCCESS = 'CHAT_DETAILS_SUCCESS';
 export const CHAT_DETAILS_FAIL = 'CHAT_DETAILS_FAIL';
@@ -37,6 +41,21 @@ export interface ChatListSuccess {
 
 export interface ChatListFail {
   type: typeof CHAT_LIST_FAIL;
+  payload: string;
+}
+
+// List Chats
+export interface ChatUnreadListLoading {
+  type: typeof CHAT_UNREAD_LIST_LOADING;
+}
+
+export interface ChatUnreadListSuccess {
+  type: typeof CHAT_UNREAD_LIST_SUCCESS;
+  payload: ChatInterface[];
+}
+
+export interface ChatUnreadListFail {
+  type: typeof CHAT_UNREAD_LIST_FAIL;
   payload: string;
 }
 
@@ -89,6 +108,11 @@ export type ChatListDispatchTypes =
   | ChatListLoading
   | ChatListSuccess
   | ChatListFail;
+
+export type ChatUnreadListDispatchTypes =
+  | ChatUnreadListLoading
+  | ChatUnreadListSuccess
+  | ChatUnreadListFail;
 
 export type ChatDetailsDispatchTypes =
   | ChatDetailsLoading

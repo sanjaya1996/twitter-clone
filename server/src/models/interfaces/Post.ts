@@ -16,15 +16,6 @@ export interface GetPostsResultI {
   replies: IPostSchema[];
 }
 
-export interface GetPostsQueryI {
-  isReply?: 'true' | 'false';
-  followingOnly?: 'true' | 'false';
-  search?: string;
-  postedBy?: {};
-  replyTo?: {};
-  content?: {};
-}
-
 export function isPopulatedPost(obj: IPostSchema | any): obj is IPostSchema {
   return obj && obj._id;
 }

@@ -1,4 +1,4 @@
-import mongoose, { ObjectId } from 'mongoose';
+import mongoose, { FilterQuery, ObjectId } from 'mongoose';
 import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
 import { LoggedInUserType } from '../../models/interfaces/User';
@@ -12,13 +12,12 @@ import { getPostsFromDB } from './helpers';
 import {
   IPostSchema,
   GetPostsResultI,
-  GetPostsQueryI,
   isPopulatedPost,
 } from '../../models/interfaces/Post';
 
 export const getPosts: RequestHandler = asyncHandler(async (req, res, next) => {
   // const userId = req.user._id;
-  const searchObj: GetPostsQueryI = req.query;
+  const searchObj: FilterQuery<IPostSchema> = req.query;
 
   if (searchObj.isReply) {
     const isReply = searchObj.isReply == 'true';
@@ -78,7 +77,7 @@ export const createPost: RequestHandler = asyncHandler(
       return throwErrResponse(res, 400, 'No content to create a post');
     }
 
-    const postData: { content: string; postedBy: string; replyTo?: string } = {
+    const postData: Partial<IPostSchema> = {
       content,
       postedBy,
     };

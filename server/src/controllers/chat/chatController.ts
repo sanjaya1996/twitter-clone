@@ -15,6 +15,12 @@ export const getChats: RequestHandler = asyncHandler(async (req, res, next) => {
     .populate('latestMessage')
     .sort({ updatedAt: -1 });
 
+  if (req.query.unreadOnly && req.query.unreadOnly === 'true') {
+    chats = chats.filter(
+      (c) => c.latestMessage && !c.latestMessage.readBy.includes(req.user._id)
+    );
+  }
+
   chats = await Chat.populate(chats, {
     path: 'latestMessage.sender',
     model: 'User',

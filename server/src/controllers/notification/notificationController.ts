@@ -1,5 +1,7 @@
 import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
+import { FilterQuery } from 'mongoose';
+import { INotificationSchema } from '../../models/interfaces/Notification';
 import Notification from '../../models/schemas/NotificationSchema';
 
 // @desc    Get all Notifications by UserId
@@ -9,10 +11,16 @@ export const getNotifications: RequestHandler = asyncHandler(
   async (req, res, next) => {
     const userId = req.user._id;
 
-    const notifications = await Notification.find({
+    let searchObj: FilterQuery<INotificationSchema> = {
       userTo: userId,
       notificationType: { $ne: 'newMessage' },
-    })
+    };
+
+    if (req.query.unreadOnly && req.query.unreadOnly === 'true') {
+      searchObj.opened = false;
+    }
+
+    const notifications = await Notification.find(searchObj)
       .populate('userTo')
       .populate('userFrom')
       .sort({ createdAt: -1 });

@@ -4,6 +4,12 @@ export const NOTIFICATION_LIST_LOADING = 'NOTIFICATION_LIST_LOADING';
 export const NOTIFICATION_LIST_SUCCESS = 'NOTIFICATION_LIST_SUCCESS';
 export const NOTIFICATION_LIST_FAIL = 'NOTIFICATION_LIST_FAIL';
 
+export const NOTIFICATION_UNREAD_LIST_LOADING =
+  'NOTIFICATION_UNREAD_LIST_LOADING';
+export const NOTIFICATION_UNREAD_LIST_SUCCESS =
+  'NOTIFICATION_UNREAD_LIST_SUCCESS';
+export const NOTIFICATION_UNREAD_LIST_FAIL = 'NOTIFICATION_UNREAD_LIST_FAIL';
+
 export const NOTIFICATION_MARK_AS_OPENED_LOADING =
   'NOTIFICATION_MARK_AS_OPENED_LOADING';
 export const NOTIFICATION_MARK_AS_OPENED_SUCCESS =
@@ -35,6 +41,21 @@ export interface NotificationListFail {
   payload: string;
 }
 
+// NOTIFICATION LIST
+export interface NotificationUnreadListLoading {
+  type: typeof NOTIFICATION_UNREAD_LIST_LOADING;
+}
+
+export interface NotificationUnreadListSuccess {
+  type: typeof NOTIFICATION_UNREAD_LIST_SUCCESS;
+  payload: NotificationInterface[];
+}
+
+export interface NotificationUnreadListFail {
+  type: typeof NOTIFICATION_UNREAD_LIST_FAIL;
+  payload: string;
+}
+
 // MARK NOTIFICATION AS OPENED
 export interface NotificationMarkAsOpenedLoading {
   type: typeof NOTIFICATION_MARK_AS_OPENED_LOADING;
@@ -53,6 +74,11 @@ export type NotificationListDispatchTypes =
   | NotificationListLoading
   | NotificationListSuccess
   | NotificationListFail;
+
+export type NotificationUnreadListDispatchTypes =
+  | NotificationUnreadListLoading
+  | NotificationUnreadListSuccess
+  | NotificationUnreadListFail;
 
 export type NotificationMarkAsOpenedDispatchTypes =
   | NotificationMarkAsOpenedLoading

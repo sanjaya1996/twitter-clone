@@ -3,6 +3,7 @@ import {
   ChatDetailsDispatchTypes,
   ChatInterface,
   ChatListDispatchTypes,
+  ChatUnreadListDispatchTypes,
   ChatUpdateDispatchTypes,
   CHAT_CREATE_FAIL,
   CHAT_CREATE_LOADING,
@@ -13,6 +14,9 @@ import {
   CHAT_LIST_FAIL,
   CHAT_LIST_LOADING,
   CHAT_LIST_SUCCESS,
+  CHAT_UNREAD_LIST_FAIL,
+  CHAT_UNREAD_LIST_LOADING,
+  CHAT_UNREAD_LIST_SUCCESS,
   CHAT_UPDATE_FAIL,
   CHAT_UPDATE_LOADING,
   CHAT_UPDATE_SUCCESS,
@@ -25,6 +29,11 @@ interface DefaultStateI {
 
 interface ChatListStateI extends DefaultStateI {
   chats: ChatInterface[];
+}
+
+interface ChatUnreadListStateI extends ChatListStateI {
+  chats: ChatInterface[];
+  totalCount: number;
 }
 
 interface ChatDetailsStateI extends DefaultStateI {
@@ -50,6 +59,26 @@ export const chatListReducer = (
     case CHAT_LIST_SUCCESS:
       return { loading: false, chats: action.payload };
     case CHAT_LIST_FAIL:
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const chatUnreadListReducer = (
+  state: ChatUnreadListStateI = { chats: [], totalCount: 0 },
+  action: ChatUnreadListDispatchTypes
+): ChatUnreadListStateI => {
+  switch (action.type) {
+    case CHAT_UNREAD_LIST_LOADING:
+      return { ...state, loading: true };
+    case CHAT_UNREAD_LIST_SUCCESS:
+      return {
+        loading: false,
+        chats: action.payload,
+        totalCount: action.payload.length,
+      };
+    case CHAT_UNREAD_LIST_FAIL:
       return { ...state, loading: false, error: action.payload };
     default:
       return state;

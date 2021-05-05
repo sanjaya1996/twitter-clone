@@ -3,12 +3,14 @@ import {
   chatCreateReducer,
   chatDetailsReducer,
   chatListReducer,
+  chatUnreadListReducer,
   chatUpdateReducer,
 } from './chatReducer';
 import { messageListReducer, messageSendReducer } from './messageReducer';
 import {
   notificationListReducer,
   notificationMarkAsOpenedReducer,
+  notificationUnreadListReducer,
 } from './notificationReducer';
 import {
   postCreateReducer,
@@ -49,9 +51,11 @@ const RootReducer = combineReducers({
   chatDetails: chatDetailsReducer,
   chatCreate: chatCreateReducer,
   chatUpdate: chatUpdateReducer,
+  chatUnreadList: chatUnreadListReducer,
   messageList: messageListReducer,
   messageSend: messageSendReducer,
   notificationList: notificationListReducer,
+  notificationUnreadList: notificationUnreadListReducer,
   notificationMark: notificationMarkAsOpenedReducer,
   socketConnect: socketConnectReducer,
   socketChatRoom: socketChatRoomReducer,

@@ -10,13 +10,15 @@ import {
   SocketConnectDispatchTypes,
   SOCKET_CONNECT,
 } from '../store/actions/socket/socketsActionsTypes';
+import * as chatActions from '../store/actions/chat/chatActions';
+
 import { UserType } from '../store/actions/user/userActionTypes';
 
 const socket = io(BASE_URL);
 
 const connectSocket = (
   user: UserType,
-  dispatch: Dispatch<SocketConnectDispatchTypes>
+  dispatch: Dispatch<SocketConnectDispatchTypes | any>
 ) => {
   socket.emit('setup', user);
 
@@ -26,6 +28,8 @@ const connectSocket = (
 
   socket.on('message received', (newMessage: MessageInterface) => {
     const currentUserPath = document.location.pathname;
+    console.log(currentUserPath);
+    console.log(newMessage);
     const isCorrectChatPage =
       currentUserPath === `/message/${newMessage.chat._id}`;
 
@@ -34,10 +38,11 @@ const connectSocket = (
     if (showNotification) {
       console.log('Show notification...');
       // Show Notificaiton
-      return;
     } else {
       dispatch({ type: MESSAGE_SEND_SUCCESS, payload: newMessage });
     }
+
+    dispatch(chatActions.listUnreadChats());
   });
 };
 

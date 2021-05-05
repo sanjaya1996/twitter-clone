@@ -81,6 +81,8 @@ export const deletePost = (id: string) => API.delete(`/api/posts/${id}`);
 //CHATS
 export const fetchChats = () => API.get('/api/chats');
 
+export const fetchUnreadChats = () => API.get('/api/chats?unreadOnly=true');
+
 export const fetchChatDetails = (id: string) => API.get(`/api/chats/${id}`);
 
 export const createChat = (users: UserType[]) =>
@@ -98,6 +100,9 @@ export const getMessages = (chatId: string) =>
 
 // NOTIFICATIONS
 export const getNotifications = () => API.get('/api/notifications');
+
+export const getUnreadNotifications = () =>
+  API.get('/api/notifications?unreadOnly=true');
 
 export const markANotificationAsOpened = (id: string) =>
   API.put(`/api/notifications/${id}/markAsOpened`);

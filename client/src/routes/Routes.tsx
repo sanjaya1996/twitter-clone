@@ -9,20 +9,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
 
 import * as userActions from '../store/actions/user/userActions';
+import * as chatActions from '../store/actions/chat/chatActions';
+import * as notificationActions from '../store/actions/notification/notificationActions';
 import { setupSocket } from '../store/actions/socket/socketActions';
 
 const Routes: React.FC = () => {
   const dispatch = useDispatch();
-  const userAuthState = useSelector((store: RootStore) => store.userAuth);
+  const state = useSelector((state: RootStore) => state);
+
+  const userAuthState = state.userAuth;
   const { user } = userAuthState;
+
+  const notificationMarkState = state.notificationMark;
+  const { success } = notificationMarkState;
+
   const isAuth = !!user;
 
   useEffect(() => {
     if (user) {
       dispatch(setupSocket(user));
+      dispatch(chatActions.listUnreadChats());
+      dispatch(notificationActions.listUnreadNotifications());
     }
     dispatch(userActions.getLoggedInUserInfo());
   }, [dispatch, user]);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(notificationActions.listUnreadNotifications());
+    }
+  }, [success, dispatch]);
 
   return (
     <Router>

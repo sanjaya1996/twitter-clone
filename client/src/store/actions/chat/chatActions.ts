@@ -3,6 +3,7 @@ import {
   ChatCreateDispatchTypes,
   ChatDetailsDispatchTypes,
   ChatListDispatchTypes,
+  ChatUnreadListDispatchTypes,
   ChatUpdateDispatchTypes,
   CHAT_CREATE_FAIL,
   CHAT_CREATE_LOADING,
@@ -13,6 +14,9 @@ import {
   CHAT_LIST_FAIL,
   CHAT_LIST_LOADING,
   CHAT_LIST_SUCCESS,
+  CHAT_UNREAD_LIST_FAIL,
+  CHAT_UNREAD_LIST_LOADING,
+  CHAT_UNREAD_LIST_SUCCESS,
   CHAT_UPDATE_FAIL,
   CHAT_UPDATE_LOADING,
   CHAT_UPDATE_SUCCESS,
@@ -33,6 +37,23 @@ export const listChats = () => {
     } catch (err) {
       dispatch({
         type: CHAT_LIST_FAIL,
+        payload: getApiErrorMessage(err),
+      });
+    }
+  };
+};
+
+export const listUnreadChats = () => {
+  return async (dispatch: Dispatch<ChatUnreadListDispatchTypes>) => {
+    try {
+      dispatch({ type: CHAT_UNREAD_LIST_LOADING });
+
+      const { data } = await api.fetchUnreadChats();
+
+      dispatch({ type: CHAT_UNREAD_LIST_SUCCESS, payload: data });
+    } catch (err) {
+      dispatch({
+        type: CHAT_UNREAD_LIST_FAIL,
         payload: getApiErrorMessage(err),
       });
     }

@@ -22,7 +22,6 @@ NotificationSchema.statics.insertNotification = async (
   data: INotificationData
 ) => {
   try {
-    console.log('Creating Notification ');
     await Notification.deleteOne(data);
     return await Notification.create(data);
   } catch (err) {

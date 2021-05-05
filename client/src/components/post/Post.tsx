@@ -22,7 +22,7 @@ const Post: React.FC<PostProps> = ({ post, userId, largeFont }) => {
   const isRetweet = post.retweetData;
   const retweetedBy = isRetweet ? post.postedBy.userName : null;
   const isReply = post.replyTo;
-  const replyingTo = isReply ? post.replyTo.postedBy.userName : null;
+  const replyingTo = isReply ? post.replyTo?.postedBy?.userName : null;
   const retweetId = isRetweet ? post._id : null; //Track this ID to update right Component in UI otherwise the component with original tweet will be updated incase of liking and tweeting.
   const originalPost = post.retweetData || post;
   const {
@@ -105,7 +105,7 @@ const Post: React.FC<PostProps> = ({ post, userId, largeFont }) => {
               </>
             )}
           </div>
-          {isReply && (
+          {replyingTo && (
             <div className='replyFlag'>
               Replying to <Link to='#'>@{replyingTo}</Link>{' '}
             </div>
