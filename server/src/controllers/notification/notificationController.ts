@@ -29,6 +29,22 @@ export const getNotifications: RequestHandler = asyncHandler(
   }
 );
 
+// @desc    Get Latest Notification of the User
+// @route   GET /api/notifications/latest
+// @access  Private/User
+export const getLatestNotification: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    const userId = req.user._id;
+
+    const notification = await Notification.findOne({ userTo: userId })
+      .populate('userTo')
+      .populate('userFrom')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(notification);
+  }
+);
+
 // @desc    Mark a Notification as Opened
 // @route   PUT /api/notifications/:id/markAsOpened
 // @access  Private/User

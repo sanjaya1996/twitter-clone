@@ -1,15 +1,14 @@
 import { Dispatch } from 'react';
 import { socket, connectSocket } from '../../../api/sockets';
-import {
-  MessageInterface,
-  MessageSendSuccess,
-} from '../message/messageActionTypes';
+import { MessageInterface } from '../message/messageActionTypes';
 import { UserType } from '../user/userActionTypes';
 import {
   SocketChatRoomDispatchTypes,
   SocketConnectDispatchTypes,
   SOCKET_CHAT_ROOM_TYPING,
 } from './socketsActionsTypes';
+
+import store from '../../store';
 
 // updateTypingSocket variables
 let typing = false;
@@ -67,4 +66,16 @@ export const emitNewMessageSocket = (message: MessageInterface) => {
   socket.emit('new message', message);
 };
 
-export const handleSocketMessageReceived = () => {};
+export const emitNewNotificationSocket = (user: string | UserType) => {
+  let id;
+  if (typeof user === 'string') {
+    id = user;
+  } else {
+    id = user._id;
+  }
+
+  const loggedInUserId = store.getState().loggedInUserInfo.user?._id;
+  if (id === loggedInUserId) return;
+
+  socket.emit('notification received', id);
+};

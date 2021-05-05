@@ -69,7 +69,8 @@ export const searchPosts = (keywords: string) =>
 export const createPost = (data: { content: string; replyTo?: string }) =>
   API.post('/api/posts', data);
 
-export const retweetPost = (id: string) => API.post(`/api/posts/${id}/retweet`);
+export const retweetPost = (id: string) =>
+  API.post<PostInterface>(`/api/posts/${id}/retweet`);
 
 export const likePost = (id: string) => API.put(`/api/posts/${id}/like`);
 
@@ -103,6 +104,8 @@ export const getNotifications = () => API.get('/api/notifications');
 
 export const getUnreadNotifications = () =>
   API.get('/api/notifications?unreadOnly=true');
+
+export const getLatestNotification = () => API.get('/api/notifications/latest');
 
 export const markANotificationAsOpened = (id: string) =>
   API.put(`/api/notifications/${id}/markAsOpened`);

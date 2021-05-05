@@ -11,31 +11,39 @@ import {
 import { RootStore } from '../../store/store';
 
 import ResultListItem from '../list/resultListItem/ResultListItem';
+import { MessageInterface } from '../../store/actions/message/messageActionTypes';
 
 interface chatProps {
   chat: ChatInterface;
+  latestMessage?: MessageInterface;
 }
 
-const Chat: React.FC<chatProps> = ({ chat }) => {
+const Chat: React.FC<chatProps> = ({ chat, latestMessage }) => {
   const state = useSelector((state: RootStore) => state);
 
   const loggedInUserState = state.loggedInUserInfo;
   const { user } = loggedInUserState;
 
-  const loggedInUserId = user!._id;
+  if (!user) {
+    return <p>Not Authenticated</p>;
+  }
+
+  const loggedInUserId = user._id;
 
   const otherChatUsers = getOtherChatUsers(chat.users, loggedInUserId);
   const chatName = getChatName(chat, loggedInUserId);
   const images = getOtherChatImages(otherChatUsers);
   const groupChatClass = images.length > 1 ? 'groupChatImage' : '';
 
-  const latestMessage = getLatestMessage(chat.latestMessage);
+  const latestMessageContent = getLatestMessage(
+    latestMessage || chat.latestMessage
+  );
   return (
     <ResultListItem
       linkTo={`/message/${chat._id}`}
       imageUrls={images}
       header={chatName}
-      subText={latestMessage}
+      subText={latestMessageContent}
       imageClassName={groupChatClass}
     />
   );

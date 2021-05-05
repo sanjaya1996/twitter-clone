@@ -14,6 +14,9 @@ export default (io: Server) => {
     socket.on('stop typing', (room) =>
       socket.in(room).emit('stop typing', room)
     );
+    socket.on('notification received', (room) =>
+      socket.in(room).emit('notification received')
+    );
 
     socket.on('new message', (newMessage: IMessageObject) => {
       const chat = newMessage.chat;

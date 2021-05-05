@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { NotificationInterface } from '../../store/actions/notification/notificationActionTypes';
-import { RootStore } from '../../store/store';
 import ResultListItem from '../list/resultListItem/ResultListItem';
 import { getNotificationText, getNotificationUrl } from './helper';
 

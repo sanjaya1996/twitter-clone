@@ -3,6 +3,7 @@ import { getApiErrorMessage } from '../../../utils/errorMessage';
 import {
   NotificationListDispatchTypes,
   NotificationMarkAsOpenedDispatchTypes,
+  NotificationLatestDispatchTypes,
   NotificationUnreadListDispatchTypes,
   NOTIFICATION_LIST_FAIL,
   NOTIFICATION_LIST_LOADING,
@@ -13,6 +14,9 @@ import {
   NOTIFICATION_UNREAD_LIST_FAIL,
   NOTIFICATION_UNREAD_LIST_LOADING,
   NOTIFICATION_UNREAD_LIST_SUCCESS,
+  NOTIFICATION_LATEST_LOADING,
+  NOTIFICATION_LATEST_SUCCESS,
+  NOTIFICATION_LATEST_FAIL,
 } from './notificationActionTypes';
 import * as api from '../../../api';
 
@@ -44,6 +48,25 @@ export const listUnreadNotifications = () => {
     } catch (err) {
       dispatch({
         type: NOTIFICATION_UNREAD_LIST_FAIL,
+        payload: getApiErrorMessage(err),
+      });
+    }
+  };
+};
+
+export const getLatestNotification = () => {
+  return async (dispatch: Dispatch<NotificationLatestDispatchTypes>) => {
+    try {
+      dispatch({ type: NOTIFICATION_LATEST_LOADING });
+
+      const { data } = await api.getLatestNotification();
+
+      dispatch({ type: NOTIFICATION_LATEST_SUCCESS, payload: data });
+
+      (dispatch as any)(listUnreadNotifications());
+    } catch (err) {
+      dispatch({
+        type: NOTIFICATION_LATEST_FAIL,
         payload: getApiErrorMessage(err),
       });
     }

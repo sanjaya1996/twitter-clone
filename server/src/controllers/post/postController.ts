@@ -99,7 +99,6 @@ export const createPost: RequestHandler = asyncHandler(
       path: 'replyTo.postedBy',
       model: 'User',
     });
-    console.log(createdPost);
 
     // Send Notification for post reply
     if (isPopulatedPost(createdPost.replyTo)) {

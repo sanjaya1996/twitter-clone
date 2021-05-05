@@ -11,8 +11,10 @@ import {
   SOCKET_CONNECT,
 } from '../store/actions/socket/socketsActionsTypes';
 import * as chatActions from '../store/actions/chat/chatActions';
+import * as notificationActions from '../store/actions/notification/notificationActions';
 
 import { UserType } from '../store/actions/user/userActionTypes';
+import { NOTIFICATION_LATEST_SUCCESS } from '../store/actions/notification/notificationActionTypes';
 
 const socket = io(BASE_URL);
 
@@ -28,8 +30,6 @@ const connectSocket = (
 
   socket.on('message received', (newMessage: MessageInterface) => {
     const currentUserPath = document.location.pathname;
-    console.log(currentUserPath);
-    console.log(newMessage);
     const isCorrectChatPage =
       currentUserPath === `/message/${newMessage.chat._id}`;
 
@@ -37,12 +37,16 @@ const connectSocket = (
 
     if (showNotification) {
       console.log('Show notification...');
-      // Show Notificaiton
+      dispatch({ type: NOTIFICATION_LATEST_SUCCESS, payload: newMessage });
     } else {
       dispatch({ type: MESSAGE_SEND_SUCCESS, payload: newMessage });
     }
 
     dispatch(chatActions.listUnreadChats());
+  });
+
+  socket.on('notification received', () => {
+    dispatch(notificationActions.getLatestNotification());
   });
 };
 

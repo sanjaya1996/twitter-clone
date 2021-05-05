@@ -30,8 +30,11 @@ import {
   POST_UPDATE_SUCCESS,
 } from './postActionTypes';
 
+import store, { RootStore } from '../../store';
+
 import * as api from '../../../api/index';
 import { getApiErrorMessage } from '../../../utils/errorMessage';
+import { emitNewNotificationSocket } from '../socket/socketActions';
 
 export const listPosts = (userId?: string, isReply?: boolean) => {
   return async (dispatch: Dispatch<PostListDispatchTypes>) => {
@@ -84,6 +87,11 @@ export const createPost = (postData: { content: string; replyTo?: string }) => {
       const { data } = await api.createPost(postData);
 
       dispatch({ type: POST_CREATE_SUCCESS, payload: data });
+
+      if (data.replyTo) {
+        emitNewNotificationSocket(data.replyTo.postedBy);
+        console.log('Emitting Notification');
+      }
     } catch (err) {
       dispatch({
         type: POST_CREATE_FAIL,
@@ -94,9 +102,14 @@ export const createPost = (postData: { content: string; replyTo?: string }) => {
 };
 
 export const likePost = (id: string, retweetId: string | null) => {
-  return async (dispatch: Dispatch<PostLikeDispatchTypes>) => {
+  return async (
+    dispatch: Dispatch<PostLikeDispatchTypes>,
+    getState: () => RootStore
+  ) => {
     try {
       dispatch({ type: POST_LIKE_LOADING });
+
+      const loggedInUserId = getState().loggedInUserInfo.user!._id;
 
       const { data } = await api.likePost(id);
 
@@ -106,6 +119,10 @@ export const likePost = (id: string, retweetId: string | null) => {
       });
 
       dispatch({ type: POST_LIKE_SUCCESS, payload: data });
+
+      if (data.likes.includes(loggedInUserId)) {
+        emitNewNotificationSocket(data.postedBy._id);
+      }
     } catch (err) {
       dispatch({
         type: POST_LIKE_FAIL,
@@ -116,11 +133,20 @@ export const likePost = (id: string, retweetId: string | null) => {
 };
 
 export const retweetPost = (id: string, retweetId: string | null) => {
-  return async (dispatch: Dispatch<PostRetweetDispatchType>) => {
+  return async (
+    dispatch: Dispatch<PostRetweetDispatchType>,
+    getState: () => RootStore
+  ) => {
     try {
       const { data } = await api.retweetPost(id);
 
       dispatch({ type: POST_RETWEET, payload: { data, retweetId } });
+
+      const loggedInUserId = getState().loggedInUserInfo.user!._id;
+
+      if (data.retweetUsers.includes(loggedInUserId)) {
+        emitNewNotificationSocket(data.postedBy._id);
+      }
     } catch (err) {
       console.log(
         err.response && err.response.data.message

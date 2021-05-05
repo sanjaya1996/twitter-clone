@@ -10,6 +10,7 @@ import { messageListReducer, messageSendReducer } from './messageReducer';
 import {
   notificationListReducer,
   notificationMarkAsOpenedReducer,
+  notificationPopupListReducer,
   notificationUnreadListReducer,
 } from './notificationReducer';
 import {
@@ -56,6 +57,7 @@ const RootReducer = combineReducers({
   messageSend: messageSendReducer,
   notificationList: notificationListReducer,
   notificationUnreadList: notificationUnreadListReducer,
+  notificationPopupList: notificationPopupListReducer,
   notificationMark: notificationMarkAsOpenedReducer,
   socketConnect: socketConnectReducer,
   socketChatRoom: socketChatRoomReducer,

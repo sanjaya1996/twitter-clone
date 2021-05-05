@@ -32,6 +32,7 @@ import {
 
 import * as api from '../../../api/index';
 import { getApiErrorMessage } from '../../../utils/errorMessage';
+import { emitNewNotificationSocket } from '../socket/socketActions';
 
 type AuthType = 'login' | 'register';
 
@@ -110,6 +111,8 @@ export const followUser = (id: string, updateUserInfo?: boolean) => {
       if (updateUserInfo) {
         dispatch({ type: USER_INFO_UPDATE_FOLLOWERS, payload: data._id });
       }
+
+      emitNewNotificationSocket(id);
     } catch (err) {
       dispatch({
         type: USER_FOLLOW_FAIL,

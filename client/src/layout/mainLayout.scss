@@ -16,3 +16,18 @@
   margin: 0;
   height: 100%;
 }
+
+#notificationPopupList {
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  width: 350px;
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+
+  .active {
+    background-color: white;
+  }
+}
