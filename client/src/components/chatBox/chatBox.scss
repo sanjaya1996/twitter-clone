@@ -30,6 +30,11 @@
       display: flex;
       flex-direction: column;
       max-width: 55%;
+
+      .errorText {
+        color: $redColor;
+        font-size: 0.7em;
+      }
     }
 
     .messageBody {
@@ -45,6 +50,10 @@
 
     .messageContainer {
       align-items: flex-end;
+      .loadingSpinnerContainer {
+        width: 20px;
+        padding: 3px 0 3px 0;
+      }
     }
 
     .messageBody {

@@ -20,6 +20,8 @@ export interface MessageInterface {
   content: string;
   chat: ChatInterface;
   readBy: string[];
+  loading?: boolean;
+  error?: 'failed';
 }
 
 // List Messages
@@ -40,11 +42,12 @@ export interface MessageListFail {
 // Create Message
 export interface MessageSendLoading {
   type: typeof MESSAGE_SEND_LOADING;
+  payload?: { sender: UserType; content: string; chat: string };
 }
 
 export interface MessageSendSuccess {
   type: typeof MESSAGE_SEND_SUCCESS;
-  payload: MessageInterface;
+  payload: { data: MessageInterface };
 }
 
 export interface MessageSendFail {
@@ -80,7 +83,9 @@ export type MessageListDispatchTypes =
   | MessageListLoading
   | MessageListSuccess
   | MessageListFail
-  | MessageSendSuccess;
+  | MessageSendSuccess
+  | MessageSendLoading
+  | MessageSendFail;
 
 export type MessageMarkAsReadDispatchTypes =
   | MessageMarkAsReadLoading

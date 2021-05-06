@@ -38,6 +38,9 @@ export const messageListReducer = (
   state: MessageListInterfaceI = { messages: [] },
   action: MessageListDispatchTypes
 ): MessageListInterfaceI => {
+  let updatedMessages = [...state.messages];
+  const tempId = localStorage.getItem('messageId');
+  let messageIndex;
   switch (action.type) {
     case MESSAGE_LIST_LOADING:
       return { ...state, loading: true };
@@ -45,9 +48,22 @@ export const messageListReducer = (
       return { loading: false, messages: action.payload };
     case MESSAGE_LIST_FAIL:
       return { ...state, loading: false, error: action.payload };
+    case MESSAGE_SEND_LOADING:
+      const newMessage = {
+        ...action.payload!,
+        _id: tempId,
+        readBy: [action.payload!.sender._id],
+        loading: true,
+      } as any;
+      updatedMessages.push(newMessage);
+      return { ...state, messages: updatedMessages };
     case MESSAGE_SEND_SUCCESS:
-      let updatedMessages = [...state.messages];
-      updatedMessages.push(action.payload);
+      updatedMessages.forEach((m) => (m.loading ? (m.loading = false) : null));
+      return { ...state, messages: updatedMessages };
+    case MESSAGE_SEND_FAIL:
+      messageIndex = state.messages.findIndex((m) => m._id === tempId);
+      updatedMessages.forEach((m) => (m.loading ? (m.loading = false) : null));
+      updatedMessages[messageIndex].error = 'failed';
       return { ...state, messages: updatedMessages };
     default:
       return state;
@@ -62,7 +78,7 @@ export const messageSendReducer = (
     case MESSAGE_SEND_LOADING:
       return { loading: true };
     case MESSAGE_SEND_SUCCESS:
-      return { loading: false, success: true, message: action.payload };
+      return { loading: false, success: true };
     case MESSAGE_SEND_FAIL:
       return {
         loading: false,

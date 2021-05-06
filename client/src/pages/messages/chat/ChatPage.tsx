@@ -56,24 +56,17 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
   const chatUpdateState = state.chatUpdate;
   const { success } = chatUpdateState;
 
-  const messageSendState = state.messageSend;
-  const { failedTextMessage } = messageSendState;
-
   const socketChatRoomState = state.socketChatRoom;
   const { isTyping, room } = socketChatRoomState;
 
   useEffect(() => {
-    if (failedTextMessage) {
-      setTextMessage(failedTextMessage);
-      return;
-    }
     dispatch(joinChatRoomSocket(chatId));
     dispatch(chatActions.getChatDetails(chatId));
 
     return () => {
       dispatch({ type: SOCKET_CHAT_ROOM_TYPING_RESET });
     };
-  }, [dispatch, chatId, success, failedTextMessage]);
+  }, [dispatch, chatId, success]);
 
   const sendMessage = () => {
     dispatch(messageActions.sendMessage(textMessage, chatId));

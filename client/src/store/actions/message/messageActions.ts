@@ -16,6 +16,7 @@ import {
 } from './messageActionTypes';
 import * as api from '../../../api/index';
 import { emitNewMessageSocket } from '../socket/socketActions';
+import { RootStore } from '../../store';
 
 export const listMessages = (chatId: string) => {
   return async (dispatch: Dispatch<MessageListDispatchTypes>) => {
@@ -35,19 +36,32 @@ export const listMessages = (chatId: string) => {
 };
 
 export const sendMessage = (content: string, chatId: string) => {
-  return async (dispatch: Dispatch<MessageSendDispatchTypes>) => {
+  return async (
+    dispatch: Dispatch<MessageSendDispatchTypes>,
+    getState: () => RootStore
+  ) => {
+    const uniqueDate = Date.now().toString();
+    localStorage.setItem('messageId', uniqueDate);
     try {
-      dispatch({ type: MESSAGE_SEND_LOADING });
+      const sender = getState().loggedInUserInfo.user!;
+
+      dispatch({
+        type: MESSAGE_SEND_LOADING,
+        payload: { sender, content, chat: chatId },
+      });
 
       const { data } = await api.sendMessage(content, chatId);
 
       emitNewMessageSocket(data);
 
-      dispatch({ type: MESSAGE_SEND_SUCCESS, payload: data });
+      dispatch({ type: MESSAGE_SEND_SUCCESS, payload: { data } });
     } catch (err) {
       dispatch({
         type: MESSAGE_SEND_FAIL,
-        payload: { failedTextMessage: content, error: getApiErrorMessage(err) },
+        payload: {
+          failedTextMessage: content,
+          error: getApiErrorMessage(err),
+        },
       });
     }
   };

@@ -23,6 +23,8 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
   const {
     content,
     sender: { _id: senderId, firstName, lastName, profilePic },
+    loading,
+    error,
   } = message;
 
   const isMsgMine = senderId === loggedInUser?._id;
@@ -54,6 +56,8 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
           <span className='senderName'>{firstName + ' ' + lastName}</span>
         )}
         <span className='messageBody'>{content}</span>
+        {isMsgMine && loading && <LoadingSpinner />}
+        {isMsgMine && error && <span className='errorText'>{error}</span>}
       </div>
     </li>
   );
