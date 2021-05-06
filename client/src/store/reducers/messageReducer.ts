@@ -13,6 +13,7 @@ import {
   MESSAGE_MARK_AS_READ_SUCCESS,
   MESSAGE_MARK_AS_READ_FAIL,
   MESSAGE_MARK_AS_READ_RESET,
+  MESSAGE_ADD_TO_LIST,
 } from '../actions/message/messageActionTypes';
 
 interface DefaultStateI {
@@ -64,6 +65,9 @@ export const messageListReducer = (
       messageIndex = state.messages.findIndex((m) => m._id === tempId);
       updatedMessages.forEach((m) => (m.loading ? (m.loading = false) : null));
       updatedMessages[messageIndex].error = 'failed';
+      return { ...state, messages: updatedMessages };
+    case MESSAGE_ADD_TO_LIST:
+      updatedMessages.push(action.payload);
       return { ...state, messages: updatedMessages };
     default:
       return state;

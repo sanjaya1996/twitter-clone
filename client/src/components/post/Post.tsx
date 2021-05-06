@@ -89,20 +89,22 @@ const Post: React.FC<PostProps> = ({ post, userId, largeFont }) => {
             </div>
           )}
           <div className='header'>
-            <Link
-              to={`/profile/${postedBy.userName}`}
-              className='displayName'
-              onClick={stopPropagation}
-            >
-              {displayName}
-            </Link>
-            <span className='username'> @{postedBy.userName}</span>
-            <span className='date'> {timeStamp}</span>
+            <div className='headerContents'>
+              <Link
+                to={`/profile/${postedBy.userName}`}
+                className='displayName'
+                onClick={stopPropagation}
+              >
+                {displayName}
+              </Link>
+              <span className='username'> @{postedBy.userName}</span>
+              <span className='date'> {timeStamp}</span>
+            </div>
             {isLoggedInUserPost && (
-              <>
+              <div className='headerButtons'>
                 <PinPostModal postId={postId} isPinned={pinned} />
                 <PostDelteModal postId={postId} />
-              </>
+              </div>
             )}
           </div>
           {replyingTo && (

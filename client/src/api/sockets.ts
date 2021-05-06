@@ -4,13 +4,14 @@ import { BASE_URL } from './index';
 
 import {
   MessageInterface,
-  MESSAGE_SEND_SUCCESS,
+  MESSAGE_ADD_TO_LIST,
 } from '../store/actions/message/messageActionTypes';
 import {
   SocketConnectDispatchTypes,
   SOCKET_CONNECT,
 } from '../store/actions/socket/socketsActionsTypes';
 import * as chatActions from '../store/actions/chat/chatActions';
+import * as messageActions from '../store/actions/message/messageActions';
 import * as notificationActions from '../store/actions/notification/notificationActions';
 
 import { UserType } from '../store/actions/user/userActionTypes';
@@ -39,7 +40,8 @@ const connectSocket = (
       console.log('Show notification...');
       dispatch({ type: NOTIFICATION_LATEST_SUCCESS, payload: newMessage });
     } else {
-      dispatch({ type: MESSAGE_SEND_SUCCESS, payload: newMessage });
+      dispatch({ type: MESSAGE_ADD_TO_LIST, payload: newMessage });
+      dispatch(messageActions.markMessagesAsRead(newMessage.chat._id));
     }
 
     dispatch(chatActions.listUnreadChats());

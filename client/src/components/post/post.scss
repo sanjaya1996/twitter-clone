@@ -33,6 +33,10 @@
       .header {
         display: flex;
 
+        .headerContents {
+          flex: 1;
+        }
+
         .date {
           flex: 1;
         }
@@ -110,4 +114,17 @@
 .username,
 .date {
   color: $greyText;
+}
+
+@media screen and (max-width: 600px) {
+  .postContentContainer {
+    .header {
+      flex-direction: row;
+
+      .headerContents {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
 }

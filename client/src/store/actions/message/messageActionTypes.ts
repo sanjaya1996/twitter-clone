@@ -9,6 +9,8 @@ export const MESSAGE_SEND_LOADING = 'MESSAGE_SEND_LOADING';
 export const MESSAGE_SEND_SUCCESS = 'MESSAGE_SEND_SUCCESS';
 export const MESSAGE_SEND_FAIL = 'MESSAGE_SEND_FAIL';
 
+export const MESSAGE_ADD_TO_LIST = 'MESSAGE_ADD_TO_LIST';
+
 export const MESSAGE_MARK_AS_READ_LOADING = 'MESSAGE_MARK_AS_READ_LOADING';
 export const MESSAGE_MARK_AS_READ_SUCCESS = 'MESSAGE_MARK_AS_READ_SUCCESS';
 export const MESSAGE_MARK_AS_READ_FAIL = 'MESSAGE_MARK_AS_READ_FAIL';
@@ -47,12 +49,18 @@ export interface MessageSendLoading {
 
 export interface MessageSendSuccess {
   type: typeof MESSAGE_SEND_SUCCESS;
-  payload: { data: MessageInterface };
+  payload: MessageInterface;
 }
 
 export interface MessageSendFail {
   type: typeof MESSAGE_SEND_FAIL;
   payload: { failedTextMessage: string; error: string };
+}
+
+// Add new Message to a list
+export interface MessageAddToList {
+  type: typeof MESSAGE_ADD_TO_LIST;
+  payload: MessageInterface;
 }
 
 // Mark Messages as Read
@@ -85,7 +93,8 @@ export type MessageListDispatchTypes =
   | MessageListFail
   | MessageSendSuccess
   | MessageSendLoading
-  | MessageSendFail;
+  | MessageSendFail
+  | MessageAddToList;
 
 export type MessageMarkAsReadDispatchTypes =
   | MessageMarkAsReadLoading

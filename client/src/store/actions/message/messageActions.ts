@@ -54,7 +54,7 @@ export const sendMessage = (content: string, chatId: string) => {
 
       emitNewMessageSocket(data);
 
-      dispatch({ type: MESSAGE_SEND_SUCCESS, payload: { data } });
+      dispatch({ type: MESSAGE_SEND_SUCCESS, payload: data });
     } catch (err) {
       dispatch({
         type: MESSAGE_SEND_FAIL,
