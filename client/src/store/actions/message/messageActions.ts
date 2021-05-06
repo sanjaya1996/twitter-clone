@@ -9,6 +9,10 @@ import {
   MESSAGE_LIST_LOADING,
   MESSAGE_LIST_SUCCESS,
   MESSAGE_LIST_FAIL,
+  MessageMarkAsReadDispatchTypes,
+  MESSAGE_MARK_AS_READ_LOADING,
+  MESSAGE_MARK_AS_READ_SUCCESS,
+  MESSAGE_MARK_AS_READ_FAIL,
 } from './messageActionTypes';
 import * as api from '../../../api/index';
 import { emitNewMessageSocket } from '../socket/socketActions';
@@ -44,6 +48,23 @@ export const sendMessage = (content: string, chatId: string) => {
       dispatch({
         type: MESSAGE_SEND_FAIL,
         payload: { failedTextMessage: content, error: getApiErrorMessage(err) },
+      });
+    }
+  };
+};
+
+export const markMessagesAsRead = (chatId: string) => {
+  return async (dispatch: Dispatch<MessageMarkAsReadDispatchTypes>) => {
+    try {
+      dispatch({ type: MESSAGE_MARK_AS_READ_LOADING });
+
+      await api.markAllMessagesAsRead(chatId);
+
+      dispatch({ type: MESSAGE_MARK_AS_READ_SUCCESS });
+    } catch (err) {
+      dispatch({
+        type: MESSAGE_MARK_AS_READ_FAIL,
+        payload: getApiErrorMessage(err),
       });
     }
   };

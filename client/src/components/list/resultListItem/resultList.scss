@@ -20,6 +20,13 @@
 
 .resultListItem.active {
   background-color: $blueBackground;
+  span {
+    font-weight: 400;
+  }
+
+  .subText {
+    font-weight: 400;
+  }
 }
 
 .resultsDetailsContainer {

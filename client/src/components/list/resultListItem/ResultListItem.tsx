@@ -9,7 +9,7 @@ interface ResultListProps {
   header?: string;
   subText?: string;
   listText?: string;
-  containerClassName?: string;
+  containerClassName?: 'active' | '';
   imageClassName?: string;
   onItemClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }

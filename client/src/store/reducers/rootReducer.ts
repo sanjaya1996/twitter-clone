@@ -6,7 +6,11 @@ import {
   chatUnreadListReducer,
   chatUpdateReducer,
 } from './chatReducer';
-import { messageListReducer, messageSendReducer } from './messageReducer';
+import {
+  messageListReducer,
+  messageMarkAsReadReducer,
+  messageSendReducer,
+} from './messageReducer';
 import {
   notificationListReducer,
   notificationMarkAsOpenedReducer,
@@ -55,6 +59,7 @@ const RootReducer = combineReducers({
   chatUnreadList: chatUnreadListReducer,
   messageList: messageListReducer,
   messageSend: messageSendReducer,
+  messageMark: messageMarkAsReadReducer,
   notificationList: notificationListReducer,
   notificationUnreadList: notificationUnreadListReducer,
   notificationPopupList: notificationPopupListReducer,

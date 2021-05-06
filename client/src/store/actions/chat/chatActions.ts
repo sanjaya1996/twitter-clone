@@ -23,6 +23,7 @@ import {
 } from './chatActionTypes';
 
 import * as api from '../../../api/index';
+import * as messagesActions from '../message/messageActions';
 import { UserType } from '../user/userActionTypes';
 import { getApiErrorMessage } from '../../../utils/errorMessage';
 
@@ -68,6 +69,8 @@ export const getChatDetails = (id: string) => {
       const { data } = await api.fetchChatDetails(id);
 
       dispatch({ type: CHAT_DETAILS_SUCCESS, payload: data });
+
+      (dispatch as any)(messagesActions.markMessagesAsRead(id));
     } catch (err) {
       dispatch({
         type: CHAT_DETAILS_FAIL,

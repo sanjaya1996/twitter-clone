@@ -9,12 +9,17 @@ export const MESSAGE_SEND_LOADING = 'MESSAGE_SEND_LOADING';
 export const MESSAGE_SEND_SUCCESS = 'MESSAGE_SEND_SUCCESS';
 export const MESSAGE_SEND_FAIL = 'MESSAGE_SEND_FAIL';
 
+export const MESSAGE_MARK_AS_READ_LOADING = 'MESSAGE_MARK_AS_READ_LOADING';
+export const MESSAGE_MARK_AS_READ_SUCCESS = 'MESSAGE_MARK_AS_READ_SUCCESS';
+export const MESSAGE_MARK_AS_READ_FAIL = 'MESSAGE_MARK_AS_READ_FAIL';
+export const MESSAGE_MARK_AS_READ_RESET = 'MESSAGE_MARK_AS_READ_RESET';
+
 export interface MessageInterface {
   _id: string;
   sender: UserType;
   content: string;
   chat: ChatInterface;
-  readBy: UserType[];
+  readBy: string[];
 }
 
 // List Messages
@@ -47,6 +52,24 @@ export interface MessageSendFail {
   payload: { failedTextMessage: string; error: string };
 }
 
+// Mark Messages as Read
+export interface MessageMarkAsReadLoading {
+  type: typeof MESSAGE_MARK_AS_READ_LOADING;
+}
+
+export interface MessageMarkAsReadSuccess {
+  type: typeof MESSAGE_MARK_AS_READ_SUCCESS;
+}
+
+export interface MessageMarkAsReadFail {
+  type: typeof MESSAGE_MARK_AS_READ_FAIL;
+  payload: string;
+}
+
+export interface MessageMarkAsReadReset {
+  type: typeof MESSAGE_MARK_AS_READ_RESET;
+}
+
 // Dispatch Types
 export type MessageSendDispatchTypes =
   | MessageSendLoading
@@ -58,3 +81,9 @@ export type MessageListDispatchTypes =
   | MessageListSuccess
   | MessageListFail
   | MessageSendSuccess;
+
+export type MessageMarkAsReadDispatchTypes =
+  | MessageMarkAsReadLoading
+  | MessageMarkAsReadSuccess
+  | MessageMarkAsReadFail
+  | MessageMarkAsReadReset;

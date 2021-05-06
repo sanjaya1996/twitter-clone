@@ -99,6 +99,9 @@ export const sendMessage = (content: string, chatId: string) =>
 export const getMessages = (chatId: string) =>
   API.get(`/api/chats/${chatId}/messages`); // Get messages from Chats by chatId
 
+export const markAllMessagesAsRead = (chatId: string) =>
+  API.put(`/api/chats/${chatId}/messages/markAsRead`);
+
 // NOTIFICATIONS
 export const getNotifications = () => API.get('/api/notifications');
 

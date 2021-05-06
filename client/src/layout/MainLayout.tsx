@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Chat from '../components/chat/Chat';
-import ChatMessage from '../components/chatBox/ChatMessage';
 import NavBar from '../components/navBar/NavBar';
 import Notification from '../components/notification/Notification';
-import NotificationList from '../components/notification/NotificationList';
 import TitleBar from '../components/titleBar/TitleBar';
 import { MessageInterface } from '../store/actions/message/messageActionTypes';
 import {
@@ -52,11 +50,11 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, pageTitle }) => {
           {notifications.length > 0 &&
             notifications.map((n: any) => {
               let data;
-              if (n.notificationType) {
-                data = n as NotificationInterface;
+              if ((n as NotificationInterface).notificationType) {
+                data = n;
                 return <Notification key={data._id} notification={data} />;
-              } else if (n.content) {
-                data = n as MessageInterface;
+              } else if ((n as MessageInterface).content) {
+                data = n;
                 return (
                   <Chat key={data._id} chat={data.chat} latestMessage={data} />
                 );

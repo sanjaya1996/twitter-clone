@@ -20,6 +20,8 @@ export const NOTIFICATION_MARK_AS_OPENED_SUCCESS =
   'NOTIFICATION_MARK_AS_OPENED_SUCCESS';
 export const NOTIFICATION_MARK_AS_OPENED_FAIL =
   'NOTIFICATION_MARK_AS_OPENED_FAIL';
+export const NOTIFICATION_MARK_AS_OPENED_RESET =
+  'NOTIFICATION_MARK_AS_OPENED_RESET';
 
 export const NOTIFICATION_POPUP_REMOVE = 'NOTIFICATION_POPUP_REMOVE';
 
@@ -91,6 +93,10 @@ export interface NotificationMarkAsOpenedFail {
   payload: string;
 }
 
+export interface NotificationMarkAsOpenedReset {
+  type: typeof NOTIFICATION_MARK_AS_OPENED_RESET;
+}
+
 // REMOVE NOTIFICATION POPUP
 export interface NotificationPopupRemove {
   type: typeof NOTIFICATION_POPUP_REMOVE;
@@ -115,4 +121,5 @@ export type NotificationLatestDispatchTypes =
 export type NotificationMarkAsOpenedDispatchTypes =
   | NotificationMarkAsOpenedLoading
   | NotificationMarkAsOpenedSuccess
-  | NotificationMarkAsOpenedFail;
+  | NotificationMarkAsOpenedFail
+  | NotificationMarkAsOpenedReset;

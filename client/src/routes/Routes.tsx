@@ -12,6 +12,8 @@ import * as userActions from '../store/actions/user/userActions';
 import * as chatActions from '../store/actions/chat/chatActions';
 import * as notificationActions from '../store/actions/notification/notificationActions';
 import { setupSocket } from '../store/actions/socket/socketActions';
+import { MESSAGE_MARK_AS_READ_RESET } from '../store/actions/message/messageActionTypes';
+import { NOTIFICATION_MARK_AS_OPENED_RESET } from '../store/actions/notification/notificationActionTypes';
 
 const Routes: React.FC = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,9 @@ const Routes: React.FC = () => {
 
   const notificationMarkState = state.notificationMark;
   const { success } = notificationMarkState;
+
+  const messageMarkState = state.messageMark;
+  const { success: successMessageMark } = messageMarkState;
 
   const isAuth = !!user;
 
@@ -37,8 +42,12 @@ const Routes: React.FC = () => {
   useEffect(() => {
     if (success) {
       dispatch(notificationActions.listUnreadNotifications());
+      dispatch({ type: NOTIFICATION_MARK_AS_OPENED_RESET });
+    } else if (successMessageMark) {
+      dispatch(chatActions.listUnreadChats());
+      dispatch({ type: MESSAGE_MARK_AS_READ_RESET });
     }
-  }, [success, dispatch]);
+  }, [success, successMessageMark, dispatch]);
 
   return (
     <Router>

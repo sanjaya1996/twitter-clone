@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { MessageInterface } from '../../store/actions/message/messageActionTypes';
 import { RootStore } from '../../store/store';
+import LoadingSpinner from '../loadingSpinner/LoadSpinner';
 import { isFirstInMsgChain, isLastInMsgChain } from './helpers';
 
 interface ChatMessageProps {

@@ -96,9 +96,9 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
         <div className='profileButtonsContainer'>
           {loggedInUser?._id !== _id && (
             <>
-              <button className='profileButton'>
+              <Link to={`/message/${_id}`} className='profileButton'>
                 <i className='fas fa-envelope'></i>
-              </button>
+              </Link>
               <button onClick={followUserHandler} className={followBtnClass}>
                 {followBtnText}
               </button>

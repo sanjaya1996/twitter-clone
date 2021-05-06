@@ -1,7 +1,5 @@
 import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
-import { IPopulatedMessageSchema } from '../../models/interfaces/Message';
-import { IUserSchema } from '../../models/interfaces/User';
 import Chat from '../../models/schemas/ChatSchema';
 import Message from '../../models/schemas/MessageSchema';
 import { throwErrResponse } from '../../utils/throwErrResponse';
@@ -25,6 +23,7 @@ export const createMessage: RequestHandler = asyncHandler(
       content: content,
       chat: chatId,
       sender: userId,
+      readBy: [userId],
     });
 
     newMessage = await newMessage.populate('sender').execPopulate();
@@ -56,5 +55,22 @@ export const getMessagesByChatId: RequestHandler = asyncHandler(
     const messages = await Message.find({ chat: chatId }).populate('sender');
 
     res.status(200).json(messages);
+  }
+);
+
+// @desc    Mark all messages of Chat to read
+// @route   GET /api/chats/:chatId/messages/markasRead
+// @access  Private/User
+export const markAllMessagesAsRead: RequestHandler = asyncHandler(
+  async (req, res, next) => {
+    const userId = req.user._id;
+    const chatId = req.params.chatId;
+
+    await Message.updateMany(
+      { chat: chatId },
+      { $addToSet: { readBy: userId } }
+    );
+
+    res.sendStatus(204);
   }
 );

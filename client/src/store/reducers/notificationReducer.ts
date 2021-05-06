@@ -13,6 +13,7 @@ import {
   NOTIFICATION_LIST_SUCCESS,
   NOTIFICATION_MARK_AS_OPENED_FAIL,
   NOTIFICATION_MARK_AS_OPENED_LOADING,
+  NOTIFICATION_MARK_AS_OPENED_RESET,
   NOTIFICATION_MARK_AS_OPENED_SUCCESS,
   NOTIFICATION_POPUP_REMOVE,
   NOTIFICATION_UNREAD_LIST_FAIL,
@@ -111,6 +112,8 @@ export const notificationMarkAsOpenedReducer = (
       return { loading: false, success: true };
     case NOTIFICATION_MARK_AS_OPENED_FAIL:
       return { loading: false, error: action.payload };
+    case NOTIFICATION_MARK_AS_OPENED_RESET:
+      return {};
     default:
       return state;
   }

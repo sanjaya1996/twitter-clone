@@ -35,9 +35,14 @@ const Chat: React.FC<chatProps> = ({ chat, latestMessage }) => {
   const images = getOtherChatImages(otherChatUsers);
   const groupChatClass = images.length > 1 ? 'groupChatImage' : '';
 
-  const latestMessageContent = getLatestMessage(
-    latestMessage || chat.latestMessage
-  );
+  const chatLatestMessage = latestMessage || chat.latestMessage;
+
+  const latestMessageContent = getLatestMessage(chatLatestMessage);
+
+  const isChatViewed =
+    !chatLatestMessage || chatLatestMessage.readBy.includes(loggedInUserId);
+  const containerClassName = isChatViewed ? '' : 'active';
+
   return (
     <ResultListItem
       linkTo={`/message/${chat._id}`}
@@ -45,6 +50,7 @@ const Chat: React.FC<chatProps> = ({ chat, latestMessage }) => {
       header={chatName}
       subText={latestMessageContent}
       imageClassName={groupChatClass}
+      containerClassName={containerClassName}
     />
   );
 };

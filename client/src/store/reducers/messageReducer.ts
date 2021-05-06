@@ -8,6 +8,11 @@ import {
   MESSAGE_LIST_LOADING,
   MESSAGE_LIST_SUCCESS,
   MESSAGE_LIST_FAIL,
+  MessageMarkAsReadDispatchTypes,
+  MESSAGE_MARK_AS_READ_LOADING,
+  MESSAGE_MARK_AS_READ_SUCCESS,
+  MESSAGE_MARK_AS_READ_FAIL,
+  MESSAGE_MARK_AS_READ_RESET,
 } from '../actions/message/messageActionTypes';
 
 interface DefaultStateI {
@@ -23,6 +28,10 @@ interface MessageSendStateI extends DefaultStateI {
   success?: boolean;
   message?: MessageInterface;
   failedTextMessage?: string;
+}
+
+interface MessageMarkAsReadStateI extends DefaultStateI {
+  success?: boolean;
 }
 
 export const messageListReducer = (
@@ -60,6 +69,24 @@ export const messageSendReducer = (
         error: action.payload.error,
         failedTextMessage: action.payload.failedTextMessage,
       };
+    default:
+      return state;
+  }
+};
+
+export const messageMarkAsReadReducer = (
+  state: MessageMarkAsReadStateI = {},
+  action: MessageMarkAsReadDispatchTypes
+): MessageMarkAsReadStateI => {
+  switch (action.type) {
+    case MESSAGE_MARK_AS_READ_LOADING:
+      return { loading: true };
+    case MESSAGE_MARK_AS_READ_SUCCESS:
+      return { loading: false, success: true };
+    case MESSAGE_MARK_AS_READ_FAIL:
+      return { loading: false, error: action.payload };
+    case MESSAGE_MARK_AS_READ_RESET:
+      return {};
     default:
       return state;
   }

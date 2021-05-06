@@ -5,7 +5,10 @@ import {
   getChats,
   updateChat,
 } from '../controllers/chat/chatController';
-import { getMessagesByChatId } from '../controllers/message/messageController';
+import {
+  getMessagesByChatId,
+  markAllMessagesAsRead,
+} from '../controllers/message/messageController';
 import { requireLogin } from '../middleware/authMiddleware';
 
 const router = express.Router();
@@ -17,5 +20,6 @@ router
   .put(requireLogin, updateChat);
 
 router.get('/:chatId/messages', requireLogin, getMessagesByChatId);
+router.put('/:chatId/messages/markAsRead', requireLogin, markAllMessagesAsRead);
 
 export default router;
