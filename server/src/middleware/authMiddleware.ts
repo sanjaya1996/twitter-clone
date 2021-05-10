@@ -29,7 +29,7 @@ export const requireLogin: RequestHandler = asyncHandler(
     try {
       const decoded = jwt.verify(
         token,
-        process.env.JWT_SECRET!
+        process.env.JWT_SECRET_TWEETHOUSE!
       ) as DecodeResult;
 
       const user = await User.findById(decoded.id).select('-password');

@@ -9,7 +9,6 @@ import * as postActions from '../../store/actions/post/postActions';
 import PostList from '../../components/post/PostList';
 import Meta from '../../components/meta/Meta';
 
-let connected = false;
 let socket: SocketIOClient.Socket;
 
 const HomePage: React.FC<RouteComponentProps> = ({

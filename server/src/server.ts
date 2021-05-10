@@ -1,7 +1,7 @@
+import './env';
 import http from 'http';
 import express from 'express';
 import { Server } from 'socket.io';
-import './env';
 import 'colors';
 import morgan from 'morgan';
 import cors, { CorsOptions } from 'cors';
@@ -41,7 +41,7 @@ connectIO(io);
 // ERROR Handler Middleware
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT_TWEETHOUSE || 5000;
 
 server.listen(5000, () =>
   console.log(`App Listening on Port ${PORT}`.yellow.bold)
