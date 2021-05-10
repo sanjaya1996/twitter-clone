@@ -41,8 +41,8 @@ connectIO(io);
 // ERROR Handler Middleware
 app.use(errorHandler);
 
-const PORT = process.env.PORT_TWEETHOUSE || 5000;
+const PORT = process.env.PORT_TWEETHOUSE || 8000;
 
-server.listen(5000, () =>
+server.listen(PORT, () =>
   console.log(`App Listening on Port ${PORT}`.yellow.bold)
 );

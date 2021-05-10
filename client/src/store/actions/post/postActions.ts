@@ -30,7 +30,7 @@ import {
   POST_UPDATE_SUCCESS,
 } from './postActionTypes';
 
-import store, { RootStore } from '../../store';
+import { RootStore } from '../../store';
 
 import * as api from '../../../api/index';
 import { getApiErrorMessage } from '../../../utils/errorMessage';
