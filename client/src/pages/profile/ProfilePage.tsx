@@ -12,6 +12,7 @@ import * as userActions from '../../store/actions/user/userActions';
 import ProfilePageProfile from '../../components/image/ProfilePageProfile';
 import CoverPhoto from '../../components/image/CoverPhoto';
 import LoadingSpinner from '../../components/loadingSpinner/LoadSpinner';
+import FallBackMessage from '../../components/fallbackMessage/FallbackMessage';
 
 interface ProfileProps {
   userInfo: UserType;
@@ -127,7 +128,7 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
       ) : error ? (
         <p>{error}</p>
       ) : posts.length === 0 ? (
-        <p>Nothing to Show</p>
+        <FallBackMessage />
       ) : (
         <>
           {activeTabId === 0 && pinnedPost && (

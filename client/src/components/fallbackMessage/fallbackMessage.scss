@@ -1,0 +1,11 @@
+.fallbackMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+
+  .fallbackText {
+    font-size: 20px;
+    color: rgb(15, 20, 25);
+  }
+}

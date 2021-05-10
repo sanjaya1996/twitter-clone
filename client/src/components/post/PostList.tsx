@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { PostInterface } from '../../store/actions/post/postActionTypes';
+import FallBackMessage from '../fallbackMessage/FallbackMessage';
 import LoadingSpinner from '../loadingSpinner/LoadSpinner';
 import Post from './Post';
 
@@ -15,7 +16,7 @@ const PostList: React.FC<postListProps> = ({ posts, userId, loading }) => {
       {loading ? (
         <LoadingSpinner />
       ) : posts.length === 0 ? (
-        <p>No results found</p>
+        <FallBackMessage />
       ) : (
         posts.map((post) => <Post key={post._id} post={post} userId={userId} />)
       )}

@@ -3,6 +3,7 @@ import express from 'express';
 import { Server } from 'socket.io';
 import './env';
 import 'colors';
+import morgan from 'morgan';
 import cors, { CorsOptions } from 'cors';
 
 import connectDB from './config/db';
@@ -16,13 +17,17 @@ connectDB();
 const app = express();
 
 const corsConfig: CorsOptions = {
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'https://tweethouse.online'],
   credentials: true,
 };
 
 app.use(cors(corsConfig));
 
 app.use(express.json());
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 const server = http.createServer(app);
 const io = new Server(server, { pingTimeout: 60000, cors: corsConfig });

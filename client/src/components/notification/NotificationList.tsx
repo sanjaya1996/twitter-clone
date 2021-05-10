@@ -1,5 +1,6 @@
 import React from 'react';
 import { NotificationInterface } from '../../store/actions/notification/notificationActionTypes';
+import FallBackMessage from '../fallbackMessage/FallbackMessage';
 import LoadingSpinner from '../loadingSpinner/LoadSpinner';
 import Notification from './Notification';
 
@@ -19,7 +20,7 @@ const NotificationList: React.FC<NotificationsProps> = ({
   } else if (error) {
     return <p>{error}</p>;
   } else if (notifications.length === 0) {
-    return <p>Nothing to Show</p>;
+    return <FallBackMessage />;
   } else {
     return (
       <>

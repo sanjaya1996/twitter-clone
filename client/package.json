@@ -11,7 +11,14 @@
     "@types/node": "^12.20.4",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.1",
+    "@types/bootstrap": "^5.0.12",
+    "@types/react-bootstrap": "^0.32.25",
+    "@types/react-image-crop": "^8.1.2",
+    "@types/react-redux": "^7.1.16",
+    "@types/react-router-dom": "^5.1.7",
+    "@types/redux": "^3.6.0",
     "@types/redux-thunk": "^2.1.0",
+    "@types/socket.io-client": "^1.4.36",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "cropperjs": "^1.5.11",
@@ -54,13 +61,6 @@
     ]
   },
   "devDependencies": {
-    "@types/bootstrap": "^5.0.12",
-    "@types/react-bootstrap": "^0.32.25",
-    "@types/react-image-crop": "^8.1.2",
-    "@types/react-redux": "^7.1.16",
-    "@types/react-router-dom": "^5.1.7",
-    "@types/redux": "^3.6.0",
-    "@types/socket.io-client": "^1.4.36",
     "redux-devtools-extension": "^2.13.9"
   }
 }

@@ -7,6 +7,7 @@ import { RootStore } from '../../store/store';
 
 import * as messageActions from '../../store/actions/message/messageActions';
 import LoadingSpinner from '../loadingSpinner/LoadSpinner';
+import FallBackMessage from '../fallbackMessage/FallbackMessage';
 
 interface ChatBoxMessagesProps {
   chatId: string;
@@ -42,7 +43,7 @@ const ChatBoxMessages: React.FC<ChatBoxMessagesProps> = ({ chatId }) => {
       ) : error ? (
         <p>{error}</p>
       ) : messages.length === 0 ? (
-        <p>No message to show</p>
+        <FallBackMessage message='Conversation have not started yet' />
       ) : (
         messages.map((message, index) => (
           <ChatMessage

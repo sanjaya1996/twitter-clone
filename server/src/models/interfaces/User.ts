@@ -13,6 +13,7 @@ export interface IUserSchema extends mongoose.Document {
   retweets: (string | Schema.Types.ObjectId)[];
   following: (string | Schema.Types.ObjectId)[];
   followers: (string | Schema.Types.ObjectId)[];
+  isAdmin?: boolean;
   matchPassword(enteredPassword: string): Promise<boolean>;
 }
 
@@ -27,6 +28,7 @@ export type LoggedInUserType = {
   token?: string;
   following: string[];
   followers: string[];
+  isAdmin?: boolean;
 };
 
 export interface UserRegisterData {

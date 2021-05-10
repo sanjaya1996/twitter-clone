@@ -11,10 +11,6 @@ import uploadRoutes from './uploadRoutes';
 import { notFound } from '../middleware/errorMiddleware';
 
 export default (app: Express) => {
-  app.get('/', (req, res) => {
-    res.send('Twitter-Clone API is up and running!');
-  });
-
   app.use('/api/users', userRoutes);
   app.use('/api/posts', postRoutes);
   app.use('/api/chats', chatRoutes);
@@ -24,6 +20,20 @@ export default (app: Express) => {
 
   const dirname = path.resolve();
   app.use('/uploads', express.static(path.join(dirname, './uploads')));
+
+  if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(dirname, '../client/build')));
+
+    app.get('*', (req, res) => {
+      res.sendFile(
+        path.resolve(dirname, '..', 'client', 'build', 'index.html')
+      );
+    });
+  } else {
+    app.get('/', (req, res) => {
+      res.send('Twitter-Clone API is up and running!');
+    });
+  }
 
   app.use(notFound);
 };

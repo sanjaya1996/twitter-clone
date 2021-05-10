@@ -4,6 +4,7 @@ import User from './User';
 import { UserType } from '../../store/actions/user/userActionTypes';
 
 import './userList.scss';
+import FallBackMessage from '../fallbackMessage/FallbackMessage';
 
 interface userListProps {
   users: UserType[];
@@ -22,7 +23,7 @@ const UserList: React.FC<userListProps> = ({
   return (
     <div className='resultsContainer'>
       {users.length === 0 ? (
-        <p>No results found</p>
+        <FallBackMessage message='No user to show' />
       ) : (
         users.map((user) => (
           <User

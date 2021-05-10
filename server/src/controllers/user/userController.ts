@@ -13,6 +13,11 @@ import { LoggedInUserType } from '../../models/interfaces/User';
 import { throwErrResponse } from '../../utils/throwErrResponse';
 import { FilterQuery } from 'mongoose';
 import Notification from '../../models/schemas/NotificationSchema';
+import {
+  followAdmin,
+  followBackByAdmin,
+  getAdminWelcomeMessage,
+} from './helpers';
 
 export const getUsers = asyncHandler(async (req, res) => {
   const queryParams = req.query as { search: string };
@@ -62,16 +67,27 @@ export const registerUser: RequestHandler = asyncHandler(async (req, res) => {
 
       req.user = createdUser as LoggedInUserType;
 
-      const userInfo = {
-        _id: createdUser._id,
-        firstName: createdUser.firstName,
-        lastName: createdUser.lastName,
-        userName: createdUser.userName,
-        profilePic: createdUser.profilePic,
-        token: generateToken(createdUser._id),
-      };
+      const admin = await User.findOne({ isAdmin: true });
 
-      res.status(201).json(userInfo);
+      if (admin) {
+        // FOLLOW TO ADMIN and Get follow back from admin and Get Admin Welcome message
+        await followAdmin(req, admin._id);
+        await followBackByAdmin(req, admin._id);
+        await getAdminWelcomeMessage(req.user._id, admin._id);
+      }
+
+      const loggedInUser = req.user;
+
+      res.status(201).json({
+        _id: loggedInUser._id,
+        firstName: loggedInUser.firstName,
+        lastName: loggedInUser.lastName,
+        userName: loggedInUser.userName,
+        profilePic: loggedInUser.profilePic,
+        following: loggedInUser.following,
+        followers: loggedInUser.followers,
+        token: generateToken(loggedInUser._id),
+      });
     }
   } else {
     return throwErrResponse(

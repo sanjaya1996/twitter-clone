@@ -7,6 +7,7 @@ import { RouteComponentProps } from 'react-router';
 import TitleBar from '../../../components/titleBar/TitleBar';
 import Tabs from '../../../components/tabs/Tabs';
 import UserList from '../../../components/user/UserList';
+import FallBackMessage from '../../../components/fallbackMessage/FallbackMessage';
 
 interface RouteParams {
   id: string;
@@ -105,7 +106,7 @@ const FollowersFollowingPage: React.FC<RouteComponentProps<RouteParams>> = ({
         ) : displayedError ? (
           <p>{displayedError}</p>
         ) : displayedUsers.length === 0 ? (
-          <h1>Nothing To Show</h1>
+          <FallBackMessage message='No user to show' />
         ) : (
           <UserList users={displayedUsers} showBtns={true} />
         )}

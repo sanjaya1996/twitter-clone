@@ -16,6 +16,7 @@ const userSchema = new Schema(
     retweets: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
     following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    isAdmin: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
