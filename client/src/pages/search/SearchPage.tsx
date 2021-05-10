@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import LoadingSpinner from '../../components/loadingSpinner/LoadSpinner';
+import Meta from '../../components/meta/Meta';
 import PostList from '../../components/post/PostList';
 import Tabs from '../../components/tabs/Tabs';
 import UserList from '../../components/user/UserList';
@@ -100,6 +101,7 @@ const SearchPage: React.FC<RouteComponentProps<RouteParams>> = ({
 
   return (
     <>
+      <Meta title={`Posts/Users | Search`} />
       <div className='searchBarContainer'>
         <i className='fas fa-search'></i>
         <input

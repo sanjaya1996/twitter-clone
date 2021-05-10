@@ -10,6 +10,7 @@ import { RootStore } from '../../../store/store';
 
 import './newMessage.scss';
 import { RouteChildrenProps } from 'react-router';
+import Meta from '../../../components/meta/Meta';
 
 let timer: NodeJS.Timeout;
 
@@ -86,39 +87,45 @@ const NewMessagePage: React.FC<RouteChildrenProps> = ({ history }) => {
   };
 
   return (
-    <div className='chatPageContainer'>
-      <div className='chatTitleBar'>
-        <label htmlFor='userSearchTextbox'>To:</label>
-        <div id='selectedUsers'>
-          {selectedUsers.length > 0 &&
-            selectedUsers.map(({ _id, firstName, lastName }) => (
-              <span key={_id} className='selectedUser'>
-                {firstName + ' ' + lastName}
-              </span>
-            ))}
-          <input
-            ref={textInputRef}
-            type='text'
-            id='userSearchTextbox'
-            placeholder='Type the name of the person'
-            onChange={searchHandler}
-            onKeyDown={keyDownHandler}
-          />
+    <>
+      <Meta title='New message | TweetHouse' />
+      <div className='chatPageContainer'>
+        <div className='chatTitleBar'>
+          <label htmlFor='userSearchTextbox'>To:</label>
+          <div id='selectedUsers'>
+            {selectedUsers.length > 0 &&
+              selectedUsers.map(({ _id, firstName, lastName }) => (
+                <span key={_id} className='selectedUser'>
+                  {firstName + ' ' + lastName}
+                </span>
+              ))}
+            <input
+              ref={textInputRef}
+              type='text'
+              id='userSearchTextbox'
+              placeholder='Type the name of the person'
+              onChange={searchHandler}
+              onKeyDown={keyDownHandler}
+            />
+          </div>
         </div>
+        <div className='resultsContainer'>
+          {!loading && searchText.length !== 0 && showSearchResults && (
+            <UserList
+              users={selectableUsers}
+              onSelectUser={selectUserHandler}
+            />
+          )}
+        </div>
+        <button
+          id='createChatButton'
+          disabled={selectedUsers.length === 0}
+          onClick={createChatHandler}
+        >
+          Create chat
+        </button>
       </div>
-      <div className='resultsContainer'>
-        {!loading && searchText.length !== 0 && showSearchResults && (
-          <UserList users={selectableUsers} onSelectUser={selectUserHandler} />
-        )}
-      </div>
-      <button
-        id='createChatButton'
-        disabled={selectedUsers.length === 0}
-        onClick={createChatHandler}
-      >
-        Create chat
-      </button>
-    </div>
+    </>
   );
 };
 

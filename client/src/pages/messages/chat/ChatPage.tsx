@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import { getChatName } from '../../../components/chat/helpers';
 import ChatBoxMessages from '../../../components/chatBox/ChatBoxMessages';
+import Meta from '../../../components/meta/Meta';
 import ChatNameModal from '../../../components/modals/ChatNameModal';
 
 import * as chatActions from '../../../store/actions/chat/chatActions';
@@ -117,47 +119,50 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
   const remainingImagesCount = getRemainingImagesCount(chat.users.length);
 
   return (
-    <div className='chatPageContainer'>
-      <div className='chatTitleBarContianer'>
-        <div className='chatImagesContainer'>
-          {remainingImagesCount > 0 && (
-            <div className='userCount'>
-              <span>+{remainingImagesCount}</span>
-            </div>
-          )}
-          {images.map((src, i) => (
-            <img key={i} src={src} alt={'User' + i} />
-          ))}
+    <>
+      <Meta title={`Chat | ${getChatName(chat, loggedInUser._id)}`} />
+      <div className='chatPageContainer'>
+        <div className='chatTitleBarContianer'>
+          <div className='chatImagesContainer'>
+            {remainingImagesCount > 0 && (
+              <div className='userCount'>
+                <span>+{remainingImagesCount}</span>
+              </div>
+            )}
+            {images.map((src, i) => (
+              <img key={i} src={src} alt={'User' + i} />
+            ))}
+          </div>
+          <ChatNameModal chat={chat} />
         </div>
-        <ChatNameModal chat={chat} />
-      </div>
-      <div className='mainContentContainer'>
-        <div className='chatContainer'>
-          <ChatBoxMessages chatId={chatId} />
-          {showTypingDots && (
-            <div className='typingDots'>
-              <img src='/images/dots.gif' alt='typing dots' />
-            </div>
-          )}
+        <div className='mainContentContainer'>
+          <div className='chatContainer'>
+            <ChatBoxMessages chatId={chatId} />
+            {showTypingDots && (
+              <div className='typingDots'>
+                <img src='/images/dots.gif' alt='typing dots' />
+              </div>
+            )}
 
-          <div className='footer'>
-            <textarea
-              name='messageInput'
-              placeholder='Type a message...'
-              value={textMessage}
-              onChange={messageTypingHandler}
-              onKeyDown={keyDownHandler}
-            ></textarea>
-            <button
-              onClick={messageSubmitHandler}
-              className='sendMessageButton'
-            >
-              <i className='fas fa-paper-plane'></i>
-            </button>
+            <div className='footer'>
+              <textarea
+                name='messageInput'
+                placeholder='Type a message...'
+                value={textMessage}
+                onChange={messageTypingHandler}
+                onKeyDown={keyDownHandler}
+              ></textarea>
+              <button
+                onClick={messageSubmitHandler}
+                className='sendMessageButton'
+              >
+                <i className='fas fa-paper-plane'></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

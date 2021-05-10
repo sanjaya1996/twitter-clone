@@ -13,6 +13,7 @@ import ProfilePageProfile from '../../components/image/ProfilePageProfile';
 import CoverPhoto from '../../components/image/CoverPhoto';
 import LoadingSpinner from '../../components/loadingSpinner/LoadSpinner';
 import FallBackMessage from '../../components/fallbackMessage/FallbackMessage';
+import Meta from '../../components/meta/Meta';
 
 interface ProfileProps {
   userInfo: UserType;
@@ -88,6 +89,7 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
 
   return (
     <>
+      <Meta title={`${firstName} ${lastName} @(${userName})`} />
       <TitleBar title={firstName + ' ' + lastName} />
       <div className='profileHeaderContainer'>
         <div className='coverPhotoSection'>

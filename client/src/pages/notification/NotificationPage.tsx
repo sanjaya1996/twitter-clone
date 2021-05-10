@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Meta from '../../components/meta/Meta';
 
 import NotificationList from '../../components/notification/NotificationList';
 import TitleBar from '../../components/titleBar/TitleBar';
@@ -23,6 +24,7 @@ const NotificationPage = () => {
 
   return (
     <>
+      <Meta title='Notifications | TweetHouse' />
       <TitleBar
         title='Notifications'
         headerBtnIcon='fas fa-check-double'

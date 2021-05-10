@@ -8,6 +8,7 @@ import TitleBar from '../../../components/titleBar/TitleBar';
 import Tabs from '../../../components/tabs/Tabs';
 import UserList from '../../../components/user/UserList';
 import FallBackMessage from '../../../components/fallbackMessage/FallbackMessage';
+import Meta from '../../../components/meta/Meta';
 
 interface RouteParams {
   id: string;
@@ -99,6 +100,9 @@ const FollowersFollowingPage: React.FC<RouteComponentProps<RouteParams>> = ({
   } else {
     return (
       <>
+        <Meta
+          title={`Followers/Following | ${user.firstName} ${user.lastName}`}
+        />
         <TitleBar title={user.firstName + ' ' + user.lastName} />
         <Tabs data={TABS} handleSelect={tabSelectHandler} />
         {displayedLoading ? (

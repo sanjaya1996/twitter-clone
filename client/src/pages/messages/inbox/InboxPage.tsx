@@ -6,6 +6,7 @@ import { RootStore } from '../../../store/store';
 
 import * as chatActions from '../../../store/actions/chat/chatActions';
 import LoadingSpinner from '../../../components/loadingSpinner/LoadSpinner';
+import Meta from '../../../components/meta/Meta';
 
 const InboxPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const InboxPage: React.FC = () => {
   }, [dispatch]);
   return (
     <>
+      <Meta title='Messages | TweetHouse' />
       <TitleBar
         title='Inbox'
         headerBtnIcon='far fa-plus-square'

@@ -6,6 +6,7 @@ import * as userActions from '../../store/actions/user/userActions';
 
 import './login.scss';
 import { RootStore } from '../../store/store';
+import Meta from '../../components/meta/Meta';
 
 type OnChangeInputEventType = React.ChangeEvent<HTMLInputElement>;
 
@@ -38,36 +39,39 @@ const LoginPage: React.FC<RouteComponentProps> = ({
   };
 
   return (
-    <div className='loginPageLayout'>
-      <div className='loginContainer'>
-        <h1>Login</h1>
-        <form onSubmit={loginHandler}>
-          {error && <p>{error}</p>}
-          <input
-            type='text'
-            name='logUsername'
-            placeholder='Username or email'
-            required
-            onChange={(e: OnChangeInputEventType) =>
-              setLogUserName(e.target.value)
-            }
-          />
-          <input
-            type='password'
-            name='logPassword'
-            placeholder='Password'
-            required
-            onChange={(e: OnChangeInputEventType) =>
-              setLogPassword(e.target.value)
-            }
-          />
-          <input type='submit' value='Login' />
-        </form>
-        <p>
-          Need an account ? <Link to='/register'>Register here.</Link>
-        </p>
+    <>
+      <Meta title='Login | TweetHouse' />
+      <div className='loginPageLayout'>
+        <div className='loginContainer'>
+          <h1>Login</h1>
+          <form onSubmit={loginHandler}>
+            {error && <p>{error}</p>}
+            <input
+              type='text'
+              name='logUsername'
+              placeholder='Username or email'
+              required
+              onChange={(e: OnChangeInputEventType) =>
+                setLogUserName(e.target.value)
+              }
+            />
+            <input
+              type='password'
+              name='logPassword'
+              placeholder='Password'
+              required
+              onChange={(e: OnChangeInputEventType) =>
+                setLogPassword(e.target.value)
+              }
+            />
+            <input type='submit' value='Login' />
+          </form>
+          <p>
+            Need an account ? <Link to='/register'>Register here.</Link>
+          </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

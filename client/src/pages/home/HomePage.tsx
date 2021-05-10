@@ -7,6 +7,7 @@ import io from 'socket.io-client';
 import { RootStore } from '../../store/store';
 import * as postActions from '../../store/actions/post/postActions';
 import PostList from '../../components/post/PostList';
+import Meta from '../../components/meta/Meta';
 
 let connected = false;
 let socket: SocketIOClient.Socket;
@@ -52,6 +53,7 @@ const HomePage: React.FC<RouteComponentProps> = ({
 
   return (
     <>
+      <Meta />
       <PostForm
         imageUrl={user.profilePic}
         creating={loadingCreate}
