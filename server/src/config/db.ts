@@ -2,7 +2,16 @@ import mongoose from 'mongoose';
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI_TWEETHOUSE!, {
+    const {
+      MONGO_USER_TWEETHOUSE: user,
+      MONGO_PASSWORD_TWEETHOUSE: password,
+      MONGO_DBNAME_TWEETHOUSE: db,
+      MONGO_CLUSTER_URL_TWEETHOUSE: clusterUrl,
+    } = process.env;
+
+    const uri = `mongodb+srv://${user}:${password}@${clusterUrl}/${db}?retryWrites=true&w=majority`;
+
+    const conn = await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
