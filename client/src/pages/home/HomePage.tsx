@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import PostForm from '../../components/postForm/PostForm';
 import io from 'socket.io-client';
+import { BASE_URL } from '../../api/index';
 
 import { RootStore } from '../../store/store';
 import * as postActions from '../../store/actions/post/postActions';
@@ -42,7 +43,7 @@ const HomePage: React.FC<RouteComponentProps> = ({
   }, [dispatch, successDelete, successUpdate]);
 
   useEffect(() => {
-    socket = io('http://localhost:5000/');
+    socket = io(BASE_URL);
     socket.emit('setup', user);
   }, [user]);
 
