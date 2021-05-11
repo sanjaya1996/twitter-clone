@@ -8,7 +8,8 @@ import { PostInterface } from '../store/actions/post/postActionTypes';
 
 // ------------------------------ AXIOS CONFIGURATION ---------------------
 
-export const BASE_URL = 'http://localhost:5000';
+export const BASE_URL =
+  process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '';
 
 const API = axios.create({ baseURL: BASE_URL });
 
