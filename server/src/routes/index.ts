@@ -18,24 +18,12 @@ export default (app: Express) => {
   app.use('/api/notifications', notificationRoutes);
   app.use('/api/uploads', uploadRoutes);
 
-  const isProduction = process.env.NODE_ENV === 'production';
-
-  const pathToClient = !isProduction ? '../client' : '/apps/tweet-house/client';
-
   const dirname = path.resolve();
   app.use('/uploads', express.static(path.join(dirname, './uploads')));
 
-  if (isProduction) {
-    app.use(express.static(path.join(dirname, `${pathToClient}/build`)));
-
-    app.get('*', (req, res) => {
-      res.sendFile(path.resolve(`${pathToClient}/build/index.html`));
-    });
-  } else {
-    app.get('/', (req, res) => {
-      res.send('Twitter-Clone API is up and running!');
-    });
-  }
+  app.get('/', (req, res) => {
+    res.send('Twitter-Clone API is up and running!');
+  });
 
   app.use(notFound);
 };
