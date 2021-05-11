@@ -14,7 +14,7 @@ dist
 dist/
 
 # production
-/client/build
+# /client/build   --Push this folder because issue with ubuntu machine in npm run build mabe caused due to low space
 
 # misc
 .DS_Store
