@@ -1,10 +1,15 @@
 import express, { NextFunction } from 'express';
 import multer, { MulterError } from 'multer';
 import path from 'path';
+import fs from 'fs';
+import util from 'util';
+const unlinkFile = util.promisify(fs.unlink);
 
 import { requireLogin } from '../middleware/authMiddleware';
 import { LoggedInUserType } from '../models/interfaces/User';
 import User from '../models/schemas/UserSchema';
+import { uploadFile } from '../utils/s3';
+import { updateLoggedInUser } from '../controllers/user/helpers';
 
 const router = express.Router();
 
@@ -45,19 +50,22 @@ const upload = multer({
 router.post('/profilePicture', requireLogin, function (req, res, next) {
   upload.single('profileImage')(req, res, async function (err: any) {
     try {
+      const file = req.file;
       if (err instanceof multer.MulterError) {
         return next(err);
-      } else if (!req.file) {
+      } else if (!file) {
         const error = new Error('No image was uploaded');
         return next(error);
       }
 
-      const filePath = `/${req.file.path}`;
-      req.user = (await User.findByIdAndUpdate(
-        req.user._id,
-        { profilePic: filePath },
-        { new: true }
-      )) as LoggedInUserType;
+      await uploadFile(file);
+
+      await unlinkFile(file.path);
+
+      const filePath = `/${file.path}`;
+
+      updateLoggedInUser(req, { profilePic: filePath });
+
       res.status(204).send('Profile Updated');
     } catch (err) {
       next(err);
@@ -68,19 +76,22 @@ router.post('/profilePicture', requireLogin, function (req, res, next) {
 router.post('/coverPhoto', requireLogin, function (req, res, next) {
   upload.single('coverPhoto')(req, res, async function (err: any) {
     try {
+      const file = req.file;
       if (err instanceof multer.MulterError) {
         return next(err);
-      } else if (!req.file) {
+      } else if (!file) {
         const error = new Error('No image was uploaded');
         return next(error);
       }
 
-      const filePath = `/${req.file.path}`;
-      req.user = (await User.findByIdAndUpdate(
-        req.user._id,
-        { coverPhoto: filePath },
-        { new: true }
-      )) as LoggedInUserType;
+      await uploadFile(file);
+
+      await unlinkFile(file.path);
+
+      const filePath = `/${file.path}`;
+
+      updateLoggedInUser(req, { coverPhoto: filePath });
+
       res.status(204).json({ message: 'Cover Photo Updated' });
     } catch (err) {
       next(err);

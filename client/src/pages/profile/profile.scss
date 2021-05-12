@@ -81,3 +81,9 @@
 .pinnedPostContainer {
   border-bottom: 10px solid rgb(230, 236, 240);
 }
+
+@media screen and (max-width: 450px) {
+  .othersProfile {
+    margin-top: 50px;
+  }
+}

@@ -96,7 +96,11 @@ const ProfilePage: React.FC<ProfileProps> = ({ userInfo }) => {
           <CoverPhoto uri={''} profileUser={userInfo} />
           <ProfilePageProfile uri={profilePic} profileUser={userInfo} />
         </div>
-        <div className='profileButtonsContainer'>
+        <div
+          className={`profileButtonsContainer ${
+            loggedInUser?._id !== _id && 'othersProfile'
+          }`}
+        >
           {loggedInUser?._id !== _id && (
             <>
               <Link to={`/message/${_id}`} className='profileButton'>

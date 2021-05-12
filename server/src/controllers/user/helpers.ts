@@ -1,5 +1,6 @@
 import { Request } from 'express';
-import { LoggedInUserType } from '../../models/interfaces/User';
+import { UpdateQuery } from 'mongoose';
+import { IUserSchema, LoggedInUserType } from '../../models/interfaces/User';
 import Chat from '../../models/schemas/ChatSchema';
 import Message from '../../models/schemas/MessageSchema';
 import Notification from '../../models/schemas/NotificationSchema';
@@ -86,4 +87,13 @@ export const getAdminWelcomeMessage = async (
     notificationType: 'newMessage',
     entityId: newChatId,
   });
+};
+
+export const updateLoggedInUser = async (
+  req: Request,
+  data: UpdateQuery<IUserSchema>
+) => {
+  req.user = (await User.findByIdAndUpdate(req.user._id, data, {
+    new: true,
+  })) as LoggedInUserType;
 };
