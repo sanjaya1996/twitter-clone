@@ -16,6 +16,9 @@ dist/
 # production --Push this folder because we have issue with ubuntu machine in npm run build maybe caused by low space
 # /client/build   
 
+# Uploaded Files
+/server/uploads/*
+
 # misc
 .DS_Store
 .env
