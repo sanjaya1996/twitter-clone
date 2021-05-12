@@ -16,12 +16,14 @@ let lastTypingTime: number;
 
 export const setupSocket = (user: UserType) => {
   return (dispatch: Dispatch<SocketConnectDispatchTypes>) => {
+    console.log('Trying to Connect to socket');
     connectSocket(user, dispatch);
   };
 };
 
 export const joinChatRoomSocket = (chatId: string) => {
   return (dispatch: Dispatch<SocketChatRoomDispatchTypes>) => {
+    console.log('Emmiting Join room from client');
     socket.emit('join room', chatId);
     socket.on('typing', (room: string) =>
       dispatch({

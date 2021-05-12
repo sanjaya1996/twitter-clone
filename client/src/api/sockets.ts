@@ -17,8 +17,7 @@ import * as notificationActions from '../store/actions/notification/notification
 import { UserType } from '../store/actions/user/userActionTypes';
 import { NOTIFICATION_LATEST_SUCCESS } from '../store/actions/notification/notificationActionTypes';
 
-const isProduction = process.env.NODE_ENV === 'production';
-const socket = isProduction ? io() : io(BASE_URL);
+const socket = io(BASE_URL);
 
 const connectSocket = (
   user: UserType,
@@ -26,11 +25,13 @@ const connectSocket = (
 ) => {
   socket.emit('setup', user);
 
-  socket.on('connected', () =>
-    dispatch({ type: SOCKET_CONNECT, payload: { isConnected: true } })
-  );
+  socket.on('connected', () => {
+    console.log('Client Connected to Socket');
+    dispatch({ type: SOCKET_CONNECT, payload: { isConnected: true } });
+  });
 
   socket.on('message received', (newMessage: MessageInterface) => {
+    console.log('Socket message recieved in client');
     const currentUserPath = document.location.pathname;
     const isCorrectChatPage =
       currentUserPath === `/message/${newMessage.chat._id}`;
