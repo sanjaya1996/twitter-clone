@@ -9,6 +9,7 @@ import Tabs from '../../../components/tabs/Tabs';
 import UserList from '../../../components/user/UserList';
 import FallBackMessage from '../../../components/fallbackMessage/FallbackMessage';
 import Meta from '../../../components/meta/Meta';
+import LoadingSpinner from '../../../components/loadingSpinner/LoadSpinner';
 
 interface RouteParams {
   id: string;
@@ -82,7 +83,7 @@ const FollowersFollowingPage: React.FC<RouteComponentProps<RouteParams>> = ({
   };
 
   if (loading) {
-    return <p>Loading ...</p>;
+    return <LoadingSpinner />;
   }
   if (error) {
     return (
@@ -106,7 +107,7 @@ const FollowersFollowingPage: React.FC<RouteComponentProps<RouteParams>> = ({
         <TitleBar title={user.firstName + ' ' + user.lastName} />
         <Tabs data={TABS} handleSelect={tabSelectHandler} />
         {displayedLoading ? (
-          <p>Loading Users...</p>
+          <LoadingSpinner />
         ) : displayedError ? (
           <p>{displayedError}</p>
         ) : displayedUsers.length === 0 ? (
