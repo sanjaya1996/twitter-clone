@@ -17,7 +17,8 @@ import * as notificationActions from '../store/actions/notification/notification
 import { UserType } from '../store/actions/user/userActionTypes';
 import { NOTIFICATION_LATEST_SUCCESS } from '../store/actions/notification/notificationActionTypes';
 
-const socket = io(BASE_URL);
+const isProduction = process.env.NODE_ENV === 'production';
+const socket = isProduction ? io() : io(BASE_URL);
 
 const connectSocket = (
   user: UserType,

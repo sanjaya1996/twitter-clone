@@ -8,10 +8,10 @@ import { PostInterface } from '../store/actions/post/postActionTypes';
 
 // ------------------------------ AXIOS CONFIGURATION ---------------------
 
-export const BASE_URL =
-  process.env.NODE_ENV === 'production'
-    ? 'https://tweethouse.online'
-    : 'http://localhost:5000';
+const isProduction = process.env.NODE_ENV === 'production';
+export const BASE_URL = isProduction
+  ? 'https://tweethouse.online'
+  : 'http://localhost:5000';
 
 const API = axios.create({ baseURL: BASE_URL });
 
