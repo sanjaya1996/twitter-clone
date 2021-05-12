@@ -19,6 +19,9 @@ dist/
 # Uploaded Files
 /server/uploads/*
 
+# Uploaded Files
+/server/uploads/*
+
 # misc
 .DS_Store
 .env
