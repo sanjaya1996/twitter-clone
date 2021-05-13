@@ -85,7 +85,6 @@ const ChatPage: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
   const messageSubmitHandler = () => {
     const content = textMessage.trim();
     if (content.length === 0) {
-      console.log('No message');
       return;
     }
 

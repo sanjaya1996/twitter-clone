@@ -4,6 +4,7 @@ import {
   INotificationData,
   INotificationModel,
 } from '../interfaces/Notification';
+import { isPopulatedUser } from '../interfaces/User';
 
 const Schema = mongoose.Schema;
 
@@ -22,6 +23,14 @@ NotificationSchema.statics.insertNotification = async (
   data: INotificationData
 ) => {
   try {
+    const { userFrom, userTo } = data;
+    const userToId = isPopulatedUser(userTo) ? userTo._id : userTo;
+    const userFromId = isPopulatedUser(userFrom) ? userFrom._id : userFrom;
+
+    if (userFromId.toString() === userToId.toString()) {
+      return; // Do not send notification to same user
+    }
+
     await Notification.deleteOne(data);
     return await Notification.create(data);
   } catch (err) {

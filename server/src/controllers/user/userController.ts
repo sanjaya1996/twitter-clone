@@ -101,13 +101,15 @@ export const registerUser: RequestHandler = asyncHandler(async (req, res) => {
 export const loginUser: RequestHandler = asyncHandler(
   async (req, res, next) => {
     const requestBody = req.body as UserLoginData;
-    const { email, password } = requestBody;
+    const { email: emailOrUserName, password } = requestBody;
 
-    if (!email || !password) {
+    if (!emailOrUserName || !password) {
       return throwErrResponse(res, 422, 'Please provide an email and password');
     }
 
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({
+      $or: [{ userName: emailOrUserName }, { email: emailOrUserName }],
+    }).select('+password');
 
     if (!user) {
       return throwErrResponse(res, 401, 'Invalid email or password');

@@ -39,7 +39,6 @@ const connectSocket = (
     const showNotification = !isCorrectChatPage;
 
     if (showNotification) {
-      console.log('Show notification...');
       dispatch({ type: NOTIFICATION_LATEST_SUCCESS, payload: newMessage });
     } else {
       dispatch({ type: MESSAGE_ADD_TO_LIST, payload: newMessage });

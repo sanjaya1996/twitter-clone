@@ -27,8 +27,6 @@ export const uploadFile = (file: Express.Multer.File) => {
     .upload(uploadParams, (err, data) => {
       if (err) {
         console.log(err);
-      } else if (data) {
-        console.log(data);
       }
     })
     .promise();

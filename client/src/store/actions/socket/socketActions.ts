@@ -8,8 +8,6 @@ import {
   SOCKET_CHAT_ROOM_TYPING,
 } from './socketsActionsTypes';
 
-import store from '../../store';
-
 // updateTypingSocket variables
 let typing = false;
 let lastTypingTime: number;
@@ -75,9 +73,6 @@ export const emitNewNotificationSocket = (user: string | UserType) => {
   } else {
     id = user._id;
   }
-
-  const loggedInUserId = store.getState().loggedInUserInfo.user?._id;
-  if (id === loggedInUserId) return;
 
   socket.emit('notification received', id);
 };

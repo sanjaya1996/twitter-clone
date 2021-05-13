@@ -15,7 +15,6 @@ export const createMessage: RequestHandler = asyncHandler(
     const { chatId, content } = req.body;
 
     if (!content || !chatId) {
-      console.log('Invalid Data passed into request');
       throwErrResponse(res, 400, 'Invalid data passed into request');
     }
 

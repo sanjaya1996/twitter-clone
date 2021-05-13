@@ -19,13 +19,15 @@ const PostReplyModal: React.FC<PostReplyProps> = ({ postId }) => {
 
   const dispatch = useDispatch();
 
-  const userAuthState = useSelector((state: RootStore) => state.userAuth);
-  const { user } = userAuthState;
+  const state = useSelector((state: RootStore) => state);
 
-  const posts = useSelector((state: RootStore) => state.postList.posts);
+  const loggedInUserState = state.loggedInUserInfo;
+  const { user } = loggedInUserState;
+
+  const posts = state.postList.posts;
   const post = posts.find((p) => p._id === postId);
 
-  const postCreateState = useSelector((state: RootStore) => state.postCreate);
+  const postCreateState = state.postCreate;
   const {
     success,
     loading: loadingCreate,
