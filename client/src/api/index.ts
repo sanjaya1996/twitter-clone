@@ -72,8 +72,7 @@ export const searchPosts = (keywords: string) =>
 export const createPost = (data: { content: string; replyTo?: string }) =>
   API.post('/api/posts', data);
 
-export const retweetPost = (id: string) =>
-  API.post<PostInterface>(`/api/posts/${id}/retweet`);
+export const retweetPost = (id: string) => API.post(`/api/posts/${id}/retweet`);
 
 export const likePost = (id: string) => API.put(`/api/posts/${id}/like`);
 

@@ -133,7 +133,7 @@ export const likePost = (id: string, retweetId: string | null) => {
           loggedInUserId === data.postedBy._id;
 
         // Do not send their notification to themselves
-        !isLoggedInUserPost && emitNewNotificationSocket(data.postedBy._id);
+        !isLoggedInUserPost && emitNewNotificationSocket(data.postedBy);
       }
     } catch (err) {
       dispatch({
@@ -157,8 +157,13 @@ export const retweetPost = (id: string, retweetId: string | null) => {
       const loggedInUserId = getState().loggedInUserInfo.user!._id;
 
       if (data.retweetUsers.includes(loggedInUserId)) {
-        const isLoggedInUserPost = loggedInUserId === data.postedBy._id;
-        !isLoggedInUserPost && emitNewNotificationSocket(data.postedBy._id);
+        const isLoggedInUserPost =
+          loggedInUserId === data.postedBy ||
+          loggedInUserId === data.postedBy._id;
+
+        console.log('Is my own post: ', isLoggedInUserPost);
+
+        !isLoggedInUserPost && emitNewNotificationSocket(data.postedBy);
       }
     } catch (err) {
       console.log(
