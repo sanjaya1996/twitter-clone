@@ -43,3 +43,7 @@ export interface UserLoginData {
   email: string;
   password: string;
 }
+
+export function isPopulatedUser(obj: IUserSchema | any): obj is IUserSchema {
+  return obj && obj._id;
+}

@@ -80,17 +80,23 @@ export const getPostDetails = (id: string) => {
 };
 
 export const createPost = (postData: { content: string; replyTo?: string }) => {
-  return async (dispatch: Dispatch<PostCreateDispatchTypes>) => {
+  return async (
+    dispatch: Dispatch<PostCreateDispatchTypes>,
+    getState: () => RootStore
+  ) => {
     try {
       dispatch({ type: POST_CREATE_LOADING });
+
+      const loggedInUserId = getState().loggedInUserInfo.user!._id;
 
       const { data } = await api.createPost(postData);
 
       dispatch({ type: POST_CREATE_SUCCESS, payload: data });
 
       if (data.replyTo) {
-        emitNewNotificationSocket(data.replyTo.postedBy);
-        console.log('Emitting Notification');
+        const isLoggedInUserPost =
+          loggedInUserId === data.replyTo.postedBy?._id;
+        !isLoggedInUserPost && emitNewNotificationSocket(data.replyTo.postedBy);
       }
     } catch (err) {
       dispatch({
@@ -121,7 +127,13 @@ export const likePost = (id: string, retweetId: string | null) => {
       dispatch({ type: POST_LIKE_SUCCESS, payload: data });
 
       if (data.likes.includes(loggedInUserId)) {
-        emitNewNotificationSocket(data.postedBy._id);
+        // Do not emit when unliking post
+        const isLoggedInUserPost =
+          loggedInUserId === data.postedBy ||
+          loggedInUserId === data.postedBy._id;
+
+        // Do not send their notification to themselves
+        !isLoggedInUserPost && emitNewNotificationSocket(data.postedBy._id);
       }
     } catch (err) {
       dispatch({
@@ -145,7 +157,8 @@ export const retweetPost = (id: string, retweetId: string | null) => {
       const loggedInUserId = getState().loggedInUserInfo.user!._id;
 
       if (data.retweetUsers.includes(loggedInUserId)) {
-        emitNewNotificationSocket(data.postedBy._id);
+        const isLoggedInUserPost = loggedInUserId === data.postedBy._id;
+        !isLoggedInUserPost && emitNewNotificationSocket(data.postedBy._id);
       }
     } catch (err) {
       console.log(
