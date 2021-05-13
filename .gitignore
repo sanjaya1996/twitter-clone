@@ -14,7 +14,7 @@ dist
 dist/
 
 # production --Push this folder because we have issue with ubuntu machine in npm run build maybe caused by low space
-/client/build   
+# /client/build   
 
 # Uploaded Files
 /server/uploads/*
