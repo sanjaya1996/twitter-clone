@@ -128,3 +128,11 @@
     }
   }
 }
+
+@media screen and (max-width: 400px) {
+  .replyFlag,
+  .postBody,
+  .postFooter {
+    margin-left: -50px;
+  }
+}

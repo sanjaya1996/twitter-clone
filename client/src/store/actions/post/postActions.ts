@@ -161,8 +161,6 @@ export const retweetPost = (id: string, retweetId: string | null) => {
           loggedInUserId === data.postedBy ||
           loggedInUserId === data.postedBy._id;
 
-        console.log('Is my own post: ', isLoggedInUserPost);
-
         !isLoggedInUserPost && emitNewNotificationSocket(data.postedBy);
       }
     } catch (err) {
