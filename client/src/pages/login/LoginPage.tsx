@@ -8,6 +8,19 @@ import './login.scss';
 import { RootStore } from '../../store/store';
 import Meta from '../../components/meta/Meta';
 
+const TEST_ACCOUNTS = [
+  {
+    userName: 'john_doe@yahoo.com',
+    fullName: 'John Doe',
+    password: 'testPasswordJohn',
+  },
+  {
+    userName: 'jane_doe@yahoo.com',
+    fullName: 'Jane Doe',
+    password: 'testPasswordJane',
+  },
+];
+
 type OnChangeInputEventType = React.ChangeEvent<HTMLInputElement>;
 
 const LoginPage: React.FC<RouteComponentProps> = ({
@@ -16,6 +29,8 @@ const LoginPage: React.FC<RouteComponentProps> = ({
 }: RouteComponentProps) => {
   const [logUserName, setLogUserName] = useState('');
   const [logPassword, setLogPassword] = useState('');
+
+  const [wantToTest, setWantToTest] = useState(false);
 
   const userAuthState = useSelector((state: RootStore) => state.userAuth);
   const { error, user } = userAuthState;
@@ -38,6 +53,11 @@ const LoginPage: React.FC<RouteComponentProps> = ({
     );
   };
 
+  const setTestAccountLoginDetails = (index: number) => {
+    setLogUserName(TEST_ACCOUNTS[index].userName);
+    setLogPassword(TEST_ACCOUNTS[index].password);
+  };
+
   return (
     <>
       <Meta title='Login | TweetHouse' />
@@ -50,6 +70,7 @@ const LoginPage: React.FC<RouteComponentProps> = ({
               type='text'
               name='logUsername'
               placeholder='Username or email'
+              value={logUserName || ''}
               required
               onChange={(e: OnChangeInputEventType) =>
                 setLogUserName(e.target.value)
@@ -59,6 +80,7 @@ const LoginPage: React.FC<RouteComponentProps> = ({
               type='password'
               name='logPassword'
               placeholder='Password'
+              value={logPassword || ''}
               required
               onChange={(e: OnChangeInputEventType) =>
                 setLogPassword(e.target.value)
@@ -69,6 +91,29 @@ const LoginPage: React.FC<RouteComponentProps> = ({
           <p>
             Need an account ? <Link to='/register'>Register here.</Link>
           </p>
+          <p>
+            Wanna Test ?{' '}
+            <Link to='#' onClick={() => setWantToTest(!wantToTest)}>
+              {wantToTest ? 'Hide' : 'Click here'}
+            </Link>
+          </p>
+          {wantToTest && (
+            <>
+              Login as
+              {TEST_ACCOUNTS.map((acc, index) => (
+                <span key={index}>
+                  <button onClick={() => setTestAccountLoginDetails(index)}>
+                    {acc.fullName}
+                  </button>
+                  {index < TEST_ACCOUNTS.length - 1 && <span>or </span>}
+                </span>
+              ))}
+              <p style={{ fontSize: 12 }}>
+                *Important* Use separate browser for each account if you are
+                testing from the same device.
+              </p>
+            </>
+          )}
         </div>
       </div>
     </>
